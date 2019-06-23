@@ -18,7 +18,7 @@ public class PageInfo {
 	/**
 	 * 总数
 	 */
-	private Long totalCount;
+	private Long total;
 
 	public Integer getPage() {
 		return page;
@@ -44,18 +44,26 @@ public class PageInfo {
 		this.rows = rows;
 	}
 
-	public Long getTotalCount() {
-		return totalCount;
+	public Long getTotal() {
+		return total;
 	}
 
-	public void setTotalCount(Long totalCount) {
-		this.totalCount = totalCount;
+	public void setTotal(Long total) {
+		this.total = total;
 	}
 
 	@Override
 	public String toString() {
-		return "PageInfo [page=" + page + ", pageSize=" + pageSize + ", rows=" + rows + ", totalCount=" + totalCount
-				+ "]";
+		final StringBuilder sb = new StringBuilder("{");
+		sb.append("\"page\":")
+				.append(page);
+		sb.append(",\"pageSize\":")
+				.append(pageSize);
+		sb.append(",\"rows\":")
+				.append(rows);
+		sb.append(",\"total\":")
+				.append(total);
+		sb.append('}');
+		return sb.toString();
 	}
-
 }

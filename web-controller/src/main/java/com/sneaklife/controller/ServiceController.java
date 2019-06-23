@@ -26,10 +26,13 @@ import java.util.Map;
 public class ServiceController {
     @Autowired(required = false)
     private RedisTemplate<String, Object> redisTemplate;
+
     @Autowired(required = false)
     private HttpServletRequest request;
+
     @Autowired(required = false)
     private HttpServletResponse response;
+
     protected Logger log = LoggerFactory.getLogger(ServiceController.class);
     @RequestMapping(value = "/service", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ModelAndView service(@RequestParam String data) {

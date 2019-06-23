@@ -1,4 +1,4 @@
-package com.sneaklife.dao.system.entity;
+package com.sneaklife.dao.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,8 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name="system_menu")
-public class SystemMenu implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class SystemMenu extends CommonEntity{
+
     @Id
     @GenericGenerator(name="idGenerator", strategy="uuid")
 //    @GeneratedValue(generator="idGenerator")
@@ -32,6 +32,9 @@ public class SystemMenu implements Serializable{
     @Column(name = "data_url")
     private String dataUrl;
 
+    @Column(name = "page_url")
+    private String pageUrl;
+
     @Column(name = "is_del")
     private Integer isDel;
 
@@ -40,15 +43,17 @@ public class SystemMenu implements Serializable{
 
     @Transient
     private List<SystemMenu> son = new ArrayList<>();
+
     public SystemMenu(){ super();}
 
-    public SystemMenu(String id, String tab, String type, Date createDate, String dataUrl, Date updateDate, Integer isDel, String pid, List<SystemMenu> son) {
+    public SystemMenu(String id, String tab, String type, Date createDate, Date updateDate, String dataUrl, String pageUrl, Integer isDel, String pid, List<SystemMenu> son) {
         this.id = id;
         this.tab = tab;
         this.type = type;
         this.createDate = createDate;
-        this.dataUrl = dataUrl;
         this.updateDate = updateDate;
+        this.dataUrl = dataUrl;
+        this.pageUrl = pageUrl;
         this.isDel = isDel;
         this.pid = pid;
         this.son = son;
@@ -86,6 +91,14 @@ public class SystemMenu implements Serializable{
         this.createDate = createDate;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
     public String getDataUrl() {
         return dataUrl;
     }
@@ -94,12 +107,12 @@ public class SystemMenu implements Serializable{
         this.dataUrl = dataUrl;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setPageUrl(String struUrl) {
+        this.pageUrl = pageUrl;
     }
 
     public Integer getIsDel() {
@@ -137,10 +150,12 @@ public class SystemMenu implements Serializable{
                 .append(type).append('\"');
         sb.append(",\"createDate\":\"")
                 .append(createDate).append('\"');
-        sb.append(",\"dataUrl\":\"")
-                .append(dataUrl).append('\"');
         sb.append(",\"updateDate\":\"")
                 .append(updateDate).append('\"');
+        sb.append(",\"dataUrl\":\"")
+                .append(dataUrl).append('\"');
+        sb.append(",\"pageUrl\":\"")
+                .append(pageUrl).append('\"');
         sb.append(",\"isDel\":")
                 .append(isDel);
         sb.append(",\"pid\":\"")

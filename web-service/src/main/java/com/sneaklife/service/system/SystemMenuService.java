@@ -1,10 +1,8 @@
 package com.sneaklife.service.system;
 
-import com.sneaklife.dao.system.entity.SystemMenu;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface SystemMenuService {
 
-    List<SystemMenu> getMenu();
+    ResponseEntity<String> getMenu();
 }

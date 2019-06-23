@@ -2,6 +2,9 @@ logging:
   file: xx.log
 
 spring:
+  mvc:
+    dispatch-options-request: true
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/sneaklifesystem?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT
@@ -48,9 +51,10 @@ spring:
       namespace: redis:session
 
 mybatis:
-  mapper-locations: classpath:mappers/*.xml
-  type-aliases-package: com.sneaklife.dao.system.entity
+  mapper-locations: classpath:mappers/*/*.xml
+  type-aliases-package: com.sneaklife.dao.entity
   configuration:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 30
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
