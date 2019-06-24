@@ -1,24 +1,23 @@
 package com.sneaklife.page;
 
-import java.util.List;
-
 public class PageInfo {
-	/**
-	 * 页码
-	 */
-	private Integer page = 1;
-	/**
-	 * 页的大小
-	 */
-	private Integer pageSize = 10;
-	/**
-	 * 页的数据
-	 */
-	private List<?> rows;
-	/**
-	 * 总数
-	 */
-	private Long total;
+
+	private Integer page;
+
+	private Integer rows;
+
+	private String sort;
+
+	private String sortOrder;
+
+	public PageInfo() { super();}
+
+	public PageInfo(Integer page, Integer rows, String sort, String sortOrder) {
+		this.page = page;
+		this.rows = rows;
+		this.sort = sort;
+		this.sortOrder = sortOrder;
+	}
 
 	public Integer getPage() {
 		return page;
@@ -28,28 +27,28 @@ public class PageInfo {
 		this.page = page;
 	}
 
-	public Integer getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public List<?> getRows() {
+	public Integer getRows() {
 		return rows;
 	}
 
-	public void setRows(List<?> rows) {
+	public void setRows(Integer rows) {
 		this.rows = rows;
 	}
 
-	public Long getTotal() {
-		return total;
+	public String getSort() {
+		return sort;
 	}
 
-	public void setTotal(Long total) {
-		this.total = total;
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(String sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 
 	@Override
@@ -57,12 +56,12 @@ public class PageInfo {
 		final StringBuilder sb = new StringBuilder("{");
 		sb.append("\"page\":")
 				.append(page);
-		sb.append(",\"pageSize\":")
-				.append(pageSize);
 		sb.append(",\"rows\":")
 				.append(rows);
-		sb.append(",\"total\":")
-				.append(total);
+		sb.append(",\"sort\":\"")
+				.append(sort).append('\"');
+		sb.append(",\"sortOrder\":\"")
+				.append(sortOrder).append('\"');
 		sb.append('}');
 		return sb.toString();
 	}

@@ -23,8 +23,8 @@ public class DataDictionaryController {
     }
 
     @RequestMapping(value = "/getDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getDataDictionary(Map<String,Object> map){
-        return dataDictionaryService.getDataDictionary(map);
+    public ResponseEntity<String> getDataDictionary(HttpServletRequest request){
+        return dataDictionaryService.getDataDictionary(CommonUtil.getData(request), CommonUtil.getPageInfo(request));
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")

@@ -176,12 +176,16 @@ public enum RespCode {
 	/**
 	 * Token过期，重新获取
 	 */
-	MSG_GQTOKEN(2038, "Token过期，重新获取");
+	MSG_GQTOKEN(2038, "Token过期，重新获取"),
+	/**
+	 * 分页参数有误，请检查
+	 */
+	MSG_PAGE_ERR(1055, "分页参数有误，请检查");
 
 	private final int value;
 	private final String msg;
 
-	private RespCode(int value, String msg) {
+	RespCode(int value, String msg) {
 		this.value = value;
 		this.msg = msg;
 	}

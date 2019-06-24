@@ -2,10 +2,7 @@ package com.sneaklife.dao.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -147,7 +144,6 @@ public class Columns extends CommonEntity {
                 .append(isShow);
         sb.append(",\"menuId\":\"")
                 .append(menuId).append('\"');
-        sb.append('}');
         return sb.toString();
     }
 }
