@@ -28,6 +28,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,13 +74,28 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
 
     @Override
     public ResponseEntity<String> dataDictionary(Map<String, Object> map) {
-        String dataUrl = "getDataDictionary";
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
-        Table table = new Table(dataUrl,columnsList);
+        Table table = new Table("",columnsList);
         List<OperaSb> operaSbList = operaSbJpa.findAll();
         List<OperaIn> operaInList = operaInMapper.findOperaByShow();
-        Opera opera = new Opera(operaSbList,operaInList);
+        Opera opera = new Opera(operaSbList,dispOperaIn(operaInList));
         TableOpera tableOpera = new TableOpera(opera,table);
         return CommonUtil.respResultDataSUCCEED(tableOpera);
+    }
+
+    private List<List<OperaIn>> dispOperaIn(List<OperaIn> list){
+        List<List<OperaIn>> data = new LinkedList<>();
+        List<OperaIn> temp = new ArrayList<>();
+        for (int i = 1; i <= list.size(); i++) {
+            OperaIn operaIn = list.get(i-1);
+            if(i%2 != 0){
+                temp.add(operaIn);
+            }else {
+                temp.add(operaIn);
+                data.add(temp);
+                temp = new ArrayList<>();
+            }
+        }
+        return data;
     }
 }
