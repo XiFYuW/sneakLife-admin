@@ -33,4 +33,8 @@
       0
     )
   </insert>
+
+  <update id="updateDataDictionary" parameterType="map">
+
+  </update>
 </mapper>

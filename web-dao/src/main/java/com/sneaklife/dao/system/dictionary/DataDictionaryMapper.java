@@ -8,4 +8,6 @@ import java.util.Map;
 public interface DataDictionaryMapper{
 
     Integer insertDataDictionary(Map<String, Object> map);
+
+    Integer updateDataDictionary(Map<String, Object> map);
 }

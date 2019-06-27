@@ -59,7 +59,7 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
         if(t != 1){
             return CommonUtil.respResultTJSB();
         }
-        return null;
+        return CommonUtil.respResultTJCG();
     }
 
     @Override

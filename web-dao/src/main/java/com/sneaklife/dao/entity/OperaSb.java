@@ -37,9 +37,15 @@ public class OperaSb extends CommonEntity {
     @Column(name = "icon")
     private String icon;
 
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "menu_id")
+    private String menuId;
+
     public OperaSb() { super();}
 
-    public OperaSb(String id, String type, String text, Integer isDel, Date createDate, Date updateDate, String code, String icon) {
+    public OperaSb(String id, String type, String text, Integer isDel, Date createDate, Date updateDate, String code, String icon, String url, String menuId) {
         this.id = id;
         this.type = type;
         this.text = text;
@@ -48,6 +54,8 @@ public class OperaSb extends CommonEntity {
         this.updateDate = updateDate;
         this.code = code;
         this.icon = icon;
+        this.url = url;
+        this.menuId = menuId;
     }
 
     public String getId() {
@@ -114,6 +122,22 @@ public class OperaSb extends CommonEntity {
         this.icon = icon;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -133,6 +157,10 @@ public class OperaSb extends CommonEntity {
                 .append(code).append('\"');
         sb.append(",\"icon\":\"")
                 .append(icon).append('\"');
+        sb.append(",\"url\":\"")
+                .append(url).append('\"');
+        sb.append(",\"menuId\":\"")
+                .append(menuId).append('\"');
         sb.append('}');
         return sb.toString();
     }
