@@ -65,7 +65,14 @@ public class RespResult {
 
 	@Override
 	public String toString() {
-		return "RespResult [respCode=" + respCode + ", respMsg=" + respMsg + ", respData=" + respData + "]";
+		final StringBuilder sb = new StringBuilder("{");
+		sb.append("\"respCode\":")
+				.append(respCode);
+		sb.append(",\"respMsg\":\"")
+				.append(respMsg).append('\"');
+		sb.append(",\"respData\":")
+				.append(respData);
+		sb.append('}');
+		return sb.toString();
 	}
-
 }

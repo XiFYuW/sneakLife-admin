@@ -18,17 +18,27 @@ public class DataDictionaryController {
     private DataDictionaryService dataDictionaryService;
 
     @RequestMapping(value = "/insertDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> saveDataDictionary(HttpServletRequest request){
-        return dataDictionaryService.insertDataDictionary(CommonUtil.getData(request));
+    public void insertDataDictionary(HttpServletRequest request) throws Exception{
+        dataDictionaryService.insertDataDictionary(CommonUtil.getData(request));
+    }
+
+    @RequestMapping(value = "/updateDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public void updateDataDictionary(HttpServletRequest request) throws Exception{
+        dataDictionaryService.updateDataDictionary(CommonUtil.getData(request));
+    }
+
+    @RequestMapping(value = "/deleteDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public void deleteDataDictionary(HttpServletRequest request) throws Exception{
+        dataDictionaryService.deleteDataDictionary(CommonUtil.getData(request));
     }
 
     @RequestMapping(value = "/getDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getDataDictionary(HttpServletRequest request){
+    public ResponseEntity<String> getDataDictionary(HttpServletRequest request) throws Exception{
         return dataDictionaryService.getDataDictionary(CommonUtil.getData(request), CommonUtil.getPageInfo(request));
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> dataDictionary(HttpServletRequest request){
+    public ResponseEntity<String> dataDictionary(HttpServletRequest request) throws Exception{
         return dataDictionaryService.dataDictionary(CommonUtil.getData(request));
     }
 }
