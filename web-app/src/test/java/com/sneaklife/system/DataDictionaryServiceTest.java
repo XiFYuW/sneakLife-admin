@@ -21,7 +21,7 @@ public class DataDictionaryServiceTest {
     private DataDictionaryService dataDictionaryService;
 
     @Test
-    public void insertDataDictionary(){
+    public void insertDataDictionary() throws Exception{
         Map<String,Object> map = new HashMap<>();
         map.put("name","123");
         map.put("type","1");
@@ -30,12 +30,12 @@ public class DataDictionaryServiceTest {
     }
 
     @Test
-    public void getDataDictionary(){
-        dataDictionaryService.getDataDictionary(null);
+    public void getDataDictionary() throws Exception{
+        dataDictionaryService.getDataDictionary(null, null);
     }
 
     @Test
-    public void dataDictionary(){
+    public void dataDictionary() throws Exception{
         dataDictionaryService.dataDictionary(null);
     }
 
