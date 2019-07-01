@@ -10,4 +10,6 @@ public interface DataDictionaryMapper{
     Integer insertDataDictionary(Map<String, Object> map);
 
     Integer updateDataDictionary(Map<String, Object> map);
+
+    Integer deleteDataDictionary(Map<String, Object> map);
 }

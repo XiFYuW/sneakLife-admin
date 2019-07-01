@@ -1,9 +1,13 @@
 package com.sneaklife.service.system.imp;
 
-import com.sneaklife.dao.system.entity.SystemMenu;
+import com.sneaklife.common.CommonUtil;
+import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.service.system.SystemMenuService;
-import com.sneaklife.dao.system.dao.SystemMenuDao;
+import com.sneaklife.dao.system.SystemMenuJpa;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,21 +16,25 @@ import java.util.List;
 
 @Service
 public class SystemMenuServiceImp implements SystemMenuService {
+
     @Autowired
-    private SystemMenuDao systemMenuDao;
+    private SystemMenuJpa systemMenuJpa;
+
+    private static Logger log = LoggerFactory.getLogger(SystemMenuServiceImp.class);
+
     @Override
-    public List<SystemMenu> getMenu() {
-        List<SystemMenu> returnData = new ArrayList<>();
-        List<SystemMenu> list = systemMenuDao.findAll();
+    public ResponseEntity<String> getMenu() {
+        List<SystemMenu> data = new ArrayList<>();
+        List<SystemMenu> list = systemMenuJpa.findAll();
         int size = list.size();
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
             SystemMenu parentMenu = findChildMenu(systemMenu, list);
-            removeNode(parentMenu, returnData, 0);
             size = removeNode(parentMenu, list, size);
-            returnData.add(parentMenu);
+            data.add(parentMenu);
         }
-        return returnData;
+        log.info("返回数据：{}", data);
+        return CommonUtil.respResultDataSUCCEED(data);
     }
 
     /**
