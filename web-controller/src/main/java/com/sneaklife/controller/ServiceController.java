@@ -33,10 +33,10 @@ public class ServiceController {
     @Autowired(required = false)
     private HttpServletResponse response;
 
-    protected Logger log = LoggerFactory.getLogger(ServiceController.class);
+    private Logger log = LoggerFactory.getLogger(ServiceController.class);
     @RequestMapping(value = "/service", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ModelAndView service(@RequestParam String data) {
-        log.info("RSA加密data: {}", data);
+        log.info("RSA加密data: 【{}】", data);
         if(CommonUtil.getRequest() == null || CommonUtil.getResponse() == null) {
             CommonUtil.initHttp(request, response);
             CommonUtil.initRedis(redisTemplate, redisTemplate);
@@ -46,12 +46,12 @@ public class ServiceController {
         try {
             data = CommonUtil.getRsaData(data);
             map = JSON.parseObject(data, Map.class);
-            log.info("RSA解密data: {}", map);
+            log.info("RSA解密data: 【{}】", map);
             token = CommonUtil.getRsaData((String) map.get("token"));
-            log.info("RSA解密token: {}", token);
+            log.info("RSA解密token: 【{}】", token);
         } catch (Exception e1) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            log.error(e1.getLocalizedMessage());
         }
         if ("".equals(token)) {
             return new ModelAndView("forward:/" + "dsc");
@@ -61,10 +61,10 @@ public class ServiceController {
         }
         try {
             data = AESUtil.aesDecrypt((String) map.get("data"));
-            log.info("AES解密data: {}", data);
+            log.info("AES解密data: 【{}】", data);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error(e.getLocalizedMessage());
             return new ModelAndView("forward:/" + "dpf");
         }
         ReqParam reqParam = JSON.parseObject(data, ReqParam.class);
@@ -83,7 +83,7 @@ public class ServiceController {
             PageInfo pageInfo = JSON.parseObject(pag, PageInfo.class);
             pa.put("pag", pageInfo);
         }
-        log.info("前台请求参数: {}", pa);
+        log.info("前台请求参数: 【{}】", pa);
         return new ModelAndView("forward:/" + me, pa);
     }
 
@@ -93,6 +93,7 @@ public class ServiceController {
             CommonUtil.initHttp(request, response);
         }
         Map<String, Object> map = CommonUtil.initService(redisTemplate, redisTemplate);
+        log.info("common接口返回数据: 【{}】", map);
         return CommonUtil.respResult(RespCode.MSG_SUCCEED.toValue(), map);
     }
 }

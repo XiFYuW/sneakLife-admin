@@ -64,12 +64,11 @@ public class SystemMenuServiceImp implements SystemMenuService {
      */
     private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
-        for (int i = 0; i < childMenu.size(); i++) {
-            SystemMenu child = childMenu.get(i);
+        for (SystemMenu child : childMenu) {
             Iterator<SystemMenu> it = list.iterator();
-            while(it.hasNext()){
+            while (it.hasNext()) {
                 SystemMenu menu = it.next();
-                if(child.getId().equals(menu.getId())){
+                if (child.getId().equals(menu.getId())) {
                     it.remove();
                     size--;
                 }

@@ -35,6 +35,25 @@
   </insert>
 
   <update id="updateDataDictionary" parameterType="map">
+    update data_dictionary
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="type">
+        type = #{type},
+      </if>
+      <if test="value != null">
+        value = #{value},
+      </if>
+      update_date = now()
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
 
+  <update id="deleteDataDictionary" parameterType="map">
+    update data_dictionary set is_del = 1 where id = #{id}
   </update>
 </mapper>

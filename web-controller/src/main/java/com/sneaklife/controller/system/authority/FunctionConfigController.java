@@ -20,4 +20,14 @@ public class FunctionConfigController {
     public ResponseEntity<String> functionConfig(HttpServletRequest request) throws Exception{
         return functionConfigService.functionConfig(CommonUtil.getData(request));
     }
+
+    @RequestMapping(value = "/functionConfigTreeView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public ResponseEntity<String> functionConfigTreeView(HttpServletRequest request) throws Exception{
+        return functionConfigService.functionConfigTreeView(CommonUtil.getData(request));
+    }
+
+    @RequestMapping(value = "/getFunctionConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public ResponseEntity<String> getFunctionConfig(HttpServletRequest request) throws Exception{
+        return functionConfigService.getFunctionConfig(CommonUtil.getData(request));
+    }
 }

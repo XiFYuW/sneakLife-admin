@@ -13,9 +13,11 @@ import com.sneaklife.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.dao.system.opera.OperaInMapper;
 import com.sneaklife.dao.system.opera.OperaSbJpa;
+import com.sneaklife.dao.system.opera.OperaSbMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.resp.RespCode;
+import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.dictionary.DataDictionaryService;
 
 import org.slf4j.Logger;
@@ -48,13 +50,7 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
     private DataDictionaryJpa dataDictionaryJpa;
 
     @Autowired
-    private ColumnsMapper columnsMapper;
-
-    @Autowired
-    private OperaInMapper operaInMapper;
-
-    @Autowired
-    private OperaSbJpa operaSbJpa;
+    private OperaService operaService;
 
     @Override
     public void insertDataDictionary(Map<String,Object> map) throws Exception{
@@ -80,12 +76,7 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
 
     @Override
     public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception{
-        List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
-        Table table = new Table("",columnsList);
-        List<OperaSb> operaSbList = operaSbJpa.findAll();
-        List<OperaIn> operaInList = operaInMapper.findOperaByShow();
-        Opera opera = new Opera(operaSbList,dispOperaIn(operaInList));
-        TableOpera tableOpera = new TableOpera(opera,table);
+        TableOpera tableOpera = operaService.buildOperaBody(map);
         return CommonUtil.respResultDataSUCCEED(tableOpera);
     }
 
@@ -107,23 +98,5 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
         throw new SneakLifeException(CommonUtil.respResultSCCG());
     }
 
-    private List<List<OperaIn>> dispOperaIn(List<OperaIn> list){
-        List<List<OperaIn>> data = new LinkedList<>();
-        List<OperaIn> temp = new ArrayList<>();
-        boolean is = list.size() % 2 != 0;
-        for (int i = 1; i <= list.size(); i++) {
-            OperaIn operaIn = list.get(i-1);
-            if(i%2 != 0){
-                temp.add(operaIn);
-            }else {
-                temp.add(operaIn);
-                data.add(temp);
-                temp = new ArrayList<>();
-            }
-        }
-        if(is){
-            data.add(temp);
-        }
-        return data;
-    }
+
 }

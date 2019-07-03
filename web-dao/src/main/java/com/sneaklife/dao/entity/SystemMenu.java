@@ -3,7 +3,6 @@ package com.sneaklife.dao.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,12 +40,15 @@ public class SystemMenu extends CommonEntity{
     @Column(name = "pid")
     private String pid;
 
+    @Column(name = "item_url")
+    private String itemUrl;
+
     @Transient
     private List<SystemMenu> son = new ArrayList<>();
 
     public SystemMenu(){ super();}
 
-    public SystemMenu(String id, String tab, String type, Date createDate, Date updateDate, String dataUrl, String pageUrl, Integer isDel, String pid, List<SystemMenu> son) {
+    public SystemMenu(String id, String tab, String type, Date createDate, Date updateDate, String dataUrl, String pageUrl, Integer isDel, String pid, String itemUrl, List<SystemMenu> son) {
         this.id = id;
         this.tab = tab;
         this.type = type;
@@ -56,6 +58,7 @@ public class SystemMenu extends CommonEntity{
         this.pageUrl = pageUrl;
         this.isDel = isDel;
         this.pid = pid;
+        this.itemUrl = itemUrl;
         this.son = son;
     }
 
@@ -139,6 +142,14 @@ public class SystemMenu extends CommonEntity{
         this.son = son;
     }
 
+    public String getItemUrl() {
+        return itemUrl;
+    }
+
+    public void setItemUrl(String itemUrl) {
+        this.itemUrl = itemUrl;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -160,6 +171,8 @@ public class SystemMenu extends CommonEntity{
                 .append(isDel);
         sb.append(",\"pid\":\"")
                 .append(pid).append('\"');
+        sb.append(",\"itemUrl\":\"")
+                .append(itemUrl).append('\"');
         sb.append(",\"son\":")
                 .append(son);
         sb.append('}');

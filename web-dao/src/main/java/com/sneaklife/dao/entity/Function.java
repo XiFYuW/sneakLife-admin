@@ -38,9 +38,12 @@ public class Function extends CommonEntity{
     @Column(name = "pid")
     private Integer pid;
 
+    @Column(name = "menu_id")
+    private String menuId;
+
     public Function() { super();}
 
-    public Function(String uuid, Integer status, Boolean check, Date createDate, Date updateDate, String name, Integer isDel, Integer pid) {
+    public Function(String uuid, Integer status, Boolean check, Date createDate, Date updateDate, String name, Integer isDel, Integer pid, String menuId) {
         this.uuid = uuid;
         this.status = status;
         this.check = check;
@@ -49,6 +52,7 @@ public class Function extends CommonEntity{
         this.name = name;
         this.isDel = isDel;
         this.pid = pid;
+        this.menuId = menuId;
     }
 
     public String getId() {
@@ -123,6 +127,14 @@ public class Function extends CommonEntity{
         this.pid = pid;
     }
 
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -144,6 +156,8 @@ public class Function extends CommonEntity{
                 .append(isDel);
         sb.append(",\"pid\":")
                 .append(pid);
+        sb.append(",\"menuId\":\"")
+                .append(menuId).append('\"');
         sb.append('}');
         return sb.toString();
     }

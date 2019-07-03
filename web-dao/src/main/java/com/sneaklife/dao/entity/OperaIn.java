@@ -40,9 +40,12 @@ public class OperaIn extends CommonEntity {
     @Column(name = "is_show")
     private String isShow;
 
+    @Column(name = "menu_id")
+    private String menuId;
+
     public OperaIn() { super();}
 
-    public OperaIn(String id, String type, String textName, String htmlType, Integer isDel, Date createDate, Date updateDate, String field, String isShow) {
+    public OperaIn(String id, String type, String textName, String htmlType, Integer isDel, Date createDate, Date updateDate, String field, String isShow, String menuId) {
         this.id = id;
         this.type = type;
         this.textName = textName;
@@ -52,6 +55,7 @@ public class OperaIn extends CommonEntity {
         this.updateDate = updateDate;
         this.field = field;
         this.isShow = isShow;
+        this.menuId = menuId;
     }
 
     public String getId() {
@@ -126,6 +130,14 @@ public class OperaIn extends CommonEntity {
         this.isShow = isShow;
     }
 
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -147,6 +159,8 @@ public class OperaIn extends CommonEntity {
                 .append(field).append('\"');
         sb.append(",\"isShow\":\"")
                 .append(isShow).append('\"');
+        sb.append(",\"menuId\":\"")
+                .append(menuId).append('\"');
         sb.append('}');
         return sb.toString();
     }
