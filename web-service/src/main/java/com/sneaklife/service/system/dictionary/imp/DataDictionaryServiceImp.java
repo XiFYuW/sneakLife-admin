@@ -76,7 +76,7 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
 
     @Override
     public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception{
-        TableOpera tableOpera = operaService.buildOperaBody(map);
+        TableOpera tableOpera = operaService.buildOperaBody(map,false);
         return CommonUtil.respResultDataSUCCEED(tableOpera);
     }
 

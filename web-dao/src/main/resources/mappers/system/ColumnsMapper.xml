@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.dao.system.columns.ColumnsMapper">
   <select id="findColumnsByShow" resultType="com.sneaklife.dao.entity.Columns" parameterType="map">
-    select * from columns where is_show = 0 and is_del = 0 and menu_id = #{menuId}
+    select * from columns
+    <where>
+      is_del = 0
+      <if test="isShow != null">
+        AND is_show = #{isShow}
+      </if>
+      <if test="menuId != null and menuId != ''">
+        AND menu_id = #{menuId}
+      </if>
+    </where>
   </select>
 </mapper>

@@ -4,9 +4,6 @@ import com.sneaklife.common.CommonUtil;
 import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.SystemMenuJpa;
-import com.sneaklife.dao.system.columns.ColumnsMapper;
-import com.sneaklife.dao.system.opera.OperaInMapper;
-import com.sneaklife.dao.system.opera.OperaSbMapper;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +44,15 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
 
     @Override
     public ResponseEntity<String> functionConfigTreeView(Map<String, Object> map) {
-        TableOpera tableOpera = operaService.buildOperaBody(map);
+        map.put("isShow",0);
+        TableOpera tableOpera = operaService.buildOperaBody(map,false);
         return CommonUtil.respResultDataSUCCEED(tableOpera);
     }
 
     @Override
     public ResponseEntity<String> getFunctionConfig(Map<String, Object> map) {
-
-        return null;
+        List<Map<String,Object>> data = operaService.buildOperaTreeGrid(map);
+        return CommonUtil.respResultDataSUCCEED(data);
     }
 
     /**
