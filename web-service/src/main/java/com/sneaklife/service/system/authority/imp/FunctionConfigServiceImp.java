@@ -52,6 +52,7 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
     @Override
     public ResponseEntity<String> getFunctionConfig(Map<String, Object> map) {
         List<Map<String,Object>> data = operaService.buildOperaTreeGrid(map);
+        operaService.clean();
         return CommonUtil.respResultDataSUCCEED(data);
     }
 

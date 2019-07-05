@@ -10,4 +10,6 @@ public interface OperaService {
     TableOpera buildOperaBody(Map<String,Object> map, boolean is);
 
     List<Map<String,Object>> buildOperaTreeGrid(Map<String,Object> map);
+
+    void clean();
 }

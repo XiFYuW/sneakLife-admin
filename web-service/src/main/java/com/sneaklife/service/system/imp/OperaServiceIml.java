@@ -51,6 +51,12 @@ public class OperaServiceIml implements OperaService {
         return data;
     }
 
+    @Override
+    public void clean(){
+        size = 1;
+        data = new LinkedList<>();
+    }
+
     private Map<String,Object> buildOperaItem(String name,int id,int pid,int status,boolean check){
         Map<String,Object> item = new HashMap<>();
         item.put("id",id);
