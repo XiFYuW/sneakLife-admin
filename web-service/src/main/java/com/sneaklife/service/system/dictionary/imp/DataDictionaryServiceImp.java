@@ -1,19 +1,10 @@
 package com.sneaklife.service.system.dictionary.imp;
 
 import com.sneaklife.common.CommonUtil;
-import com.sneaklife.dao.entity.Columns;
 import com.sneaklife.dao.entity.DataDictionary;
-import com.sneaklife.dao.entity.OperaIn;
-import com.sneaklife.dao.entity.OperaSb;
-import com.sneaklife.dao.entity.modal.Opera;
-import com.sneaklife.dao.entity.modal.Table;
 import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.columns.ColumnsMapper;
 import com.sneaklife.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.dao.system.dictionary.DataDictionaryMapper;
-import com.sneaklife.dao.system.opera.OperaInMapper;
-import com.sneaklife.dao.system.opera.OperaSbJpa;
-import com.sneaklife.dao.system.opera.OperaSbMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.resp.RespCode;
@@ -33,9 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -98,6 +86,4 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
         }
         throw new SneakLifeException(CommonUtil.respResultSCCG());
     }
-
-
 }

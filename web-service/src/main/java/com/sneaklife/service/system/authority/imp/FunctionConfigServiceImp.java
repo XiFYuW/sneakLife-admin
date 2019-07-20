@@ -4,6 +4,8 @@ import com.sneaklife.common.CommonUtil;
 import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.SystemMenuJpa;
+import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.resp.RespCode;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,15 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
 
     @Autowired
     private OperaService operaService;
+
+    @Override
+    public void insertFunctionConfig(Map<String, Object> map) throws Exception {
+        String id = String.valueOf(map.get("id"));
+        if("opera-columns".equals(id) || "opera-in".equals(id)){
+            throw new SneakLifeException(CommonUtil.respResult(RespCode.MSG_NO_OPERA_ADD.toValue(),RespCode.MSG_NO_OPERA_ADD.toMsg()));
+        }
+        throw new SneakLifeException(CommonUtil.respResultTJCG());
+    }
 
     @Override
     public ResponseEntity<String> functionConfig(Map<String, Object> map){

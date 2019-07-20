@@ -11,4 +11,6 @@ public interface FunctionConfigService {
     ResponseEntity<String> functionConfigTreeView(Map<String,Object> map);
 
     ResponseEntity<String> getFunctionConfig(Map<String,Object> map);
+
+    void insertFunctionConfig(Map<String,Object> map) throws Exception;
 }

@@ -29,8 +29,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        session_factory:
+          statement_inspector: com.sneaklife.dao.config.interceptor.JpaInterceptor
 
   redis:
     password: 435e36d6ad16a11b70b7f8cf17db12e9b0ad8dc9
@@ -57,4 +61,4 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 30
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

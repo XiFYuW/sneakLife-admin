@@ -33,7 +33,7 @@ public class SystemMenuServiceImp implements SystemMenuService {
             size = removeNode(parentMenu, list, size);
             data.add(parentMenu);
         }
-        log.info("返回数据：{}", data);
+        log.info("返回数据：【{}】", data);
         return CommonUtil.respResultDataSUCCEED(data);
     }
 

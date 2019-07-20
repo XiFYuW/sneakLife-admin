@@ -10,6 +10,8 @@ import com.sneaklife.dao.system.columns.ColumnsMapper;
 import com.sneaklife.dao.system.opera.OperaInMapper;
 import com.sneaklife.dao.system.opera.OperaSbMapper;
 import com.sneaklife.service.system.OperaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class OperaServiceIml implements OperaService {
     @Autowired
     private OperaSbMapper operaSbMapper;
 
+    private static Logger log = LoggerFactory.getLogger(OperaServiceIml.class);
+
     private volatile int size = 1;
 
     private volatile List<Map<String, Object>> data = new LinkedList<>();
@@ -43,7 +47,7 @@ public class OperaServiceIml implements OperaService {
 
     @Override
     public List<Map<String, Object>> buildOperaTreeGrid(Map<String, Object> map) {
-        data.add(buildOperaItem(String.valueOf(map.get("name")), size, size - 1,1,true));
+        data.add(buildOperaItem(String.valueOf(map.get("treeViewId")),String.valueOf(map.get("name")), size, size - 1,1,true));
         int p = size;
         buildOperaColumnsTree(map, p);
         buildOperaSbTree(map, p);
@@ -57,35 +61,36 @@ public class OperaServiceIml implements OperaService {
         data = new LinkedList<>();
     }
 
-    private Map<String,Object> buildOperaItem(String name,int id,int pid,int status,boolean check){
+    private Map<String,Object> buildOperaItem(String treeViewId,String name,int id,int pid,int status,boolean check){
         Map<String,Object> item = new HashMap<>();
         item.put("id",id);
         item.put("status",status);
         item.put("check",check);
         item.put("pid",pid);
         item.put("name",name);
+        item.put("treeViewId",treeViewId);
         return item;
     }
 
     private void buildOperaColumnsTree(Map<String, Object> map, int pid){
-        data.add(buildOperaItem("OperaColumns",++size, pid,1,true));
+        data.add(buildOperaItem("opera-columns","OperaColumns",++size, pid,1,true));
         int p = size;
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
-        columnsList.forEach(columns -> data.add(buildOperaItem(columns.getTitle(),++size, p,1,true)));
+        columnsList.forEach(columns -> data.add(buildOperaItem(columns.getId(),columns.getTitle(),++size, p,1,true)));
     }
 
     private void buildOperaSbTree(Map<String, Object> map, int pid){
-        data.add(buildOperaItem("OperaSb", ++size, pid,1,true));
+        data.add(buildOperaItem("opera-sb","OperaSb", ++size, pid,1,true));
         int p = size;
         List<OperaSb> operaSbList = operaSbMapper.findOperaSbByShow(map);
-        operaSbList.forEach(operaSb -> data.add(buildOperaItem(operaSb.getText(), ++size, p,1,true)));
+        operaSbList.forEach(operaSb -> data.add(buildOperaItem(operaSb.getId(),operaSb.getText(), ++size, p,1,true)));
     }
 
     private void buildOperaInTree(Map<String, Object> map, int pid){
-        data.add(buildOperaItem("OperaIn", ++size, pid,1,true));
+        data.add(buildOperaItem("opera-in","OperaIn", ++size, pid,1,true));
         int p = size;
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
-        operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getTextName(), ++size, p,1,true)));
+        operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getId(),operaIn.getTextName(), ++size, p,1,true)));
     }
 
     private List<List<OperaIn>> dispOperaIn(List<OperaIn> list, boolean t){
