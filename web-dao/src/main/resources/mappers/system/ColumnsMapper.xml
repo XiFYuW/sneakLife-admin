@@ -8,8 +8,8 @@
       <if test="isShow != null">
         AND is_show = #{isShow}
       </if>
-      <if test="treeViewId != null and treeViewId != ''">
-        AND menu_id = #{treeViewId}
+      <if test="menuId != null and menuId != ''">
+        AND menu_id = #{menuId}
       </if>
     </where>
   </select>

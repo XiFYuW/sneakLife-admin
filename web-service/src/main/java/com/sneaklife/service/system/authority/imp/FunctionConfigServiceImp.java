@@ -1,6 +1,7 @@
 package com.sneaklife.service.system.authority.imp;
 
 import com.sneaklife.common.CommonUtil;
+import com.sneaklife.dao.entity.OperaSb;
 import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.SystemMenuJpa;
@@ -25,11 +26,28 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
     private OperaService operaService;
 
     @Override
+    public void updateFunctionConfig(Map<String, Object> map) throws Exception {
+        operaService.updateOpera(map);
+    }
+
+    @Override
     public void insertFunctionConfig(Map<String, Object> map) throws Exception {
         String id = String.valueOf(map.get("id"));
         if("opera-columns".equals(id) || "opera-in".equals(id)){
             throw new SneakLifeException(CommonUtil.respResult(RespCode.MSG_NO_OPERA_ADD.toValue(),RespCode.MSG_NO_OPERA_ADD.toMsg()));
         }
+
+        if("opera-sb".equals(id)){
+            OperaSb operaSb = new OperaSb();
+            operaSb.setCode("3");
+            operaSb.setIcon("glyphicon-pencil");
+            operaSb.setMenuId(String.valueOf(map.get("tempMenuId")));
+            operaSb.setText(String.valueOf(map.get("pid")));
+            operaSb.setType("button");
+            operaSb.setUrl("#");
+            operaService.insertOperaSb(operaSb);
+        }
+
         throw new SneakLifeException(CommonUtil.respResultTJCG());
     }
 

@@ -13,4 +13,6 @@ public interface FunctionConfigService {
     ResponseEntity<String> getFunctionConfig(Map<String,Object> map);
 
     void insertFunctionConfig(Map<String,Object> map) throws Exception;
+
+    void updateFunctionConfig(Map<String,Object> map) throws Exception;
 }

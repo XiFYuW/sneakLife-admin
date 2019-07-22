@@ -35,4 +35,9 @@ public class FunctionConfigController {
     public void insertFunctionConfig(HttpServletRequest request) throws Exception{
         functionConfigService.insertFunctionConfig(CommonUtil.getData(request));
     }
+
+    @RequestMapping(value = "/updateFunctionConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public void updateFunctionConfig(HttpServletRequest request) throws Exception{
+        functionConfigService.updateFunctionConfig(CommonUtil.getData(request));
+    }
 }

@@ -1,5 +1,6 @@
 package com.sneaklife.service.system;
 
+import com.sneaklife.dao.entity.OperaSb;
 import com.sneaklife.dao.entity.modal.TableOpera;
 
 import java.util.List;
@@ -12,4 +13,8 @@ public interface OperaService {
     List<Map<String,Object>> buildOperaTreeGrid(Map<String,Object> map);
 
     void clean();
+
+    void insertOperaSb(OperaSb operaSb) throws Exception;
+
+    void updateOpera(Map<String,Object> map) throws Exception;
 }
