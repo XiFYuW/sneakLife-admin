@@ -1,4 +1,4 @@
-package com.sneaklife.redis;
+package com.sneaklife.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

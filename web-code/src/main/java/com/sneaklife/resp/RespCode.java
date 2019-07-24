@@ -180,7 +180,11 @@ public enum RespCode {
 	/**
 	 * 分页参数有误，请检查
 	 */
-	MSG_PAGE_ERR(1055, "分页参数有误，请检查");
+	MSG_PAGE_ERR(1055, "分页参数有误，请检查"),
+	/**
+	 * 无权限对该功能进行增加操作
+	 */
+	MSG_NO_OPERA_ADD(3998, "无权限对该功能进行增加操作");
 
 	private final int value;
 	private final String msg;
