@@ -65,4 +65,16 @@
       0
     )
   </insert>
+  <select id="checkOperaSbByShow" parameterType="map" resultType="int">
+    select count(id) from opera_sb where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
+  </select>
+  <update id="updateOperaSbShow" parameterType="map">
+    update opera_sb
+    <set>
+      is_show = #{status}
+    </set>
+    <where>
+      id = #{treeViewId}
+    </where>
+  </update>
 </mapper>

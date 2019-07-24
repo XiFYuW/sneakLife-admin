@@ -13,4 +13,16 @@
       </if>
     </where>
   </select>
+  <update id="updateColumnsShow" parameterType="map">
+    update columns
+    <set>
+      is_show = #{status}
+    </set>
+    <where>
+      id = #{treeViewId}
+    </where>
+  </update>
+  <select id="checkColumnsByShow" parameterType="map" resultType="int">
+    select count(id) from columns where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
+  </select>
 </mapper>

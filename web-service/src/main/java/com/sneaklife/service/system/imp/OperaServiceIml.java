@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -48,11 +48,10 @@ public class OperaServiceIml implements OperaService {
     private volatile List<Map<String, Object>> data = new LinkedList<>();
 
     @Override
+    @Transactional
     public void updateOpera(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
-        Map<String,List<Map<String,Object>>> data = dispUp(upList);
-
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
+        dispUpdate(upList,new HashMap<>());
     }
 
     @Override
@@ -76,11 +75,15 @@ public class OperaServiceIml implements OperaService {
 
     @Override
     public List<Map<String, Object>> buildOperaTreeGrid(Map<String, Object> map) {
-        data.add(buildOperaItem(String.valueOf(map.get("menuId")),String.valueOf(map.get("name")), size, size - 1,1,true));
+        int numColumns = columnsMapper.checkColumnsByShow(map);
+        int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
+        int numOperaIn = operaInMapper.checkOperaInByShow(map);
+        int sun = numColumns + numOperaSb + numOperaIn;
+        data.add(buildOperaItem(String.valueOf(map.get("menuId")),String.valueOf(map.get("name")), size,size - 1, sun > 0 ? 0 : 1,sun > 0));
         int p = size;
-        buildOperaColumnsTree(map, p);
-        buildOperaSbTree(map, p);
-        buildOperaInTree(map, p);
+        buildOperaColumnsTree(map, p, numColumns);
+        buildOperaSbTree(map, p, numOperaSb);
+        buildOperaInTree(map, p, numOperaIn);
         return data;
     }
 
@@ -101,25 +104,25 @@ public class OperaServiceIml implements OperaService {
         return item;
     }
 
-    private void buildOperaColumnsTree(Map<String, Object> map, int pid){
-        data.add(buildOperaItem(OPERA_COLUMNS,"OperaColumns",++size, pid,1,true));
+    private void buildOperaColumnsTree(Map<String, Object> map, int pid, int num){
+        data.add(buildOperaItem(OPERA_COLUMNS, "OperaColumns", ++size, pid, num > 0 ? 0 : 1, num > 0));
         int p = size;
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
-        columnsList.forEach(columns -> data.add(buildOperaItem(columns.getId(),columns.getTitle(),++size, p,1,true)));
+        columnsList.forEach(columns -> data.add(buildOperaItem(columns.getId(), columns.getTitle(),++size, p, columns.getIsShow(),columns.getIsShow() == 0)));
     }
 
-    private void buildOperaSbTree(Map<String, Object> map, int pid){
-        data.add(buildOperaItem(OPERA_SB,"OperaSb", ++size, pid,1,true));
+    private void buildOperaSbTree(Map<String, Object> map, int pid, int num){
+        data.add(buildOperaItem(OPERA_SB,"OperaSb", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
         List<OperaSb> operaSbList = operaSbMapper.findOperaSbByShow(map);
-        operaSbList.forEach(operaSb -> data.add(buildOperaItem(operaSb.getId(),operaSb.getText(), ++size, p,1,true)));
+        operaSbList.forEach(operaSb -> data.add(buildOperaItem(operaSb.getId(),operaSb.getText(), ++size, p, operaSb.getIsShow(),operaSb.getIsShow() == 0)));
     }
 
-    private void buildOperaInTree(Map<String, Object> map, int pid){
-        data.add(buildOperaItem(OPERA_IN,"OperaIn", ++size, pid,1,true));
+    private void buildOperaInTree(Map<String, Object> map, int pid, int num){
+        data.add(buildOperaItem(OPERA_IN,"OperaIn", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
-        operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getId(),operaIn.getTextName(), ++size, p,1,true)));
+        operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getId(),operaIn.getTextName(), ++size, p, operaIn.getIsShow(),operaIn.getIsShow() == 0)));
     }
 
     private List<List<OperaIn>> dispOperaIn(List<OperaIn> list, boolean t){
@@ -146,71 +149,90 @@ public class OperaServiceIml implements OperaService {
         return data;
     }
 
-    private void pushByKey(String key, String keys, Map<String,List<Map<String,Object>>> data, Map<String,Object> map){
+    private void pushByKey(String key, Map<String,List<Map<String,Object>>> data, Map<String,Object> map){
         List<Map<String,Object>> list;
-        if("".equals(keys)){
-            if(!data.containsKey(key)){
-                list = new ArrayList<>();
-                list.add(map);
-                data.put(key,list);
-            }else {
-                list = data.get(key);
-                list.add(map);
-                data.put(key,list);
-            }
+        if(!data.containsKey(key)){
+            list = new ArrayList<>();
+            list.add(map);
+            data.put(key,list);
         }else {
-            Map<String,Object> item = data.get(keys).get(0);
-            if(!item.containsKey(key)){
-                list = new ArrayList<>();
-                list.add(map);
-                item.put(key,list);
-            }else{
-                list = (List<Map<String,Object>>) item.get(key);
-                list.add(map);
-                item.put(key,list);
-            }
+            list = data.get(key);
+            list.add(map);
+            data.put(key,list);
         }
-
     }
 
-    private Map<String,List<Map<String,Object>>> dispUp(List<Map<String,Object>> upList){
-        Map<String,List<Map<String,Object>>> data = new HashMap<>();
-        for (Iterator<Map<String, Object>> it = upList.iterator(); it.hasNext();){
-            Map<String,Object> map = it.next();
-            switch (String.valueOf(map.get("treeViewId"))){
-                case OPERA_COLUMNS:
-                    pushByKey(OPERA_COLUMNS, "", data, map);
-                    it.remove();
+    private void updateStatus(Map<String,Object> map){
+        if(!map.containsKey("check")){
+            map.put("status",1);
+        }else {
+            map.put("status",0);
+        }
+    }
+
+    private boolean switchOpera(String str, Map<String,Object> map, Map<String,List<Map<String,Object>>> data, boolean isUpdate){
+        boolean del = false;
+        switch (str){
+            case OPERA_COLUMNS:
+                del = true;
+                if(isUpdate){
+                    updateStatus(map);
+                    columnsMapper.updateColumnsShow(map);
                     break;
-                case OPERA_IN:
-                    pushByKey(OPERA_IN, "", data, map);
-                    it.remove();
+                }
+                pushByKey(OPERA_COLUMNS, data, map);
+                break;
+            case OPERA_IN:
+                del = true;
+                if(isUpdate){
+                    updateStatus(map);
+                    operaInMapper.updateOperaInShow(map);
                     break;
-                case OPERA_SB:
-                    pushByKey(OPERA_SB, "", data, map);
-                    it.remove();
+                }
+                pushByKey(OPERA_IN, data, map);
+                break;
+            case OPERA_SB:
+                del = true;
+                if(isUpdate){
+                    updateStatus(map);
+                    operaSbMapper.updateOperaSbShow(map);
                     break;
-                default:
-                    if("0".equals(String.valueOf(map.get("pid")))){
-                        pushByKey(OPERA, "", data, map);
-                        it.remove();
-                        break;
-                    }
-                    // 执行相关的修改操作  批量？单个？
-                    Set<String> set = data.keySet();
-                    for(Iterator<String> key = set.iterator(); key.hasNext();){
-                        String keys = key.next();
-                        List<Map<String,Object>> items = data.get(keys);
-                        for(Iterator<Map<String,Object>> item = items.iterator(); item.hasNext();){
-                            Map<String,Object> mi = item.next();
-                            if(String.valueOf(map.get("pid")).equals(String.valueOf(mi.get("id")))){
-                                pushByKey("son", keys, data, map);
-                            }
+                }
+                pushByKey(OPERA_SB, data, map);
+                break;
+            default:
+                if("0".equals(String.valueOf(map.get("pid")))){
+                    del = true;
+                    pushByKey(OPERA, data, map);
+                    break;
+                }
+                // 执行相关的修改操作
+                Set<String> set = data.keySet();
+                for(Iterator<String> key = set.iterator(); key.hasNext();){
+                    String keys = key.next();
+                    List<Map<String,Object>> items = data.get(keys);
+                    for(Iterator<Map<String,Object>> item = items.iterator(); item.hasNext();){
+                        Map<String,Object> mi = item.next();
+                        if(String.valueOf(map.get("pid")).equals(String.valueOf(mi.get("id")))){
+                            del = switchOpera(keys, map, data, true);
                         }
                     }
-                    it.remove();
+                }
+        }
+        return del;
+    }
+
+    private void dispUpdate(List<Map<String,Object>> upList,Map<String,List<Map<String,Object>>> data) throws SneakLifeException{
+        for (Iterator<Map<String, Object>> it = upList.iterator(); it.hasNext();){
+            Map<String,Object> map = it.next();
+            boolean bl = switchOpera(String.valueOf(map.get("treeViewId")), map, data, false);
+            if(bl){
+                it.remove();
             }
         }
-        return data;
+        if(upList.size() > 0){
+            dispUpdate(upList,data);
+        }
+        throw new SneakLifeException(CommonUtil.respResultXGCG());
     }
 }

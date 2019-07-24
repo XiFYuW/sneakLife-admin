@@ -12,11 +12,13 @@ public class SneakLifeAdvice {
 
     @ExceptionHandler(value = SneakLifeException.class)
     public ResponseEntity<String> errorHandlerSneakLifeException(SneakLifeException sneakLifeException) {
+        sneakLifeException.printStackTrace();
         return sneakLifeException.getResponseEntity();
     }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<String> errorHandlerSneakLifeException(Exception exception) {
+        exception.printStackTrace();
         return CommonUtil.respResult(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
     }
 }

@@ -13,4 +13,16 @@
       </if>
     </where>
   </select>
+  <select id="checkOperaInByShow" parameterType="map" resultType="int">
+    select count(*) from opera_in where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
+  </select>
+  <update id="updateOperaInShow" parameterType="map">
+    update opera_in
+    <set>
+      is_show = #{status}
+    </set>
+    <where>
+      id = #{treeViewId}
+    </where>
+  </update>
 </mapper>

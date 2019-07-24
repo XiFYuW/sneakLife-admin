@@ -10,4 +10,8 @@ import java.util.Map;
 public interface ColumnsMapper {
 
     List<Columns> findColumnsByShow(Map<String, Object> map);
+
+    Integer updateColumnsShow(Map<String,Object> map);
+
+    Integer checkColumnsByShow(Map<String,Object> map);
 }

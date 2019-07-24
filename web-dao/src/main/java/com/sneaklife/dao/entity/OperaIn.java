@@ -38,14 +38,14 @@ public class OperaIn extends CommonEntity {
     private String field;
 
     @Column(name = "is_show")
-    private String isShow;
+    private Integer isShow;
 
     @Column(name = "menu_id")
     private String menuId;
 
     public OperaIn() { super();}
 
-    public OperaIn(String id, String type, String textName, String htmlType, Integer isDel, Date createDate, Date updateDate, String field, String isShow, String menuId) {
+    public OperaIn(String id, String type, String textName, String htmlType, Integer isDel, Date createDate, Date updateDate, String field, Integer isShow, String menuId) {
         this.id = id;
         this.type = type;
         this.textName = textName;
@@ -122,11 +122,11 @@ public class OperaIn extends CommonEntity {
         this.field = field;
     }
 
-    public String getIsShow() {
+    public Integer getIsShow() {
         return isShow;
     }
 
-    public void setIsShow(String isShow) {
+    public void setIsShow(Integer isShow) {
         this.isShow = isShow;
     }
 
