@@ -15,4 +15,6 @@ public interface FunctionConfigService {
     void insertFunctionConfig(Map<String,Object> map) throws Exception;
 
     void updateFunctionConfig(Map<String,Object> map) throws Exception;
+
+    void deleteFunctionConfig(Map<String,Object> map) throws Exception;
 }

@@ -26,6 +26,11 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
     private OperaService operaService;
 
     @Override
+    public void deleteFunctionConfig(Map<String, Object> map) throws Exception {
+        operaService.deleteOpera(map);
+    }
+
+    @Override
     public void updateFunctionConfig(Map<String, Object> map) throws Exception {
         operaService.updateOpera(map);
     }

@@ -17,4 +17,6 @@ public interface OperaService {
     void insertOperaSb(OperaSb operaSb) throws Exception;
 
     void updateOpera(Map<String,Object> map) throws Exception;
+
+    void deleteOpera(Map<String,Object> map) throws Exception;
 }

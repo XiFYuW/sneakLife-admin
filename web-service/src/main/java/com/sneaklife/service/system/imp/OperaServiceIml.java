@@ -48,6 +48,11 @@ public class OperaServiceIml implements OperaService {
     private volatile List<Map<String, Object>> data = new LinkedList<>();
 
     @Override
+    public void deleteOpera(Map<String, Object> map) throws Exception {
+        throw new SneakLifeException(CommonUtil.respResultSCCG());
+    }
+
+    @Override
     @Transactional
     public void updateOpera(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
