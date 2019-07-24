@@ -10,4 +10,8 @@ import java.util.Map;
 public interface OperaInMapper {
 
     List<OperaIn> findOperaInByShow(Map<String,Object> map);
+
+    Integer checkOperaInByShow(Map<String,Object> map);
+
+    Integer updateOperaInShow(Map<String,Object> map);
 }

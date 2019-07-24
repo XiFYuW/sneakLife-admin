@@ -10,4 +10,10 @@ import java.util.Map;
 public interface OperaSbMapper {
 
     List<OperaSb> findOperaSbByShow(Map<String,Object> map);
+
+    Integer insertOperaSb(OperaSb operaSb);
+
+    Integer checkOperaSbByShow(Map<String,Object> map);
+
+    Integer updateOperaSbShow(Map<String,Object> map);
 }
