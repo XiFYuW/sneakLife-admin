@@ -12,7 +12,6 @@ public class SneakLifeAdvice {
 
     @ExceptionHandler(value = SneakLifeException.class)
     public ResponseEntity<String> errorHandlerSneakLifeException(SneakLifeException sneakLifeException) {
-        sneakLifeException.printStackTrace();
         return sneakLifeException.getResponseEntity();
     }
 

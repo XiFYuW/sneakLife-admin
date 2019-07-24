@@ -40,4 +40,9 @@ public class FunctionConfigController {
     public void updateFunctionConfig(HttpServletRequest request) throws Exception{
         functionConfigService.updateFunctionConfig(CommonUtil.getData(request));
     }
+
+    @RequestMapping(value = "/deleteFunctionConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public void deleteFunctionConfig(HttpServletRequest request) throws Exception{
+        functionConfigService.deleteFunctionConfig(CommonUtil.getData(request));
+    }
 }
