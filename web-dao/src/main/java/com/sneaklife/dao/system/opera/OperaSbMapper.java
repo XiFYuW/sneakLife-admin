@@ -16,4 +16,6 @@ public interface OperaSbMapper {
     Integer checkOperaSbByShow(Map<String,Object> map);
 
     Integer updateOperaSbShow(Map<String,Object> map);
+
+    Integer checkOperaSbById(Map<String,Object> map);
 }

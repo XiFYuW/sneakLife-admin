@@ -206,6 +206,12 @@ public class OperaServiceIml implements OperaService {
                 pushByKey(OPERA_SB, data, map);
                 break;
             default:
+                // 非法节点检测
+                if(checkIllegalNode(map)){
+                    del = true;
+                    break;
+                }
+                // 根节点
                 if("0".equals(String.valueOf(map.get("pid")))){
                     del = true;
                     pushByKey(OPERA, data, map);
@@ -235,9 +241,17 @@ public class OperaServiceIml implements OperaService {
                 it.remove();
             }
         }
+        // 解决列表无序
         if(upList.size() > 0){
             dispUpdate(upList,data);
         }
         throw new SneakLifeException(CommonUtil.respResultXGCG());
+    }
+
+    private boolean checkIllegalNode(Map<String,Object> map){
+        int cm = columnsMapper.checkColumnsById(map);
+        int oim = operaInMapper.checkOperaInById(map);
+        int obm = operaSbMapper.checkOperaSbById(map);
+        return cm + oim + obm == 0;
     }
 }

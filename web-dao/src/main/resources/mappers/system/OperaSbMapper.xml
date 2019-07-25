@@ -77,4 +77,7 @@
       id = #{treeViewId}
     </where>
   </update>
+  <select id="checkOperaSbById" parameterType="map" resultType="int">
+    select count(id) from opera_sb where id = #{treeViewId} AND is_del = 0
+  </select>
 </mapper>

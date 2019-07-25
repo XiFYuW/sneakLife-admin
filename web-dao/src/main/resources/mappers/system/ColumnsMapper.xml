@@ -25,4 +25,7 @@
   <select id="checkColumnsByShow" parameterType="map" resultType="int">
     select count(id) from columns where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
   </select>
+  <select id="checkColumnsById" parameterType="map" resultType="int">
+    select count(id) from columns where id = #{treeViewId} AND is_del = 0
+  </select>
 </mapper>
