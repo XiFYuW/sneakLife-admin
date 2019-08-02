@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ *
+ */
 @Service
 public class SystemMenuServiceImp implements SystemMenuService {
 
@@ -38,10 +41,10 @@ public class SystemMenuServiceImp implements SystemMenuService {
     }
 
     /**
-     * 查找子节点
-     * @param parent 父节点
-     * @param list 所有节点
-     * @return 父节点带子节点
+     * Find child node
+     * @param parent The parent node
+     * @param list All the nodes
+     * @return Parent node tape node
      */
     private SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list){
         List<SystemMenu> childMenu = new ArrayList<>();
@@ -56,11 +59,11 @@ public class SystemMenuServiceImp implements SystemMenuService {
     }
 
     /**
-     * 从所有节点中删除重复的节点
-     * @param parentMenu 删除项
-     * @param list 所有节点
-     * @param size 所有节点的大小，可以改变list长度，不需要则传0
-     * @return 所有节点剩余大小
+     * Remove duplicate nodes from all nodes
+     * @param parentMenu Delete the item
+     * @param list All the nodes
+     * @param size The size of all nodes, can change the list length, do not need to pass 0
+     * @return Residual size of all nodes
      */
     private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();

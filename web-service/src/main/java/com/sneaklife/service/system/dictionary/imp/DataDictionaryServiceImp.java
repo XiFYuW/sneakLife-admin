@@ -26,6 +26,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.*;
 import java.util.Map;
 
+/**
+ * @author https://github.com/XiFYuW
+ */
 @Service
 public class DataDictionaryServiceImp implements DataDictionaryService {
 

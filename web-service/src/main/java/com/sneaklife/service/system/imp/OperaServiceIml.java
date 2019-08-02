@@ -20,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+/**
+ * @author https://github.com/XiFYuW
+ */
 @Service
 @SuppressWarnings("unchecked")
 public class OperaServiceIml implements OperaService {
@@ -98,6 +101,16 @@ public class OperaServiceIml implements OperaService {
         data = new LinkedList<>();
     }
 
+    /**
+     * Build function body options
+     * @param treeViewId View display treeViewId
+     * @param name View display name
+     * @param id View display id
+     * @param pid View display pid
+     * @param status View display status
+     * @param check View display check
+     * @return a options data
+     */
     private Map<String,Object> buildOperaItem(String treeViewId,String name,int id,int pid,int status,boolean check){
         Map<String,Object> item = new HashMap<>();
         item.put("id",id);
@@ -109,6 +122,12 @@ public class OperaServiceIml implements OperaService {
         return item;
     }
 
+    /**
+     * Build function fields
+     * @param map Option data
+     * @param pid View display pid
+     * @param num Number of function fields
+     */
     private void buildOperaColumnsTree(Map<String, Object> map, int pid, int num){
         data.add(buildOperaItem(OPERA_COLUMNS, "OperaColumns", ++size, pid, num > 0 ? 0 : 1, num > 0));
         int p = size;
@@ -116,6 +135,12 @@ public class OperaServiceIml implements OperaService {
         columnsList.forEach(columns -> data.add(buildOperaItem(columns.getId(), columns.getTitle(),++size, p, columns.getIsShow(),columns.getIsShow() == 0)));
     }
 
+    /**
+     * Build function button
+     * @param map Option data
+     * @param pid View display pid
+     * @param num Number of function button
+     */
     private void buildOperaSbTree(Map<String, Object> map, int pid, int num){
         data.add(buildOperaItem(OPERA_SB,"OperaSb", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
@@ -123,6 +148,12 @@ public class OperaServiceIml implements OperaService {
         operaSbList.forEach(operaSb -> data.add(buildOperaItem(operaSb.getId(),operaSb.getText(), ++size, p, operaSb.getIsShow(),operaSb.getIsShow() == 0)));
     }
 
+    /**
+     * Build function input
+     * @param map Option data
+     * @param pid View display pid
+     * @param num Number of function input
+     */
     private void buildOperaInTree(Map<String, Object> map, int pid, int num){
         data.add(buildOperaItem(OPERA_IN,"OperaIn", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
@@ -130,16 +161,23 @@ public class OperaServiceIml implements OperaService {
         operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getId(),operaIn.getTextName(), ++size, p, operaIn.getIsShow(),operaIn.getIsShow() == 0)));
     }
 
+    /**
+     * Process the display of function input at the front end
+     * @param list List to display
+     * @param t Whether to return directly
+     * @return Function input options displayed on the front end
+     */
     private List<List<OperaIn>> dispOperaIn(List<OperaIn> list, boolean t){
         List<List<OperaIn>> data = new LinkedList<>();
         if(t){
             data.add(list);
             return data;
         }
+        // The processing measure is 2
         List<OperaIn> temp = new ArrayList<>();
-        boolean is = list.size() % 2 != 0;
+        boolean odd = list.size() % 2 != 0;
         for (int i = 1; i <= list.size(); i++) {
-            OperaIn operaIn = list.get(i-1);
+            OperaIn operaIn = list.get(i - 1);
             if(i%2 != 0){
                 temp.add(operaIn);
             }else {
@@ -148,12 +186,19 @@ public class OperaServiceIml implements OperaService {
                 temp = new ArrayList<>();
             }
         }
-        if(is){
+        // Odd Numbers, let's do the last one
+        if(odd){
             data.add(temp);
         }
         return data;
     }
 
+    /**
+     * Add elements based on key
+     * @param key A primary key
+     * @param data Data list
+     * @param map The element
+     */
     private void pushByKey(String key, Map<String,List<Map<String,Object>>> data, Map<String,Object> map){
         List<Map<String,Object>> list;
         if(!data.containsKey(key)){
@@ -167,6 +212,10 @@ public class OperaServiceIml implements OperaService {
         }
     }
 
+    /**
+     * Change the status according to check
+     * @param map The element
+     */
     private void updateStatus(Map<String,Object> map){
         if(!map.containsKey("check")){
             map.put("status",1);
@@ -175,6 +224,14 @@ public class OperaServiceIml implements OperaService {
         }
     }
 
+    /**
+     * Control modify function field, function button, function input
+     * @param str Determine the functional options to modify
+     * @param map The element
+     * @param data Data list
+     * @param isUpdate Whether to perform a modification action for recursive invocation
+     * @return Whether an option is a functional option
+     */
     private boolean switchOpera(String str, Map<String,Object> map, Map<String,List<Map<String,Object>>> data, boolean isUpdate){
         boolean del = false;
         switch (str){
@@ -206,18 +263,18 @@ public class OperaServiceIml implements OperaService {
                 pushByKey(OPERA_SB, data, map);
                 break;
             default:
-                // 非法节点检测
+                // Illegal node detection
                 if(checkIllegalNode(map)){
                     del = true;
                     break;
                 }
-                // 根节点
+                // The root node
                 if("0".equals(String.valueOf(map.get("pid")))){
                     del = true;
                     pushByKey(OPERA, data, map);
                     break;
                 }
-                // 执行相关的修改操作
+                // Perform related modification actions
                 Set<String> set = data.keySet();
                 for(Iterator<String> key = set.iterator(); key.hasNext();){
                     String keys = key.next();
@@ -233,6 +290,12 @@ public class OperaServiceIml implements OperaService {
         return del;
     }
 
+    /**
+     * Handle update action
+     * @param upList List to be updated
+     * @param data Data list
+     * @throws SneakLifeException
+     */
     private void dispUpdate(List<Map<String,Object>> upList,Map<String,List<Map<String,Object>>> data) throws SneakLifeException{
         for (Iterator<Map<String, Object>> it = upList.iterator(); it.hasNext();){
             Map<String,Object> map = it.next();
@@ -241,13 +304,18 @@ public class OperaServiceIml implements OperaService {
                 it.remove();
             }
         }
-        // 解决列表无序
+        // Resolve list unordering
         if(upList.size() > 0){
             dispUpdate(upList,data);
         }
         throw new SneakLifeException(CommonUtil.respResultXGCG());
     }
 
+    /**
+     * Detect illegal node
+     * @param map The element
+     * @return Illegal node
+     */
     private boolean checkIllegalNode(Map<String,Object> map){
         int cm = columnsMapper.checkColumnsById(map);
         int oim = operaInMapper.checkOperaInById(map);

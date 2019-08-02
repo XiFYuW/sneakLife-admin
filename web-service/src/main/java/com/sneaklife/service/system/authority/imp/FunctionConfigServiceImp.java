@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
+/**
+ * @author https://github.com/XiFYuW
+ */
 @Service
 @SuppressWarnings("unchecked")
 public class FunctionConfigServiceImp implements FunctionConfigService {
@@ -91,10 +93,10 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
     }
 
     /**
-     * 查找子节点
-     * @param parent 父节点
-     * @param list 所有节点
-     * @return 父节点带子节点
+     * Find child node
+     * @param parent The parent node
+     * @param list All the nodes
+     * @return Parent node tape node
      */
     private Map<String,Object> findChildMenu(SystemMenu parent, List<SystemMenu> list){
         Map<String,Object> parentMap = new HashMap<>();
@@ -114,11 +116,11 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
     }
 
     /**
-     * 从所有节点中删除重复的节点
-     * @param parentMenu 删除项
-     * @param list 所有节点
-     * @param size 所有节点的大小，可以改变list长度，不需要则传0
-     * @return 所有节点剩余大小
+     * Remove duplicate nodes from all nodes
+     * @param parentMenu Delete the item
+     * @param list All the nodes
+     * @param size The size of all nodes, can change the list length, do not need to pass 0
+     * @return Residual size of all nodes
      */
     private int removeNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>)parentMenu.get("nodes");
