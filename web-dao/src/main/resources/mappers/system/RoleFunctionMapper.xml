@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sneaklife.dao.system.roleFunction.RoleFunctionMapper">
+  <!-- 数据插入 -->
+  <insert id="insertRoleFunction" parameterType="map">
+    insert into role(
+      id,
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      create_date,
+      update_date,
+      is_del
+    ) values (
+      REPLACE(UUID(), '-', ''),
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      NOW(),
+      NOW(),
+      0
+    )
+  </insert>
+
+  <update id="updateRoleFunction" parameterType="map">
+    update role
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="type != null">
+        type = #{type},
+      </if>
+      update_date = now()
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <update id="deleteRoleFunction" parameterType="map">
+    update role set is_del = 1 where id = #{id}
+  </update>
+</mapper>
