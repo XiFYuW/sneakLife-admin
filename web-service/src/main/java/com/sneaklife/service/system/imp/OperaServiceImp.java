@@ -25,7 +25,7 @@ import java.util.*;
  */
 @Service
 @SuppressWarnings("unchecked")
-public class OperaServiceIml implements OperaService {
+public class OperaServiceImp implements OperaService {
 
     @Autowired
     private ColumnsMapper columnsMapper;
@@ -36,7 +36,7 @@ public class OperaServiceIml implements OperaService {
     @Autowired
     private OperaSbMapper operaSbMapper;
 
-    private static Logger log = LoggerFactory.getLogger(OperaServiceIml.class);
+    private static Logger log = LoggerFactory.getLogger(OperaServiceImp.class);
 
     private static final String OPERA_COLUMNS = "opera-columns";
 
