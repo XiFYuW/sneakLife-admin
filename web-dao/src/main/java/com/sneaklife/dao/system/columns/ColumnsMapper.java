@@ -7,6 +7,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author https://github.com/XiFYuW
+ */
 @Mapper
 public interface ColumnsMapper {
 
