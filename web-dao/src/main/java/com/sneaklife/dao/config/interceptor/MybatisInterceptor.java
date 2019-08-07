@@ -49,7 +49,7 @@ public class MybatisInterceptor implements Interceptor {
             e.printStackTrace();
         }
         Object data = invocation.proceed();
-        log.info("【MYBATIS】执行sql>>>【{}】\n返回数据为>>>【{}】",sql,data);
+        log.info("【MYBATIS】执行sql>>>【{}】\n返回数据为>>>【{}】", sql, data);
         return data;
     }
 

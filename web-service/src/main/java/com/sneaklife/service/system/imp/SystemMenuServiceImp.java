@@ -2,6 +2,7 @@ package com.sneaklife.service.system.imp;
 
 import com.sneaklife.common.CommonUtil;
 import com.sneaklife.dao.entity.SystemMenu;
+import com.sneaklife.dao.system.SystemMenuMapper;
 import com.sneaklife.service.system.SystemMenuService;
 import com.sneaklife.dao.system.SystemMenuJpa;
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * @author https://github.com/XiFYuW
  */
 @Service
 public class SystemMenuServiceImp implements SystemMenuService {
@@ -23,12 +24,15 @@ public class SystemMenuServiceImp implements SystemMenuService {
     @Autowired
     private SystemMenuJpa systemMenuJpa;
 
+    @Autowired
+    private SystemMenuMapper systemMenuMapper;
+
     private static Logger log = LoggerFactory.getLogger(SystemMenuServiceImp.class);
 
     @Override
     public ResponseEntity<String> getMenu() {
         List<SystemMenu> data = new ArrayList<>();
-        List<SystemMenu> list = systemMenuJpa.findAll();
+        List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
         int size = list.size();
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
@@ -36,7 +40,6 @@ public class SystemMenuServiceImp implements SystemMenuService {
             size = removeNode(parentMenu, list, size);
             data.add(parentMenu);
         }
-        log.info("返回数据：【{}】", data);
         return CommonUtil.respResultDataSUCCEED(data);
     }
 

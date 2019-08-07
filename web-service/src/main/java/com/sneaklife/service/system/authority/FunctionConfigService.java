@@ -9,7 +9,7 @@ import java.util.Map;
 public interface FunctionConfigService {
 
     /**
-     * Gets function configuration data
+     * Building content bodies
      * @param map parameter
      * @return ResponseEntity<String>
      */
@@ -23,7 +23,7 @@ public interface FunctionConfigService {
     ResponseEntity<String> functionConfigTreeView(Map<String,Object> map);
 
     /**
-     * Building content bodies
+     * Gets function configuration data
      * @param map parameter
      * @return ResponseEntity<String>
      */

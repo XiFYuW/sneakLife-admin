@@ -1,4 +1,4 @@
-package com.sneaklife.service.system.role;
+package com.sneaklife.service.system.authority;
 
 import com.sneaklife.page.PageInfo;
 import org.springframework.http.ResponseEntity;
@@ -9,22 +9,22 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  * @date 2019/8/4 10:00
  */
-public interface RoleService {
+public interface RoleConfigService {
     /**
-     * Insert role
+     * Insert roleConfig
      * @param map parameter
      * @throws Exception
      */
-    void insertRole(Map<String,Object> map) throws Exception;
+    void insertRoleConfig(Map<String,Object> map) throws Exception;
 
     /**
-     * Paging to get role data
+     * Paging to get roleConfig data
      * @param map parameter
      * @param pageInfo Paging object
      * @return ResponseEntity<String>
      * @throws Exception
      */
-    ResponseEntity<String> getRole(Map<String,Object> map, PageInfo pageInfo) throws Exception;
+    ResponseEntity<String> getRoleConfig(Map<String,Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Building content bodies
@@ -32,19 +32,19 @@ public interface RoleService {
      * @return ResponseEntity<String>
      * @throws Exception
      */
-    ResponseEntity<String> role(Map<String,Object> map) throws Exception;
+    ResponseEntity<String> roleConfig(Map<String,Object> map) throws Exception;
 
     /**
-     * Update role
+     * Update roleConfig
      * @param map parameter
      * @throws Exception
      */
-    void updateRole(Map<String,Object> map) throws Exception;
+    void updateRoleConfig(Map<String,Object> map) throws Exception;
 
     /**
-     * Delete role
+     * Delete roleConfig
      * @param map parameter
      * @throws Exception
      */
-    void deleteRole(Map<String,Object> map) throws Exception;
+    void deleteRoleConfig(Map<String,Object> map) throws Exception;
 }

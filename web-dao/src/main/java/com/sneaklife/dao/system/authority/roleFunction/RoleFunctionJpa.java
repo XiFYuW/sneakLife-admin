@@ -1,6 +1,6 @@
-package com.sneaklife.dao.system.roleFunction;
+package com.sneaklife.dao.system.authority.roleFunction;
 
-import com.sneaklife.dao.entity.Role;
+import com.sneaklife.dao.entity.RoleConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019/8/4 10:07
  */
 @Repository
-public interface RoleFunctionJpa extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role> {
+public interface RoleFunctionJpa extends JpaRepository<RoleConfig, String>, JpaSpecificationExecutor<RoleConfig> {
 
 }

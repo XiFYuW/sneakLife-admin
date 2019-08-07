@@ -1,15 +1,15 @@
-package com.sneaklife.service.system.role.imp;
+package com.sneaklife.service.system.authority.imp;
 
 import com.sneaklife.common.CommonUtil;
-import com.sneaklife.dao.entity.Role;
+import com.sneaklife.dao.entity.RoleConfig;
 import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.role.RoleJpa;
-import com.sneaklife.dao.system.role.RoleMapper;
+import com.sneaklife.dao.system.authority.roleConfig.RoleConfigJpa;
+import com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.resp.RespCode;
 import com.sneaklife.service.system.OperaService;
-import com.sneaklife.service.system.role.RoleService;
+import com.sneaklife.service.system.authority.RoleConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +29,22 @@ import java.util.Map;
  * @date 2019/8/4 10:01
  */
 @Service
-public class RoleServiceImp implements RoleService {
+public class RoleConfigServiceImp implements RoleConfigService {
 
-    private static Logger log = LoggerFactory.getLogger(RoleServiceImp.class);
-
-    @Autowired
-    private RoleMapper roleMapper;
+    private static Logger log = LoggerFactory.getLogger(RoleConfigServiceImp.class);
 
     @Autowired
-    private RoleJpa roleJpa;
+    private RoleConfigMapper roleConfigMapper;
+
+    @Autowired
+    private RoleConfigJpa roleConfigJpa;
 
     @Autowired
     private OperaService operaService;
 
     @Override
-    public void insertRole(Map<String, Object> map) throws Exception {
-        int t = roleMapper.insertRole(map);
+    public void insertRoleConfig(Map<String, Object> map) throws Exception {
+        int t = roleConfigMapper.insertRoleConfig(map);
         if(t != 1){
             throw new SneakLifeException(CommonUtil.respResultTJSB());
         }
@@ -52,12 +52,12 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    public ResponseEntity<String> getRole(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         if(!CommonUtil.isNull(pageInfo)){
             return CommonUtil.respResult(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg());
         }
         Pageable pageable = PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), Sort.Direction.ASC, "id");
-        Page<Role> page = roleJpa.findAll((Specification<Role>) (root, criteriaQuery, criteriaBuilder) -> {
+        Page<RoleConfig> page = roleConfigJpa.findAll((Specification<RoleConfig>) (root, criteriaQuery, criteriaBuilder) -> {
             Path<String> isDel = root.get("isDel");
             return criteriaBuilder.equal(isDel.as(Integer.class),0);
         }, pageable);
@@ -65,15 +65,15 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    public ResponseEntity<String> role(Map<String, Object> map) throws Exception {
+    public ResponseEntity<String> roleConfig(Map<String, Object> map) throws Exception {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
         return CommonUtil.respResultDataSUCCEED(tableOpera);
     }
 
     @Override
-    public void updateRole(Map<String, Object> map) throws Exception {
-        int t = roleMapper.updateRole(map);
+    public void updateRoleConfig(Map<String, Object> map) throws Exception {
+        int t = roleConfigMapper.updateRoleConfig(map);
         if(t != 1){
             throw new SneakLifeException(CommonUtil.respResultXGSB());
         }
@@ -81,8 +81,8 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    public void deleteRole(Map<String, Object> map) throws Exception {
-        int t = roleMapper.deleteRole(map);
+    public void deleteRoleConfig(Map<String, Object> map) throws Exception {
+        int t = roleConfigMapper.deleteRoleConfig(map);
         if(t != 1){
             throw new SneakLifeException(CommonUtil.respResultSCSB());
         }

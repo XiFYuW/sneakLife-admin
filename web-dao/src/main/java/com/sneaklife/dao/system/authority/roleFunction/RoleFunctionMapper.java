@@ -1,7 +1,10 @@
-package com.sneaklife.dao.system.roleFunction;
+package com.sneaklife.dao.system.authority.roleFunction;
 
+import com.sneaklife.dao.entity.RoleFunction;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +19,8 @@ public interface RoleFunctionMapper {
     Integer updateRoleFunction(Map<String, Object> map);
 
     Integer deleteRoleFunction(Map<String, Object> map);
+
+    List<RoleFunction> getByIsDel(@Param("isDel") int isDel);
+
+    List<RoleFunction> getGroupByRoleId();
 }

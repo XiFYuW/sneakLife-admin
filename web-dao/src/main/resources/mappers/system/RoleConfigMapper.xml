@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sneaklife.dao.system.role.RoleMapper">
+<mapper namespace="com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper">
   <!-- 数据插入 -->
-  <insert id="insertRole" parameterType="map">
-    insert into role(
+  <insert id="insertRoleConfig" parameterType="map">
+    insert into role_config(
       id,
       <if test="name != null">
         name,
@@ -28,8 +28,8 @@
     )
   </insert>
 
-  <update id="updateRole" parameterType="map">
-    update role
+  <update id="updateRoleConfig" parameterType="map">
+    update role_config
     <set>
       <if test="name != null">
         name = #{name},
@@ -44,7 +44,18 @@
     </where>
   </update>
 
-  <update id="deleteRole" parameterType="map">
-    update role set is_del = 1 where id = #{id}
+  <update id="deleteRoleConfig" parameterType="map">
+    update role_config set is_del = 1 where id = #{id}
   </update>
+
+  <select id="getByIsDel" parameterType="int" resultType="com.sneaklife.dao.entity.RoleConfig">
+    select * from role_config where is_del = #{isDel}
+  </select>
+
+  <select id="getById" parameterType="string" resultType="com.sneaklife.dao.entity.RoleConfig">
+    select * from role_config
+    <where>
+      id = #{id} AND is_del = 0
+    </where>
+  </select>
 </mapper>

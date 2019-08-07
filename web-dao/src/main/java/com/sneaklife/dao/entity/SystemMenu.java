@@ -13,7 +13,6 @@ public class SystemMenu extends CommonEntity{
 
     @Id
     @GenericGenerator(name="idGenerator", strategy="uuid")
-//    @GeneratedValue(generator="idGenerator")
     private String id;
 
     @Column(name = "tab")
@@ -31,9 +30,6 @@ public class SystemMenu extends CommonEntity{
     @Column(name = "data_url")
     private String dataUrl;
 
-    @Column(name = "page_url")
-    private String pageUrl;
-
     @Column(name = "is_del")
     private Integer isDel;
 
@@ -43,22 +39,25 @@ public class SystemMenu extends CommonEntity{
     @Column(name = "item_url")
     private String itemUrl;
 
+    @Column(name = "page_url")
+    private String pageUrl;
+
     @Transient
     private List<SystemMenu> son = new ArrayList<>();
 
     public SystemMenu(){ super();}
 
-    public SystemMenu(String id, String tab, String type, Date createDate, Date updateDate, String dataUrl, String pageUrl, Integer isDel, String pid, String itemUrl, List<SystemMenu> son) {
+    public SystemMenu(String id, String tab, String type, Date createDate, Date updateDate, String dataUrl, Integer isDel, String pid, String itemUrl, String pageUrl, List<SystemMenu> son) {
         this.id = id;
         this.tab = tab;
         this.type = type;
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.dataUrl = dataUrl;
-        this.pageUrl = pageUrl;
         this.isDel = isDel;
         this.pid = pid;
         this.itemUrl = itemUrl;
+        this.pageUrl = pageUrl;
         this.son = son;
     }
 
@@ -110,14 +109,6 @@ public class SystemMenu extends CommonEntity{
         this.dataUrl = dataUrl;
     }
 
-    public String getPageUrl() {
-        return pageUrl;
-    }
-
-    public void setPageUrl(String struUrl) {
-        this.pageUrl = pageUrl;
-    }
-
     public Integer getIsDel() {
         return isDel;
     }
@@ -150,6 +141,14 @@ public class SystemMenu extends CommonEntity{
         this.itemUrl = itemUrl;
     }
 
+    public String getPageUrl() {
+        return pageUrl;
+    }
+
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -165,14 +164,14 @@ public class SystemMenu extends CommonEntity{
                 .append(updateDate).append('\"');
         sb.append(",\"dataUrl\":\"")
                 .append(dataUrl).append('\"');
-        sb.append(",\"pageUrl\":\"")
-                .append(pageUrl).append('\"');
         sb.append(",\"isDel\":")
                 .append(isDel);
         sb.append(",\"pid\":\"")
                 .append(pid).append('\"');
         sb.append(",\"itemUrl\":\"")
                 .append(itemUrl).append('\"');
+        sb.append(",\"pageUrl\":\"")
+                .append(pageUrl).append('\"');
         sb.append(",\"son\":")
                 .append(son);
         sb.append('}');

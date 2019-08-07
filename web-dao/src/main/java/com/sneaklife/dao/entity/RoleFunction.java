@@ -1,30 +1,24 @@
 package com.sneaklife.dao.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/8/4 9:50
+ * @date 2019/8/6 14:30
  */
 @Entity
-@Table(name="role")
-public class Role extends CommonEntity {
-
+@Table(name="role_function")
+public class RoleFunction extends CommonEntity {
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid")
-    private String id;
+    @GeneratedValue(generator="idGenerator")
+    private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "menu_id")
+    private String menuId;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "role_id")
+    private String roleId;
 
     @Column(name = "is_del")
     private Integer isDel;
@@ -35,39 +29,38 @@ public class Role extends CommonEntity {
     @Column(name = "update_date")
     private Date updateDate;
 
-    public Role(){}
+    public RoleFunction() {}
 
-    public Role(String id, String name, String type, Integer isDel, Date createDate, Date updateDate) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
+    public RoleFunction(String menuId, String roleId, Integer isDel, Date createDate, Date updateDate) {
+        this.menuId = menuId;
+        this.roleId = roleId;
         this.isDel = isDel;
         this.createDate = createDate;
         this.updateDate = updateDate;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 
-    public String getType() {
-        return type;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public Integer getIsDel() {
@@ -97,12 +90,12 @@ public class Role extends CommonEntity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("\"id\":\"")
-                .append(id).append('\"');
-        sb.append(",\"name\":\"")
-                .append(name).append('\"');
-        sb.append(",\"type\":\"")
-                .append(type).append('\"');
+        sb.append("\"id\":")
+                .append(id);
+        sb.append(",\"menuId\":\"")
+                .append(menuId).append('\"');
+        sb.append(",\"roleId\":\"")
+                .append(roleId).append('\"');
         sb.append(",\"isDel\":")
                 .append(isDel);
         sb.append(",\"createDate\":\"")

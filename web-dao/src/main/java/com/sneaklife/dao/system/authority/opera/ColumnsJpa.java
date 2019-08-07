@@ -1,4 +1,4 @@
-package com.sneaklife.dao.system.columns;
+package com.sneaklife.dao.system.authority.opera;
 
 import com.sneaklife.dao.entity.Columns;
 import org.springframework.data.jpa.repository.JpaRepository;

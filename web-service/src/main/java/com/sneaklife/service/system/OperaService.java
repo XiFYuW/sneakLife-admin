@@ -1,6 +1,7 @@
 package com.sneaklife.service.system;
 
 import com.sneaklife.dao.entity.OperaSb;
+import com.sneaklife.dao.entity.RoleFunction;
 import com.sneaklife.dao.entity.modal.TableOpera;
 
 import java.util.List;
@@ -51,4 +52,11 @@ public interface OperaService {
      * @throws Exception Global exceptions are handled
      */
     void deleteOpera(Map<String,Object> map) throws Exception;
+
+    /**
+     * Build the role function tree data
+     * @param roleFunctionList Build role function information
+     * @return tree data，Id as the current node and pid as the parent node
+     */
+    List<Map<String, Object>> buildRoleFunction(List<RoleFunction> roleFunctionList);
 }

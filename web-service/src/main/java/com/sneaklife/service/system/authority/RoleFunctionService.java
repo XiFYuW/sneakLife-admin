@@ -17,28 +17,28 @@ public interface RoleFunctionService {
     ResponseEntity<String> roleFunction(Map<String, Object> map);
 
     /**
-     * Gets role function data
+     * Gets roleFunction function data
      * @param map parameter
      * @return ResponseEntity<String>
      */
     ResponseEntity<String> getRoleFunction(Map<String, Object> map);
 
     /**
-     * Insert role function configuration
+     * Insert roleFunction function configuration
      * @param map parameter
      * @throws Exception
      */
     void insertRoleFunction(Map<String, Object> map) throws Exception;
 
     /**
-     * Update role function configuration
+     * Update roleFunction function configuration
      * @param map parameter
      * @throws Exception
      */
     void updateRoleFunction(Map<String, Object> map) throws Exception;
 
     /**
-     * Delete role function configuration
+     * Delete roleFunction function configuration
      * @param map parameter
      * @throws Exception
      */

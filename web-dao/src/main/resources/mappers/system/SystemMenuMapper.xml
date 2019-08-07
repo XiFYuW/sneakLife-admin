@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sneaklife.dao.system.SystemMenuMapper">
+  <resultMap id="SystemMenuMap" type="com.sneaklife.dao.entity.SystemMenu">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="TAB" jdbcType="VARCHAR" property="tab" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="PAGE_URL" jdbcType="VARCHAR" property="pageUrl" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="DATE" property="updateDate" />
+    <result column="PID" jdbcType="CHAR" property="pid" />
+    <result column="IS_DEL" jdbcType="INTEGER" property="isDel" />
+    <result column="DATA_URL" jdbcType="VARCHAR" property="dataUrl" />
+    <result column="ITEM_URL" jdbcType="VARCHAR" property="itemUrl" />
+  </resultMap>
+  <sql id="SystemMenuBody">
+    ID,TAB,TYPE,PAGE_URL,CREATE_DATE,UPDATE_DATE,PID,IS_DEL,DATA_URL,ITEM_URL
+  </sql>
+  <select id="getByIsDel" parameterType="int" resultMap="SystemMenuMap">
+    select <include refid="SystemMenuBody"/> from system_menu
+    <where>
+      is_del = #{isDel}
+    </where>
+  </select>
+
+  <select id="getByBatchId" parameterType="java.util.ArrayList" resultMap="SystemMenuMap">
+    select <include refid="SystemMenuBody"/> from system_menu
+    <where>
+      id in
+      <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
+  </select>
+</mapper>

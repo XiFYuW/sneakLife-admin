@@ -1,4 +1,4 @@
-package com.sneaklife.dao.system.opera;
+package com.sneaklife.dao.system.authority.opera;
 
 import com.sneaklife.dao.entity.OperaSb;
 import org.apache.ibatis.annotations.Mapper;

@@ -1,15 +1,15 @@
 package com.sneaklife.service.system.imp;
 
 import com.sneaklife.common.CommonUtil;
-import com.sneaklife.dao.entity.Columns;
-import com.sneaklife.dao.entity.OperaIn;
-import com.sneaklife.dao.entity.OperaSb;
+import com.sneaklife.dao.entity.*;
 import com.sneaklife.dao.entity.modal.Opera;
 import com.sneaklife.dao.entity.modal.Table;
 import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.columns.ColumnsMapper;
-import com.sneaklife.dao.system.opera.OperaInMapper;
-import com.sneaklife.dao.system.opera.OperaSbMapper;
+import com.sneaklife.dao.system.SystemMenuMapper;
+import com.sneaklife.dao.system.authority.opera.ColumnsMapper;
+import com.sneaklife.dao.system.authority.opera.OperaInMapper;
+import com.sneaklife.dao.system.authority.opera.OperaSbMapper;
+import com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.service.system.OperaService;
 import org.slf4j.Logger;
@@ -35,6 +35,12 @@ public class OperaServiceImp implements OperaService {
 
     @Autowired
     private OperaSbMapper operaSbMapper;
+
+    @Autowired
+    private SystemMenuMapper systemMenuMapper;
+
+    @Autowired
+    private RoleConfigMapper roleConfigMapper;
 
     private static Logger log = LoggerFactory.getLogger(OperaServiceImp.class);
 
@@ -96,6 +102,21 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
+    public List<Map<String, Object>> buildRoleFunction(List<RoleFunction> roleFunctionList) {
+        roleFunctionList.forEach(roleFunction -> {
+            RoleConfig roleConfig = roleConfigMapper.getById(roleFunction.getRoleId());
+            data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
+            String[] menuId = roleFunction.getMenuId().split(",");
+            List<SystemMenu> systemMenuList = systemMenuMapper.getByBatchId(menuId);
+            int p = size;
+            systemMenuList.forEach(systemMenu -> {
+                data.add(buildOperaItem(systemMenu.getId(), systemMenu.getTab(), ++size, p, 0, true));
+            });
+        });
+        return data;
+    }
+
+    @Override
     public void clean(){
         size = 1;
         data = new LinkedList<>();
@@ -111,7 +132,7 @@ public class OperaServiceImp implements OperaService {
      * @param check View display check
      * @return a options data
      */
-    private Map<String,Object> buildOperaItem(String treeViewId,String name,int id,int pid,int status,boolean check){
+    private Map<String,Object> buildOperaItem(String treeViewId, String name, int id, int pid, int status, boolean check){
         Map<String,Object> item = new HashMap<>();
         item.put("id",id);
         item.put("status",status);
