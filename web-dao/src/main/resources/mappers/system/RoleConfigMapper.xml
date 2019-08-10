@@ -52,6 +52,10 @@
     select * from role_config where is_del = #{isDel}
   </select>
 
+  <select id="getByIsDelMap" parameterType="int" resultType="map">
+    select * from role_config where is_del = #{isDel}
+  </select>
+
   <select id="getById" parameterType="string" resultType="com.sneaklife.dao.entity.RoleConfig">
     select * from role_config
     <where>

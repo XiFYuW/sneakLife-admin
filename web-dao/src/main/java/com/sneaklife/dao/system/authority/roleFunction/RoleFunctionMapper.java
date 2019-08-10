@@ -23,4 +23,8 @@ public interface RoleFunctionMapper {
     List<RoleFunction> getByIsDel(@Param("isDel") int isDel);
 
     List<RoleFunction> getGroupByRoleId();
+
+    Integer deleteByRoleId(@Param("roleId") String roleId);
+
+    Integer insertBatch(@Param("list") List<Map<String,Object>> list, @Param("roleId") String roleId);
 }

@@ -22,5 +22,7 @@ public interface RoleConfigMapper {
 
     List<RoleConfig> getByIsDel(@Param("isDel") int isDel);
 
+    List<Map<String,Object>> getByIsDelMap(@Param("isDel") int isDel);
+
     RoleConfig getById(@Param("id") String id);
 }

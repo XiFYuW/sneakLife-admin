@@ -5,8 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
-
 /**
  * @author https://github.com/XiFYuW
  * @date 2019/8/5 14:46
@@ -17,4 +15,6 @@ public interface SystemMenuMapper {
     List<SystemMenu> getByIsDel(@Param("isDel") int isDel);
 
     List<SystemMenu> getByBatchId(@Param("array") String[] id);
+
+    List<SystemMenu> getByNotBatchId(@Param("array") String[] id);
 }

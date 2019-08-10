@@ -6,6 +6,7 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.authority.roleConfig.RoleConfigJpa;
 import com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.interfaces.ParameterTransformation;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.resp.RespCode;
 import com.sneaklife.service.system.OperaService;
@@ -22,14 +23,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Path;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author https://github.com/XiFYuW
  * @date 2019/8/4 10:01
  */
 @Service
-public class RoleConfigServiceImp implements RoleConfigService {
+public class RoleConfigServiceImp implements RoleConfigService,
+        ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>>{
 
     private static Logger log = LoggerFactory.getLogger(RoleConfigServiceImp.class);
 
@@ -87,5 +89,32 @@ public class RoleConfigServiceImp implements RoleConfigService {
             throw new SneakLifeException(CommonUtil.respResultSCSB());
         }
         throw new SneakLifeException(CommonUtil.respResultSCCG());
+    }
+
+    @Override
+    public List<Map<String, Object>> buildRoleTreeView(){
+        List<Map<String,Object>> data = new ArrayList<>();
+        List<RoleConfig> list = roleConfigMapper.getByIsDel(0);
+        list.forEach(roleConfig -> data.add(paramTrans(new HashMap<>(), roleConfig)));
+        return fixedParamTrans(data, new HashMap<>());
+    }
+
+    @Override
+    public Map<String, Object> paramTrans(Map<String, Object> map, RoleConfig roleConfig) {
+        map.put("text", roleConfig.getName());
+        map.put("url", "roleFunctionTreeView");
+        map.put("id", roleConfig.getId());
+        map.put("nodes", null);
+        return map;
+    }
+
+    @Override
+    public List<Map<String, Object>> fixedParamTrans(List<Map<String, Object>> list, Map<String, Object> map) {
+        List<Map<String,Object>> data = new ArrayList<>();
+        map.put("text", "RoleConfig");
+        map.put("url", "#");
+        map.put("nodes", list);
+        data.add(map);
+        return data;
     }
 }

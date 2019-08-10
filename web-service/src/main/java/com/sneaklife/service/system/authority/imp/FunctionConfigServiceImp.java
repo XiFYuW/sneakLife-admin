@@ -6,6 +6,8 @@ import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.SystemMenuJpa;
 import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.interfaces.Nodes;
+import com.sneaklife.interfaces.ParameterTransformation;
 import com.sneaklife.resp.RespCode;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
@@ -19,7 +21,9 @@ import java.util.*;
  */
 @Service
 @SuppressWarnings("unchecked")
-public class FunctionConfigServiceImp implements FunctionConfigService {
+public class FunctionConfigServiceImp implements FunctionConfigService,
+        ParameterTransformation<SystemMenu, Map<String,Object>, List<Map<String,Object>>>,
+        Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> {
 
     @Autowired
     private SystemMenuJpa systemMenuJpa;
@@ -69,12 +73,7 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
             size = removeNode(parentMenu, list, size);
             data.add(parentMenu);
         }
-        Map<String,Object> systemSetting = new HashMap<>();
-        systemSetting.put("text", "SystemSetting");
-        systemSetting.put("url", "#");
-        systemSetting.put("nodes", data);
-        List<Map<String,Object>> left = new ArrayList<>();
-        left.add(systemSetting);
+        List<Map<String, Object>> left = fixedParamTrans(data, new HashMap<>());
         return CommonUtil.respResultDataSUCCEED(left);
     }
 
@@ -92,18 +91,9 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
         return CommonUtil.respResultDataSUCCEED(data);
     }
 
-    /**
-     * Find child node
-     * @param parent The parent node
-     * @param list All the nodes
-     * @return Parent node tape node
-     */
-    private Map<String,Object> findChildMenu(SystemMenu parent, List<SystemMenu> list){
-        Map<String,Object> parentMap = new HashMap<>();
-        parentMap.put("text", parent.getTab());
-        parentMap.put("url", parent.getItemUrl());
-        parentMap.put("id", parent.getId());
-        parentMap.put("nodes", null);
+    @Override
+    public Map<String,Object> findChildMenu(SystemMenu parent, List<SystemMenu> list){
+        Map<String,Object> parentMap = paramTrans(new HashMap<>(), parent);
         List<Map<String,Object>> childList = new ArrayList<>();
         for (SystemMenu menu : list) {
             if (parent.getId().equals(menu.getPid())) {
@@ -115,14 +105,8 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
         return parentMap;
     }
 
-    /**
-     * Remove duplicate nodes from all nodes
-     * @param parentMenu Delete the item
-     * @param list All the nodes
-     * @param size The size of all nodes, can change the list length, do not need to pass 0
-     * @return Residual size of all nodes
-     */
-    private int removeNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
+    @Override
+    public int removeNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>)parentMenu.get("nodes");
         if(!CommonUtil.isNull(childMenu)){
             parentMenu.remove("nodes");
@@ -140,5 +124,24 @@ public class FunctionConfigServiceImp implements FunctionConfigService {
             size = removeNode(child, list, size);
         }
         return size;
+    }
+
+    @Override
+    public Map<String, Object> paramTrans(Map<String, Object> map, SystemMenu systemMenu) {
+        map.put("text", systemMenu.getTab());
+        map.put("url", systemMenu.getItemUrl());
+        map.put("id", systemMenu.getId());
+        map.put("nodes", null);
+        return map;
+    }
+
+    @Override
+    public List<Map<String, Object>> fixedParamTrans(List<Map<String, Object>> list, Map<String, Object> map) {
+        List<Map<String, Object>> data = new ArrayList<>();
+        map.put("text", "SystemSetting");
+        map.put("url", "#");
+        map.put("nodes", list);
+        data.add(map);
+        return data;
     }
 }

@@ -106,12 +106,15 @@ public class OperaServiceImp implements OperaService {
         roleFunctionList.forEach(roleFunction -> {
             RoleConfig roleConfig = roleConfigMapper.getById(roleFunction.getRoleId());
             data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
-            String[] menuId = roleFunction.getMenuId().split(",");
-            List<SystemMenu> systemMenuList = systemMenuMapper.getByBatchId(menuId);
+            List<String> menuId = Arrays.asList(roleFunction.getMenuId().split(","));
+            List<SystemMenu> systemMenuList = systemMenuMapper.getByIsDel(0);
+            int len = systemMenuList.size();
             int p = size;
-            systemMenuList.forEach(systemMenu -> {
-                data.add(buildOperaItem(systemMenu.getId(), systemMenu.getTab(), ++size, p, 0, true));
-            });
+            for (int i = 0; i < len; i++) {
+                SystemMenu systemMenu = systemMenuList.get(i);
+                SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, menuId, p);
+                len = removeNode(parentMenu, systemMenuList, menuId, len);
+            }
         });
         return data;
     }
@@ -342,5 +345,47 @@ public class OperaServiceImp implements OperaService {
         int oim = operaInMapper.checkOperaInById(map);
         int obm = operaSbMapper.checkOperaSbById(map);
         return cm + oim + obm == 0;
+    }
+
+    private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, List<String> menuId, int size){
+        List<SystemMenu> childMenu = parentMenu.getSon();
+        for (SystemMenu child : childMenu) {
+            Iterator<SystemMenu> it = list.iterator();
+            while (it.hasNext()) {
+                SystemMenu menu = it.next();
+                if (child.getId().equals(menu.getId())) {
+                    it.remove();
+                    size--;
+                }
+                if(menuId.contains(child.getId())){
+                    data.forEach(map -> {
+                        if(child.getPid().equals(map.get("treeViewId"))){
+                            map.put("check",true);
+                            map.put("status", 0);
+                        }
+                    });
+                }
+            }
+            size = removeNode(child, list, menuId, size);
+        }
+        return size;
+    }
+
+    private SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list, List<String> menuId, int p){
+        List<SystemMenu> childMenu = new ArrayList<>();
+        if(menuId.contains(parent.getId())){
+            data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 0, true));
+        }else {
+            data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 1, false));
+        }
+        p = size;
+        for (SystemMenu menu : list) {
+            if (parent.getId().equals(menu.getPid())) {
+                SystemMenu child = findChildMenu(menu, list, menuId, p);
+                childMenu.add(child);
+                parent.setSon(childMenu);
+            }
+        }
+        return parent;
     }
 }

@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public interface RoleFunctionService {
 
+    ResponseEntity<String> roleFunctionTreeView(Map<String, Object> map);
+
     /**
      * Building content bodies
      * @param map parameter
@@ -43,4 +45,10 @@ public interface RoleFunctionService {
      * @throws Exception
      */
     void deleteRoleFunction(Map<String, Object> map) throws Exception;
+
+    /**
+     * Mutually exclusive role functionality
+     * @param map parameter
+     */
+    void mutualRoleFunction(Map<String, Object> map);
 }

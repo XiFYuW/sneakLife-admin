@@ -182,6 +182,10 @@ public enum RespCode {
 	 */
 	MSG_PAGE_ERR(1055, "分页参数有误，请检查"),
 	/**
+	 * 参数非法，不存在根节点
+	 */
+	MSG_PARAM_ILLEGAL_NOT_ROOT(1055, "参数非法，不存在根节点"),
+	/**
 	 * 无权限对该功能进行增加操作
 	 */
 	MSG_NO_OPERA_ADD(3998, "无权限对该功能进行增加操作");

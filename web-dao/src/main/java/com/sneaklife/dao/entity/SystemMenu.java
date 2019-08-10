@@ -149,6 +149,8 @@ public class SystemMenu extends CommonEntity{
         this.pageUrl = pageUrl;
     }
 
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");

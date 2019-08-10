@@ -3,6 +3,7 @@ package com.sneaklife.service.system.authority;
 import com.sneaklife.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,4 +48,6 @@ public interface RoleConfigService {
      * @throws Exception
      */
     void deleteRoleConfig(Map<String,Object> map) throws Exception;
+
+    List<Map<String, Object>> buildRoleTreeView();
 }

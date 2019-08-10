@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.dao.system.authority.roleFunction.RoleFunctionMapper">
-  <!-- 数据插入 -->
+
   <insert id="insertRoleFunction" parameterType="map">
-    insert into role(
-      id,
-      <if test="name != null">
-        name,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      create_date,
-      update_date,
-      is_del
-    ) values (
-      REPLACE(UUID(), '-', ''),
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      NOW(),
-      NOW(),
-      0
-    )
+
   </insert>
-
   <update id="updateRoleFunction" parameterType="map">
-    update role
-    <set>
-      <if test="name != null">
-        name = #{name},
-      </if>
-      <if test="type != null">
-        type = #{type},
-      </if>
-      update_date = now()
-    </set>
-    <where>
-      id = #{id}
-    </where>
-  </update>
 
-  <update id="deleteRoleFunction" parameterType="map">
-    update role set is_del = 1 where id = #{id}
   </update>
+  <delete id="deleteRoleFunction" parameterType="map">
+
+  </delete>
 
   <select id="getByIsDel" parameterType="int" resultType="com.sneaklife.dao.entity.RoleFunction">
     select * from role_function
@@ -61,4 +25,27 @@
   <select id="getGroupByRoleId" resultType="com.sneaklife.dao.entity.RoleFunction">
     SELECT <include refid="getGroupByRoleIdSql"/> from role_function GROUP BY role_id;
   </select>
+
+  <delete id="deleteByRoleId" parameterType="string">
+    delete from role_function
+    <where>
+      1 = 1
+      and role_id = #{roleId}
+    </where>
+  </delete>
+
+  <insert id="insertBatch" parameterType="list">
+    insert into role_function
+    (
+      menu_id,
+      role_id,
+      is_del,
+      create_date,
+      update_date
+    )
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.treeViewId},#{roleId},0,NOW(),NOW())
+    </foreach>
+  </insert>
 </mapper>
