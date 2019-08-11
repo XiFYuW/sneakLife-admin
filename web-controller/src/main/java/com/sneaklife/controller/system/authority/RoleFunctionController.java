@@ -40,6 +40,7 @@ public class RoleFunctionController {
     public void deleteRoleFunction(HttpServletRequest request) throws Exception{
         roleFunctionService.deleteRoleFunction(CommonUtil.getData(request));
     }
+
     @RequestMapping(value = "/roleFunctionTreeView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> buildRoleTreeView(HttpServletRequest request) throws Exception{
         return roleFunctionService.roleFunctionTreeView(CommonUtil.getData(request));
