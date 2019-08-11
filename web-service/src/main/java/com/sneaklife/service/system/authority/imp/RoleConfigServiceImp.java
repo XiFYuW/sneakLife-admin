@@ -100,6 +100,21 @@ public class RoleConfigServiceImp implements RoleConfigService,
     }
 
     @Override
+    public ResponseEntity<String> selectsList(Map<String,Object> map) {
+        List<RoleConfig> roleConfigList = roleConfigMapper.getByIsDel(0);
+        List<Map<String,Object>> data = new ArrayList<>();
+        roleConfigList.forEach(roleConfig -> {
+            Map<String,Object> m = new HashMap<>();
+            m.put("name", roleConfig.getName());
+            m.put("value", roleConfig.getId());
+            data.add(m);
+        });
+        map.put("title","select role");
+        map.put("data", data);
+        return CommonUtil.respResultDataSUCCEED(map);
+    }
+
+    @Override
     public Map<String, Object> paramTrans(Map<String, Object> map, RoleConfig roleConfig) {
         map.put("text", roleConfig.getName());
         map.put("url", "roleFunctionTreeView");

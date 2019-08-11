@@ -50,4 +50,6 @@ public interface RoleConfigService {
     void deleteRoleConfig(Map<String,Object> map) throws Exception;
 
     List<Map<String, Object>> buildRoleTreeView();
+
+    ResponseEntity<String> selectsList(Map<String,Object> map);
 }

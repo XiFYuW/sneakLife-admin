@@ -102,20 +102,23 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
-    public List<Map<String, Object>> buildRoleFunction(List<RoleFunction> roleFunctionList) {
-        roleFunctionList.forEach(roleFunction -> {
-            RoleConfig roleConfig = roleConfigMapper.getById(roleFunction.getRoleId());
-            data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
-            List<String> menuId = Arrays.asList(roleFunction.getMenuId().split(","));
-            List<SystemMenu> systemMenuList = systemMenuMapper.getByIsDel(0);
-            int len = systemMenuList.size();
-            int p = size;
-            for (int i = 0; i < len; i++) {
-                SystemMenu systemMenu = systemMenuList.get(i);
-                SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, menuId, p);
-                len = removeNode(parentMenu, systemMenuList, menuId, len);
-            }
-        });
+    public List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map) {
+        RoleConfig roleConfig = roleConfigMapper.getById(String.valueOf(map.get("menuId")));
+        data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
+        List<String> menuId;
+        if(CommonUtil.isNull(roleFunction)){
+            menuId = Arrays.asList(roleFunction.getMenuId().split(","));
+        }else {
+            menuId = new ArrayList<>();
+        }
+        List<SystemMenu> systemMenuList = systemMenuMapper.getByIsDel(0);
+        int len = systemMenuList.size();
+        int p = size;
+        for (int i = 0; i < len; i++) {
+            SystemMenu systemMenu = systemMenuList.get(i);
+            SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, menuId, p);
+            len = removeNode(parentMenu, systemMenuList, menuId, len);
+        }
         return data;
     }
 

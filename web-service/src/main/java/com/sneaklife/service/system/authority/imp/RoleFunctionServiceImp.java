@@ -47,8 +47,8 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Override
     public ResponseEntity<String> getRoleFunction(Map<String, Object> map) {
-        List<RoleFunction> roleFunctionList = roleFunctionMapper.getGroupByRoleId();
-        List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunctionList);
+        RoleFunction roleFunction = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
+        List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunction, map);
         operaService.clean();
         return CommonUtil.respResultDataSUCCEED(data);
     }
@@ -87,7 +87,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Override
     public void deleteRoleFunction(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        throw new SneakLifeException(CommonUtil.respResultSCCG());
     }
 
 }
