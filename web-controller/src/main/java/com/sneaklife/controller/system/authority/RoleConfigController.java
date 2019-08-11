@@ -40,4 +40,9 @@ public class RoleConfigController {
     public ResponseEntity<String> roleConfig(HttpServletRequest request) throws Exception{
         return roleConfigService.roleConfig(CommonUtil.getData(request));
     }
+
+    @RequestMapping(value = "/selectsList", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public ResponseEntity<String> selectsList(HttpServletRequest request) throws Exception{
+        return roleConfigService.selectsList(CommonUtil.getData(request));
+    }
 }
