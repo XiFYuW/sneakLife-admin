@@ -8,21 +8,16 @@ import com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.interfaces.ParameterTransformation;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.resp.RespCode;
+import com.sneaklife.service.CommonJpaService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.RoleConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Path;
 import java.util.*;
 
 /**
@@ -30,7 +25,7 @@ import java.util.*;
  * @date 2019/8/4 10:01
  */
 @Service
-public class RoleConfigServiceImp implements RoleConfigService,
+public class RoleConfigServiceImp extends CommonJpaService implements RoleConfigService,
         ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>>{
 
     private static Logger log = LoggerFactory.getLogger(RoleConfigServiceImp.class);
@@ -55,14 +50,7 @@ public class RoleConfigServiceImp implements RoleConfigService,
 
     @Override
     public ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        if(!CommonUtil.isNull(pageInfo)){
-            return CommonUtil.respResult(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg());
-        }
-        Pageable pageable = PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), Sort.Direction.ASC, "id");
-        Page<RoleConfig> page = roleConfigJpa.findAll((Specification<RoleConfig>) (root, criteriaQuery, criteriaBuilder) -> {
-            Path<String> isDel = root.get("isDel");
-            return criteriaBuilder.equal(isDel.as(Integer.class),0);
-        }, pageable);
+        Page<RoleConfig> page = getPageData(map, pageInfo, roleConfigJpa);
         return CommonUtil.respResultDataSUCCEED(page);
     }
 
