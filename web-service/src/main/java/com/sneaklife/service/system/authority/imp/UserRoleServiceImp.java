@@ -7,19 +7,15 @@ import com.sneaklife.dao.system.authority.userRole.UserRoleJpa;
 import com.sneaklife.dao.system.authority.userRole.UserRoleMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.resp.RespCode;
+import com.sneaklife.service.CommonJpaService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +24,8 @@ import java.util.Map;
  * @date 2019/8/11 9:38
  */
 @Service
-public class UserRoleServiceImp implements UserRoleService {
+@SuppressWarnings("unchecked")
+public class UserRoleServiceImp extends CommonJpaService implements UserRoleService {
 
     @Autowired
     private UserRoleJpa userRoleJpa;
@@ -48,14 +45,7 @@ public class UserRoleServiceImp implements UserRoleService {
 
     @Override
     public ResponseEntity<String> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        if(!CommonUtil.isNull(pageInfo)){
-            return CommonUtil.respResult(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg());
-        }
-        Pageable pageable = PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), Sort.Direction.ASC, "id");
-        Page<UserRole> page = userRoleJpa.findAll((Specification<UserRole>) (root, criteriaQuery, criteriaBuilder) -> {
-            Path<String> isDel = root.get("isDel");
-            return criteriaBuilder.equal(isDel.as(Integer.class),0);
-        }, pageable);
+        Page<UserRole> page = getPageData(map, pageInfo, userRoleJpa);
         List<UserRole> content = page.getContent();
         content.forEach(userRole -> {
             UserRole temp = userRoleMapper.getAllNameById(userRole);
@@ -73,7 +63,13 @@ public class UserRoleServiceImp implements UserRoleService {
     }
 
     @Override
+    @Transactional
     public void updateUserRole(Map<String, Object> map) throws Exception {
+        List<Map<String,Object>> upList = (List<Map<String, Object>>) map.get("up");
+        int t = userRoleMapper.updateBatch(upList);
+        if(t != 1){
+            throw new SneakLifeException(CommonUtil.respResultXGSB());
+        }
         throw new SneakLifeException(CommonUtil.respResultXGCG());
     }
 
