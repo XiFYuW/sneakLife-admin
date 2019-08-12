@@ -363,7 +363,7 @@ public class OperaServiceImp implements OperaService {
                 if(menuId.contains(child.getId())){
                     data.forEach(map -> {
                         if(child.getPid().equals(map.get("treeViewId"))){
-                            map.put("check",true);
+                            map.put("check", true);
                             map.put("status", 0);
                         }
                     });
