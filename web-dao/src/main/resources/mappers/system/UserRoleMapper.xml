@@ -24,4 +24,35 @@
       and ur.user_id = #{userId}
     </where>
   </select>
+
+  <update id="updateBatch" parameterType="list">
+    update user_role
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="menu_id =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          <if test="item.menuId != null and item.menuId != ''">
+            when id=#{item.id} then #{item.menuId}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="role_id =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          <if test="item.roleId != null and item.role != ''">
+            when id=#{item.id} then #{item.roleId}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_date =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          when id=#{item.id} then NOW()
+        </foreach>
+      </trim>
+    </trim>
+    <where>
+      id in
+      <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+        #{item.id}
+      </foreach>
+    </where>
+  </update>
 </mapper>

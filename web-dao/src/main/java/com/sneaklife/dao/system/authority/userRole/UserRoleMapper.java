@@ -4,6 +4,7 @@ package com.sneaklife.dao.system.authority.userRole;
 import com.sneaklife.dao.entity.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +21,7 @@ public interface UserRoleMapper {
     Integer deleteUserRole(Map<String, Object> map);
 
     UserRole getAllNameById(UserRole userRole);
+
+    Integer updateBatch(List<Map<String,Object>> list);
 
 }

@@ -56,7 +56,7 @@ public interface OperaService {
     /**
      * Build the role function tree data
      * @param roleFunction Build role function information
-     * @map w
+     * @map Request parameters
      * @return tree data，Id as the current node and pid as the parent node
      */
     List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map);

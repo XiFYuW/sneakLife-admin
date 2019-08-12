@@ -119,6 +119,7 @@ public class OperaServiceImp implements OperaService {
             SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, menuId, p);
             len = removeNode(parentMenu, systemMenuList, menuId, len);
         }
+        System.err.println(data);
         return data;
     }
 
@@ -382,6 +383,15 @@ public class OperaServiceImp implements OperaService {
             data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 1, false));
         }
         p = size;
+        Map<String,Object> map = new HashMap<>();
+        map.put("menuId", parent.getId());
+        int numColumns = columnsMapper.checkColumnsByShow(map);
+        int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
+        int numOperaIn = operaInMapper.checkOperaInByShow(map);
+        int s = size;
+        buildOperaColumnsTree(map, s, numColumns);
+        buildOperaSbTree(map, s, numOperaSb);
+        buildOperaInTree(map, s, numOperaIn);
         for (SystemMenu menu : list) {
             if (parent.getId().equals(menu.getPid())) {
                 SystemMenu child = findChildMenu(menu, list, menuId, p);
