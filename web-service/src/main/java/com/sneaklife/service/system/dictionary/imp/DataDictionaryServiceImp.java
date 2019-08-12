@@ -6,8 +6,8 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.exception.SneakLifeException;
-import com.sneaklife.page.PageInfo;
-import com.sneaklife.resp.RespCode;
+import com.sneaklife.page.PageInfo;;
+import com.sneaklife.service.CommonJpaService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.dictionary.DataDictionaryService;
 
@@ -16,21 +16,16 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.*;
 import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
  */
 @Service
-public class DataDictionaryServiceImp implements DataDictionaryService {
+public class DataDictionaryServiceImp extends CommonJpaService implements DataDictionaryService {
 
     private static Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
 
@@ -54,14 +49,7 @@ public class DataDictionaryServiceImp implements DataDictionaryService {
 
     @Override
     public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        if(!CommonUtil.isNull(pageInfo)){
-            return CommonUtil.respResult(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg());
-        }
-        Pageable pageable = PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), Sort.Direction.ASC, "id");
-        Page<DataDictionary> page = dataDictionaryJpa.findAll((Specification<DataDictionary>) (root, criteriaQuery, criteriaBuilder) -> {
-            Path<String> isDel = root.get("isDel");
-            return criteriaBuilder.equal(isDel.as(Integer.class),0);
-        }, pageable);
+        Page<DataDictionary> page = getPageData(map, pageInfo, dataDictionaryJpa);
         return CommonUtil.respResultDataSUCCEED(page);
     }
 
