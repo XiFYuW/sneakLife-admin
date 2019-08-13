@@ -119,7 +119,6 @@ public class OperaServiceImp implements OperaService {
             SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, menuId, p);
             len = removeNode(parentMenu, systemMenuList, menuId, len);
         }
-        System.err.println(data);
         return data;
     }
 
@@ -376,6 +375,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     private SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list, List<String> menuId, int p){
+        SystemMenu exitsChild = null;
         List<SystemMenu> childMenu = new ArrayList<>();
         if(menuId.contains(parent.getId())){
             data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 0, true));
@@ -383,21 +383,24 @@ public class OperaServiceImp implements OperaService {
             data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 1, false));
         }
         p = size;
-        Map<String,Object> map = new HashMap<>();
-        map.put("menuId", parent.getId());
-        int numColumns = columnsMapper.checkColumnsByShow(map);
-        int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
-        int numOperaIn = operaInMapper.checkOperaInByShow(map);
-        int s = size;
-        buildOperaColumnsTree(map, s, numColumns);
-        buildOperaSbTree(map, s, numOperaSb);
-        buildOperaInTree(map, s, numOperaIn);
         for (SystemMenu menu : list) {
             if (parent.getId().equals(menu.getPid())) {
-                SystemMenu child = findChildMenu(menu, list, menuId, p);
+//                exitsChild = menu;
+                SystemMenu child = findChildMenu(exitsChild, list, menuId, p);
                 childMenu.add(child);
                 parent.setSon(childMenu);
             }
+        }
+        if(null == exitsChild) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("menuId", parent.getId());
+            int numColumns = columnsMapper.checkColumnsByShow(map);
+            int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
+            int numOperaIn = operaInMapper.checkOperaInByShow(map);
+            int s = size;
+            buildOperaColumnsTree(map, s, numColumns);
+            buildOperaSbTree(map, s, numOperaSb);
+            buildOperaInTree(map, s, numOperaIn);
         }
         return parent;
     }
