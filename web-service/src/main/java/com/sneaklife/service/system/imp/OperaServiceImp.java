@@ -205,7 +205,7 @@ public class OperaServiceImp implements OperaService {
         boolean odd = list.size() % 2 != 0;
         for (int i = 1; i <= list.size(); i++) {
             OperaIn operaIn = list.get(i - 1);
-            if(i%2 != 0){
+            if(i % 2 != 0){
                 temp.add(operaIn);
             }else {
                 temp.add(operaIn);
@@ -303,12 +303,10 @@ public class OperaServiceImp implements OperaService {
                 }
                 // Perform related modification actions
                 Set<String> set = data.keySet();
-                for(Iterator<String> key = set.iterator(); key.hasNext();){
-                    String keys = key.next();
-                    List<Map<String,Object>> items = data.get(keys);
-                    for(Iterator<Map<String,Object>> item = items.iterator(); item.hasNext();){
-                        Map<String,Object> mi = item.next();
-                        if(String.valueOf(map.get("pid")).equals(String.valueOf(mi.get("id")))){
+                for (String keys : set) {
+                    List<Map<String, Object>> items = data.get(keys);
+                    for (Map<String, Object> mi : items) {
+                        if (String.valueOf(map.get("pid")).equals(String.valueOf(mi.get("id")))) {
                             del = switchOpera(keys, map, data, true);
                         }
                     }
@@ -350,6 +348,14 @@ public class OperaServiceImp implements OperaService {
         return cm + oim + obm == 0;
     }
 
+    /**
+     * Remove duplicate nodes from all nodes
+     * @param parentMenu Delete the item
+     * @param list All the nodes
+     * @param menuId Roles already have function menus
+     * @param size The size of all nodes, can change the list length, do not need to pass 0
+     * @return Residual size of all nodes
+     */
     private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, List<String> menuId, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
         for (SystemMenu child : childMenu) {
@@ -374,8 +380,15 @@ public class OperaServiceImp implements OperaService {
         return size;
     }
 
+    /**
+     * Find child node
+     * @param parent The parent node
+     * @param list All the nodes
+     * @param menuId Roles already have function menus
+     * @param p Parent id
+     * @return Parent node tape node
+     */
     private SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list, List<String> menuId, int p){
-        SystemMenu exitsChild = null;
         List<SystemMenu> childMenu = new ArrayList<>();
         if(menuId.contains(parent.getId())){
             data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 0, true));
@@ -385,23 +398,17 @@ public class OperaServiceImp implements OperaService {
         p = size;
         for (SystemMenu menu : list) {
             if (parent.getId().equals(menu.getPid())) {
-//                exitsChild = menu;
-                SystemMenu child = findChildMenu(exitsChild, list, menuId, p);
+                SystemMenu child = findChildMenu(menu, list, menuId, p);
                 childMenu.add(child);
                 parent.setSon(childMenu);
             }
         }
-        if(null == exitsChild) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("menuId", parent.getId());
-            int numColumns = columnsMapper.checkColumnsByShow(map);
-            int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
-            int numOperaIn = operaInMapper.checkOperaInByShow(map);
-            int s = size;
-            buildOperaColumnsTree(map, s, numColumns);
-            buildOperaSbTree(map, s, numOperaSb);
-            buildOperaInTree(map, s, numOperaIn);
-        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("menuId", parent.getId());
+        int s = size;
+        buildOperaColumnsTree(map, s, 0);
+        buildOperaSbTree(map, s, 0);
+        buildOperaInTree(map, s, 0);
         return parent;
     }
 }

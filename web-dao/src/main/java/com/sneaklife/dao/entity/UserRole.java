@@ -38,6 +38,7 @@ public class UserRole extends CommonEntity {
     @Transient
     private String value;
 
+    @Transient
     private String text;
 
     public UserRole() { }

@@ -28,17 +28,17 @@
   <update id="updateBatch" parameterType="list">
     update user_role
     <trim prefix="set" suffixOverrides=",">
-      <trim prefix="menu_id =case" suffix="end,">
+      <trim prefix="user_id =case" suffix="end,">
         <foreach collection="list" item="item" index="index">
-          <if test="item.menuId != null and item.menuId != ''">
-            when id=#{item.id} then #{item.menuId}
+          <if test="item.userId != null and item.userId != ''">
+            when id=#{item.id} then #{item.userId}
           </if>
         </foreach>
       </trim>
       <trim prefix="role_id =case" suffix="end,">
         <foreach collection="list" item="item" index="index">
-          <if test="item.roleId != null and item.role != ''">
-            when id=#{item.id} then #{item.roleId}
+          <if test="item.value != null and item.value != ''">
+            when id=#{item.id} then #{item.value}
           </if>
         </foreach>
       </trim>
