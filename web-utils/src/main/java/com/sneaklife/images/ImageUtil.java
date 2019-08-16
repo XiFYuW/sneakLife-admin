@@ -124,7 +124,6 @@ public class ImageUtil {
 	 * @return ByteArrayInputStream 流
 	 */
 	public static ByteArrayInputStream convertImageToStream(BufferedImage image) {
-
 		ByteArrayInputStream inputStream = null;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		JPEGImageEncoder jpeg = JPEGCodec.createJPEGEncoder(bos);
@@ -132,9 +131,7 @@ public class ImageUtil {
 			jpeg.encode(image);
 			byte[] bts = bos.toByteArray();
 			inputStream = new ByteArrayInputStream(bts);
-		} catch (ImageFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (ImageFormatException | IOException e) {
 			e.printStackTrace();
 		}
 		return inputStream;
