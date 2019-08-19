@@ -43,7 +43,7 @@ public class MonitoringServiceImp implements MonitoringService {
         }
         item.put("id","cpuListen");
         item.put("text","CPU MONITORING");
-        item.put("subtext","cpuListen");
+        item.put("subtext","%");
         item.put("legendData", legendData);
         item.put("xAxisData", xAxisData);
         item.put("seriesDataList", seriesDataList);
