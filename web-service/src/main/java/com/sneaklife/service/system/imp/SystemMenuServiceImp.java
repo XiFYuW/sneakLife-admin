@@ -3,6 +3,7 @@ package com.sneaklife.service.system.imp;
 import com.sneaklife.common.CommonUtil;
 import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.dao.system.SystemMenuMapper;
+import com.sneaklife.interfaces.Nodes;
 import com.sneaklife.service.system.SystemMenuService;
 import com.sneaklife.dao.system.SystemMenuJpa;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author https://github.com/XiFYuW
  */
 @Service
-public class SystemMenuServiceImp implements SystemMenuService {
+public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu, SystemMenu, List<SystemMenu>> {
 
     @Autowired
     private SystemMenuJpa systemMenuJpa;
@@ -43,13 +44,8 @@ public class SystemMenuServiceImp implements SystemMenuService {
         return CommonUtil.respResultDataSUCCEED(data);
     }
 
-    /**
-     * Find child node
-     * @param parent The parent node
-     * @param list All the nodes
-     * @return Parent node tape node
-     */
-    private SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list){
+    @Override
+    public SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list){
         List<SystemMenu> childMenu = new ArrayList<>();
         for (SystemMenu menu : list) {
             if (parent.getId().equals(menu.getPid())) {
@@ -61,14 +57,8 @@ public class SystemMenuServiceImp implements SystemMenuService {
         return parent;
     }
 
-    /**
-     * Remove duplicate nodes from all nodes
-     * @param parentMenu Delete the item
-     * @param list All the nodes
-     * @param size The size of all nodes, can change the list length, do not need to pass 0
-     * @return Residual size of all nodes
-     */
-    private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
+    @Override
+    public int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
         for (SystemMenu child : childMenu) {
             Iterator<SystemMenu> it = list.iterator();
