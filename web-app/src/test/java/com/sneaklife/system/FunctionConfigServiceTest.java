@@ -21,13 +21,11 @@ public class FunctionConfigServiceTest {
 
     @Test
     public void functionConfig(){
-        functionConfigService.functionConfig(null);
+        Map<String,Object> map = new HashMap<>();
+        map.put("menuId","b8209ee58b3411e99d7380fa5b3a283a");
+        functionConfigService.functionConfig(map);
     }
 
-    /**
-     * map.put("menuId","b8209ee58b3411e99d7380fa5b3a283a");
-     * map.put("treeViewId","99a6c4b38b4711e99d7380fa5b3a283a");
-     */
     @Test
     public void getFunctionConfig(){
         Map<String,Object> map = new HashMap<>();

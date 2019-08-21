@@ -5,7 +5,9 @@ import com.sneaklife.dao.entity.OperaSb;
 import com.sneaklife.dao.entity.SystemMenu;
 import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.SystemMenuJpa;
+import com.sneaklife.dao.system.SystemMenuMapper;
 import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.interfaces.Interceptor.ChildNode;
 import com.sneaklife.interfaces.Nodes;
 import com.sneaklife.interfaces.ParameterTransformation;
 import com.sneaklife.resp.RespCode;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 /**
  * @author https://github.com/XiFYuW
@@ -29,7 +32,13 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     private SystemMenuJpa systemMenuJpa;
 
     @Autowired
+    private SystemMenuMapper systemMenuMapper;
+
+    @Autowired
     private OperaService operaService;
+
+    @Resource(name = "functionConfigServiceImp")
+    private Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> nodes;
 
     @Override
     public void deleteFunctionConfig(Map<String, Object> map) throws Exception {
@@ -65,12 +74,14 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     @Override
     public ResponseEntity<String> functionConfig(Map<String, Object> map){
         List<Map<String,Object>> data = new ArrayList<>();
-        List<SystemMenu> list = systemMenuJpa.findAll();
+        List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
+        String itemUrl = systemMenuMapper.getItemUrlById(String.valueOf(map.get("menuId")));
         int size = list.size();
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
-            Map<String,Object> parentMenu = findChildMenu(systemMenu, list);
-            size = removeNode(parentMenu, list, size);
+            systemMenu.setItemUrl(itemUrl);
+            Map<String,Object> parentMenu = nodes.findChildMenu(systemMenu, list);
+            size = nodes.removeNode(parentMenu, list, size);
             data.add(parentMenu);
         }
         List<Map<String, Object>> left = fixedParamTrans(data, new HashMap<>());
@@ -91,11 +102,13 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
         return CommonUtil.respResultDataSUCCEED(data);
     }
 
+    @ChildNode
     @Override
     public Map<String,Object> findChildMenu(SystemMenu parent, List<SystemMenu> list){
         Map<String,Object> parentMap = paramTrans(new HashMap<>(), parent);
         List<Map<String,Object>> childList = new ArrayList<>();
         for (SystemMenu menu : list) {
+            menu.setItemUrl(parent.getItemUrl());
             if (parent.getId().equals(menu.getPid())) {
                 Map<String,Object> child = findChildMenu(menu, list);
                 childList.add(child);

@@ -17,4 +17,6 @@ public interface SystemMenuMapper {
     List<SystemMenu> getByBatchId(@Param("array") String[] id);
 
     List<SystemMenu> getByNotBatchId(@Param("array") String[] id);
+
+    String getItemUrlById(@Param("id") String id);
 }

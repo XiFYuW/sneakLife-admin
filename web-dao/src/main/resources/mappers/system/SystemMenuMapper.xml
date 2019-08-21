@@ -42,4 +42,8 @@
       </foreach>
     </where>
   </select>
+
+  <select id="getItemUrlById" parameterType="string" resultType="string">
+    SELECT item_url as itemUrl from system_menu where id = #{id} and is_del = 0
+  </select>
 </mapper>
