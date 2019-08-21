@@ -169,6 +169,11 @@ public class CommonUtil {
         return null;
     }
 
+    /**
+     * is null
+     * @param ob Object
+     * @return true: null | false: not null
+     */
     public static boolean isNull(Object ob) {
         return Optional.ofNullable(ob).isPresent();
     }
