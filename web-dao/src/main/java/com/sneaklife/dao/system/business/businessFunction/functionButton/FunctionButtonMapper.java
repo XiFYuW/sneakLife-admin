@@ -1,4 +1,4 @@
-package com.sneaklife.dao.system.business.businessFunction;
+package com.sneaklife.dao.system.business.businessFunction.functionButton;
 
 import org.apache.ibatis.annotations.Mapper;
 

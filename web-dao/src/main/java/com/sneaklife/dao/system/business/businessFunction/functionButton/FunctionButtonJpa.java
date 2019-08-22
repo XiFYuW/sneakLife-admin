@@ -1,4 +1,4 @@
-package com.sneaklife.dao.system.business.businessFunction;
+package com.sneaklife.dao.system.business.businessFunction.functionButton;
 
 import com.sneaklife.dao.entity.OperaSb;
 import org.springframework.data.jpa.repository.JpaRepository;

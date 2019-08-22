@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sneaklife.dao.system.business.businessFunction.FunctionButtonMapper">
+<mapper namespace="com.sneaklife.dao.system.business.businessFunction.functionButton.FunctionButtonMapper">
   <!-- 数据插入 -->
   <insert id="insertFunctionButton" parameterType="map">
 

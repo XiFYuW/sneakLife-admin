@@ -1,15 +1,15 @@
 package com.sneaklife.service.system.business.businessFunction.imp;
 
 import com.sneaklife.common.CommonUtil;
-import com.sneaklife.dao.entity.OperaSb;
+import com.sneaklife.dao.entity.Columns;
 import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.business.businessFunction.functionButton.FunctionButtonJpa;
-import com.sneaklife.dao.system.business.businessFunction.functionButton.FunctionButtonMapper;
+import com.sneaklife.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsJpa;
+import com.sneaklife.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsMapper;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.service.CommonJpaService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
-import com.sneaklife.service.system.business.businessFunction.FunctionButtonService;
+import com.sneaklife.service.system.business.businessFunction.FunctionColumnsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +19,10 @@ import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/8/21 10:25
+ * @date 2019/8/22 11:38
  */
 @Service
-public class FunctionButtonServiceImp extends CommonJpaService implements FunctionButtonService {
+public class FunctionColumnsServiceImp extends CommonJpaService implements FunctionColumnsService {
 
     @Autowired
     private FunctionConfigService functionConfigService;
@@ -31,41 +31,41 @@ public class FunctionButtonServiceImp extends CommonJpaService implements Functi
     private OperaService operaService;
 
     @Autowired
-    private FunctionButtonJpa functionButtonJpa;
+    private FunctionColumnsJpa functionColumnsJpa;
 
     @Autowired
-    private FunctionButtonMapper functionButtonMapper;
+    private FunctionColumnsMapper functionColumnsMapper;
 
     @Override
-    public ResponseEntity<String> functionButton(Map<String, Object> map) {
+    public ResponseEntity<String> functionColumns(Map<String, Object> map) {
         return functionConfigService.functionConfig(map);
     }
 
     @Override
-    public ResponseEntity<String> functionButtonTableView(Map<String, Object> map) {
+    public ResponseEntity<String> functionColumnsTableView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
         return CommonUtil.respResultDataSUCCEED(tableOpera);
     }
 
     @Override
-    public ResponseEntity<String> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        Page<OperaSb> page = getPageDataById(map, pageInfo, functionButtonJpa);
+    public ResponseEntity<String> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+        Page<Columns> page = getPageDataById(map, pageInfo, functionColumnsJpa);
         return CommonUtil.respResultDataSUCCEED(page);
     }
 
     @Override
-    public void insertFunctionButton(Map<String, Object> map) throws Exception {
+    public void insertFunctionColumns(Map<String, Object> map) throws Exception {
 
     }
 
     @Override
-    public void updateFunctionButton(Map<String, Object> map) throws Exception {
+    public void updateFunctionColumns(Map<String, Object> map) throws Exception {
 
     }
 
     @Override
-    public void deleteFunctionButton(Map<String, Object> map) throws Exception {
+    public void deleteFunctionColumns(Map<String, Object> map) throws Exception {
 
     }
 }

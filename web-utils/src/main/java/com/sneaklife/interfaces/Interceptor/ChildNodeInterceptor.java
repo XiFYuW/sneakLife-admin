@@ -36,9 +36,7 @@ public class ChildNodeInterceptor {
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>) data.get("nodes");
         if(CommonUtil.isNull(childMenu)){
             data.put("url", childNode.itemUrl());
-            childMenu.forEach(map -> {
-                putUrl(map, childNode);
-            });
+            childMenu.forEach(map -> putUrl(map, childNode));
         }
     }
 }
