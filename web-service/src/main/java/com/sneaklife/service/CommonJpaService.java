@@ -37,10 +37,11 @@ public abstract class CommonJpaService {
         Pageable pageable = getPageable(pageInfo);
         Page<T> page = jpaSpecificationExecutor.findAll((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
             Path<String> isDel = root.get("isDel");
-            Path<String> id = root.get("id");
+            Path<String> id = root.get("menuId");
             List<Predicate> list = new ArrayList<>();
             list.add(criteriaBuilder.equal(isDel.as(Integer.class),0));
-            list.add(criteriaBuilder.equal(id.as(String.class),String.valueOf(map.get("menuId"))));
+            String menuId = String.valueOf(map.get("menuId"));
+            list.add(criteriaBuilder.equal(id.as(String.class), menuId));
             Predicate[] predicates = new Predicate[list.size()];
             return criteriaBuilder.and(list.toArray(predicates));
         }, pageable);

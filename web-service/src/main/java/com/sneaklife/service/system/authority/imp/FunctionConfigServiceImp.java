@@ -75,7 +75,8 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     public ResponseEntity<String> functionConfig(Map<String, Object> map){
         List<Map<String,Object>> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
-        String itemUrl = systemMenuMapper.getItemUrlById(String.valueOf(map.get("menuId")));
+        String menuId = String.valueOf(map.get("menuId"));
+        String itemUrl = systemMenuMapper.getItemUrlById(menuId);
         int size = list.size();
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
