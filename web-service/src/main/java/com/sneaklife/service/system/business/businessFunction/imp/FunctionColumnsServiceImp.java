@@ -6,7 +6,7 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsJpa;
 import com.sneaklife.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsMapper;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.service.CommonJpaService;
+import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
 import com.sneaklife.service.system.business.businessFunction.FunctionColumnsService;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @date 2019/8/22 11:38
  */
 @Service
-public class FunctionColumnsServiceImp extends CommonJpaService implements FunctionColumnsService {
+public class FunctionColumnsServiceImp extends CommonService implements FunctionColumnsService {
 
     @Autowired
     private FunctionConfigService functionConfigService;
@@ -56,16 +56,16 @@ public class FunctionColumnsServiceImp extends CommonJpaService implements Funct
 
     @Override
     public void insertFunctionColumns(Map<String, Object> map) throws Exception {
-
+        insert(functionColumnsMapper, map);
     }
 
     @Override
     public void updateFunctionColumns(Map<String, Object> map) throws Exception {
-
+        update(functionColumnsMapper, map);
     }
 
     @Override
     public void deleteFunctionColumns(Map<String, Object> map) throws Exception {
-
+        delete(functionColumnsMapper, map);
     }
 }

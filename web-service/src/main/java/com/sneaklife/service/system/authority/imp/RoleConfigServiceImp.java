@@ -8,7 +8,7 @@ import com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.interfaces.ParameterTransformation;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.service.CommonJpaService;
+import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.RoleConfigService;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import java.util.*;
  * @date 2019/8/4 10:01
  */
 @Service
-public class RoleConfigServiceImp extends CommonJpaService implements RoleConfigService,
+public class RoleConfigServiceImp extends CommonService implements RoleConfigService,
         ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>>{
 
     private static Logger log = LoggerFactory.getLogger(RoleConfigServiceImp.class);

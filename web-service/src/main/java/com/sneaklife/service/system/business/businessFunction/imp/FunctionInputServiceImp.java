@@ -6,7 +6,7 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.business.businessFunction.functionInput.FunctionInputJpa;
 import com.sneaklife.dao.system.business.businessFunction.functionInput.FunctionInputMapper;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.service.CommonJpaService;
+import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
 import com.sneaklife.service.system.business.businessFunction.FunctionInputService;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @date 2019/8/22 11:20
  */
 @Service
-public class FunctionInputServiceImp extends CommonJpaService implements FunctionInputService {
+public class FunctionInputServiceImp extends CommonService implements FunctionInputService {
 
     @Autowired
     private FunctionConfigService functionConfigService;
@@ -56,16 +56,16 @@ public class FunctionInputServiceImp extends CommonJpaService implements Functio
 
     @Override
     public void insertFunctionInput(Map<String, Object> map) throws Exception {
-
+        insert(functionInputMapper, map);
     }
 
     @Override
     public void updateFunctionInput(Map<String, Object> map) throws Exception {
-
+        update(functionInputMapper, map);
     }
 
     @Override
     public void deleteFunctionInput(Map<String, Object> map) throws Exception {
-
+        delete(functionInputMapper, map);
     }
 }

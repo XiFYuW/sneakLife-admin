@@ -1,16 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.dao.system.business.businessFunction.functionInput.FunctionInputMapper">
-  <!-- 数据插入 -->
-  <insert id="insertFunctionInput" parameterType="map">
 
+  <insert id="insert" parameterType="map">
+    insert columns
+    (
+      id,
+      text_name,
+      type,
+      html_type,
+      field,
+      create_date,
+      update_date,
+      is_del,
+      menu_id,
+      is_show
+    )
+    value
+    (
+      REPLACE(UUID(), '-', ''),
+      #{textName,jdbcType=VARCHAR},
+      #{type,jdbcType=VARCHAR},
+      #{htmlType,jdbcType=VARCHAR},
+      #{field,jdbcType=VARCHAR},
+      NOW(),
+      NOW(),
+      0,
+      #{menuIdTemp,jdbcType=CHAR},
+      0
+    )
   </insert>
 
-  <update id="updateFunctionInput" parameterType="map">
-
+  <update id="update" parameterType="map">
+    update opera_in
+    <set>
+      <if test="textName != null">
+        text_name = #{textName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlType != null">
+        html_type = #{htmlType,jdbcType=INTEGER},
+      </if>
+      <if test="field != null">
+        field = #{field,jdbcType=INTEGER},
+      </if>
+    </set>
+    <where>
+      id = #{id}
+    </where>
   </update>
 
-  <update id="deleteFunctionInput" parameterType="map">
-
+  <update id="delete" parameterType="map">
+    update opera_in set is_del = 1 where id = #{id}
   </update>
 </mapper>

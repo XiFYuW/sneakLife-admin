@@ -6,8 +6,8 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.exception.SneakLifeException;
-import com.sneaklife.page.PageInfo;;
-import com.sneaklife.service.CommonJpaService;
+import com.sneaklife.page.PageInfo;
+import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.dictionary.DataDictionaryService;
 
@@ -25,7 +25,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  */
 @Service
-public class DataDictionaryServiceImp extends CommonJpaService implements DataDictionaryService {
+public class DataDictionaryServiceImp extends CommonService implements DataDictionaryService {
 
     private static Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
 

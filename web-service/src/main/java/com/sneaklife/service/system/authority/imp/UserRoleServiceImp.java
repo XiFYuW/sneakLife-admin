@@ -7,7 +7,7 @@ import com.sneaklife.dao.system.authority.userRole.UserRoleJpa;
 import com.sneaklife.dao.system.authority.userRole.UserRoleMapper;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.service.CommonJpaService;
+import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Service
 @SuppressWarnings("unchecked")
-public class UserRoleServiceImp extends CommonJpaService implements UserRoleService {
+public class UserRoleServiceImp extends CommonService implements UserRoleService {
 
     @Autowired
     private UserRoleJpa userRoleJpa;

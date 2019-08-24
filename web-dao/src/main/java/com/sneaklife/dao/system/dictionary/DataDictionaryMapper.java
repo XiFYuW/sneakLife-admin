@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Map;
 
 @Mapper
-public interface DataDictionaryMapper{
+public interface DataDictionaryMapper {
 
     Integer insertDataDictionary(Map<String, Object> map);
 

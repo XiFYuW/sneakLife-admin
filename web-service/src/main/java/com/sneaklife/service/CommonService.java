@@ -1,6 +1,7 @@
 package com.sneaklife.service;
 
 import com.sneaklife.common.CommonUtil;
+import com.sneaklife.dao.CommonDao;
 import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.resp.RespCode;
@@ -22,7 +23,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  * @date 2019/8/12 10:06
  */
-public abstract class CommonJpaService {
+public abstract class CommonService {
 
     protected <T> Page<T> getPageData(Map<String, Object> map, PageInfo pageInfo, JpaSpecificationExecutor<T> jpaSpecificationExecutor) throws SneakLifeException {
         Pageable pageable = getPageable(pageInfo);
@@ -53,5 +54,29 @@ public abstract class CommonJpaService {
             throw new SneakLifeException(CommonUtil.respResult(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
         }
         return PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), Sort.Direction.ASC, "id");
+    }
+
+    protected void insert(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
+        int t = commonDao.insert(map);
+        if(t != 1){
+            throw new SneakLifeException(CommonUtil.respResultTJSB());
+        }
+        throw new SneakLifeException(CommonUtil.respResultTJCG());
+    }
+
+    protected void update(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
+        int t = commonDao.update(map);
+        if(t != 1){
+            throw new SneakLifeException(CommonUtil.respResultXGSB());
+        }
+        throw new SneakLifeException(CommonUtil.respResultXGCG());
+    }
+
+    protected void delete(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
+        int t = commonDao.delete(map);
+        if(t != 1){
+            throw new SneakLifeException(CommonUtil.respResultSCSB());
+        }
+        throw new SneakLifeException(CommonUtil.respResultSCCG());
     }
 }

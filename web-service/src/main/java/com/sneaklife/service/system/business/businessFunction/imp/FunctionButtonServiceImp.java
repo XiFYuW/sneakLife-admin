@@ -6,7 +6,7 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.business.businessFunction.functionButton.FunctionButtonJpa;
 import com.sneaklife.dao.system.business.businessFunction.functionButton.FunctionButtonMapper;
 import com.sneaklife.page.PageInfo;
-import com.sneaklife.service.CommonJpaService;
+import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.FunctionConfigService;
 import com.sneaklife.service.system.business.businessFunction.FunctionButtonService;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @date 2019/8/21 10:25
  */
 @Service
-public class FunctionButtonServiceImp extends CommonJpaService implements FunctionButtonService {
+public class FunctionButtonServiceImp extends CommonService implements FunctionButtonService {
 
     @Autowired
     private FunctionConfigService functionConfigService;
@@ -56,16 +56,16 @@ public class FunctionButtonServiceImp extends CommonJpaService implements Functi
 
     @Override
     public void insertFunctionButton(Map<String, Object> map) throws Exception {
-
+        insert(functionButtonMapper, map);
     }
 
     @Override
     public void updateFunctionButton(Map<String, Object> map) throws Exception {
-
+        update(functionButtonMapper, map);
     }
 
     @Override
     public void deleteFunctionButton(Map<String, Object> map) throws Exception {
-
+        delete(functionButtonMapper, map);
     }
 }

@@ -1,15 +1,9 @@
 package com.sneaklife.dao.system.business.businessFunction.fcuntionColumns;
 
+import com.sneaklife.dao.CommonDao;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Map;
-
 @Mapper
-public interface FunctionColumnsMapper {
+public interface FunctionColumnsMapper extends CommonDao {
 
-    Integer insertFunctionColumns(Map<String, Object> map);
-
-    Integer updateFunctionColumns(Map<String, Object> map);
-
-    Integer deleteFunctionColumns(Map<String, Object> map);
 }
