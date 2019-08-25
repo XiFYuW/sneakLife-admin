@@ -15,7 +15,7 @@ public interface VerifyService {
 	 * @param map 参数
 	 * @return ResponseEntity<String>
 	 */
-	public ResponseEntity<String> verifyMail(Map<String, Object> map);
+	ResponseEntity<String> verifyMail(Map<String, Object> map);
 	/**
 	 * 发送邮件
 	 * @author yuanwei
@@ -24,7 +24,7 @@ public interface VerifyService {
 	 * @param map 参数
 	 * @return ResponseEntity<String>
 	 */
-	public ResponseEntity<String> sendMail(Map<String, Object> map);
+	ResponseEntity<String> sendMail(Map<String, Object> map);
 
 	/**
 	 * 获取图片验证码二进制流
@@ -33,7 +33,7 @@ public interface VerifyService {
 	 * @version 1.0
 	 * @return BufferedImage
 	 */
-	public BufferedImage getVerifyImagesStream();
+	BufferedImage getVerifyImagesStream();
 	/**
 	 * 获取图片验证码Base64
 	 * @author yuanwei
@@ -41,7 +41,7 @@ public interface VerifyService {
 	 * @version 1.0
 	 * @return ResponseEntity<String>
 	 */
-	public ResponseEntity<String> getVerifyImagesBase64();
+	ResponseEntity<String> getVerifyImagesBase64();
 	/**
 	 * 获取图片验证码url
 	 * @author yuanwei
@@ -49,7 +49,7 @@ public interface VerifyService {
 	 * @version 1.0
 	 * @return ResponseEntity<String>
 	 */
-	public ResponseEntity<String> getVerifyImagesUrl();
+	ResponseEntity<String> getVerifyImagesUrl();
 	/**
 	 * 获取手机验证码
 	 * @author yuanwei
@@ -58,5 +58,5 @@ public interface VerifyService {
 	 * @param map 参数
 	 * @return ResponseEntity<String>
 	 */
-	public ResponseEntity<String> getSMS(Map<String, Object> map);
+	ResponseEntity<String> getSMS(Map<String, Object> map);
 }
