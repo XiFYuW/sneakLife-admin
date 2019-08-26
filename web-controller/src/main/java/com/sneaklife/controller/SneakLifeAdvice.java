@@ -20,4 +20,10 @@ public class SneakLifeAdvice {
         exception.printStackTrace();
         return CommonUtil.respResult(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
     }
+
+    @ExceptionHandler(value = Throwable.class)
+    public ResponseEntity<String> errorHandlerSneakLifeException(Throwable throwable) {
+        throwable.printStackTrace();
+        return CommonUtil.respResult(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
+    }
 }

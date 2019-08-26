@@ -6,6 +6,7 @@ import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.log.SneakLifeLog;
 import com.sneaklife.page.PageInfo;
 import com.sneaklife.service.CommonService;
 import com.sneaklife.service.system.OperaService;
@@ -48,6 +49,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     }
 
     @Override
+    @SneakLifeLog
     public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         Page<DataDictionary> page = getPageData(map, pageInfo, dataDictionaryJpa);
         return CommonUtil.respResultDataSUCCEED(page);

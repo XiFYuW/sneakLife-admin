@@ -25,7 +25,7 @@ public class RoleFunctionServiceTest {
     private RoleFunctionService roleFunctionService;
 
     @Test
-    public void getRoleFunction(){
+    public void getRoleFunction() throws Exception{
         Map<String,Object> map = new HashMap<>();
         map.put("menuId","5a76e6b5b66511e985a680fa5b3a283a");
         roleFunctionService.getRoleFunction(map);

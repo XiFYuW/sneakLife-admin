@@ -11,7 +11,8 @@ import java.util.Date;
 @Table(name="role_function")
 public class RoleFunction extends CommonEntity {
     @Id
-    @GeneratedValue(generator="idGenerator")
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="idGenerator")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "menu_id")

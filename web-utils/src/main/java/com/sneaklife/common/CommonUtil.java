@@ -3,7 +3,6 @@ package com.sneaklife.common;
 import com.alibaba.fastjson.JSON;
 import com.sneaklife.constants.Constants;
 import com.sneaklife.date.DateUtil;
-import com.sneaklife.exception.SneakLifeException;
 import com.sneaklife.keyless.Base64Util;
 import com.sneaklife.keyless.RSAUtil;
 import com.sneaklife.page.PageInfo;
@@ -11,6 +10,7 @@ import com.sneaklife.redis.RedisLoader;
 import com.sneaklife.redis.RedisUtil;
 import com.sneaklife.resp.RespCode;
 import com.sneaklife.resp.RespResult;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings("unchecked")
 public class CommonUtil {
 
     private final static RedisUtil REDISUTIL = RedisLoader.load();
@@ -68,8 +69,7 @@ public class CommonUtil {
 
     public static void setExcelHeaders(String excelName) throws UnsupportedEncodingException {
         setCrossDomain();
-        response.setHeader("Content-Disposition",
-                "attachment; filename=" + new String(excelName.getBytes(), "iso-8859-1"));
+        response.setHeader("Content-Disposition", "attachment; filename=" + new String(excelName.getBytes(), "iso-8859-1"));
     }
 
     public static OutputStream getOutputStream() throws IOException {
@@ -82,16 +82,16 @@ public class CommonUtil {
     }
 
     public static String getServerPath() {
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                + getContextPath() + "/";
-        return basePath;
+        StringBuilder basePath = new StringBuilder(request.getScheme());
+        basePath.append("://").append(request.getServerName()).append(":").append(request.getServerPort()).append(getContextPath()).append("/");
+        return basePath.toString();
     }
 
     public static String getContextPath() {
         return request.getContextPath();
     }
 
-    @SuppressWarnings("unchecked")
+
     public static <T extends Object> T getSessionValue(String key, Class<T> clas) {
         return (T) request.getSession().getAttribute(key);
     }
@@ -128,7 +128,7 @@ public class CommonUtil {
         return UUID.randomUUID().toString();
     }
 
-    @SuppressWarnings("unchecked")
+
     public static Map<String, Object> getData(HttpServletRequest request) {
         try {
             String object = String.valueOf(request.getAttribute("data"));
@@ -142,7 +142,6 @@ public class CommonUtil {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public static PageInfo getPageInfo(HttpServletRequest request) {
         try {
             String object = String.valueOf(request.getAttribute("pag"));
@@ -156,7 +155,6 @@ public class CommonUtil {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public static List<Map<String, Object>> getListData(HttpServletRequest request) {
         try {
             String object = String.valueOf(request.getAttribute("data"));
@@ -298,13 +296,11 @@ public class CommonUtil {
         return true;
     }
 
-    public static void initRedis(RedisTemplate<String, Object> redisTemplate,
-                                 RedisTemplate<String, Object> redisTemplate1) {
+    public static void initRedis(RedisTemplate<String, Object> redisTemplate, RedisTemplate<String, Object> redisTemplate1) {
         RedisUtil.setRedisTemplate(redisTemplate, redisTemplate1);
     }
 
-    public static Map<String, Object> initService(RedisTemplate<String, Object> redisTemplate,
-                                                  RedisTemplate<String, Object> redisTemplate1) throws Exception {
+    public static Map<String, Object> initService(RedisTemplate<String, Object> redisTemplate, RedisTemplate<String, Object> redisTemplate1) throws Exception {
         initRedis(redisTemplate, redisTemplate1);
         Map<String, Object> map = setKey();
         map.put("link", Base64Util.base64Encode(Constants.SERVICE_URL.getBytes()));

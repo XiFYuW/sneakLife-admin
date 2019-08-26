@@ -1,5 +1,7 @@
 package com.sneaklife.dao.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,7 +14,9 @@ import java.util.Date;
 public class SneakLifeLog extends CommonEntity{
 
     @Id
-    @GeneratedValue(generator="idGenerator")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GenericGenerator(name="idGenerator", strategy="id")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "is_del")
@@ -36,10 +40,28 @@ public class SneakLifeLog extends CommonEntity{
     @Column(name = "log_out")
     private String logOut;
 
+    @Column(name = "me_modifier")
+    private String meModifier;
+
+    @Column(name = "me_return_type")
+    private String meReturnType;
+
+    @Column(name = "me_declaring")
+    private String meDeclaring;
+
+    @Column(name = "me_name")
+    private String meName;
+
+    @Column(name = "me_parameter_type")
+    private String meParameterType;
+
+    @Column(name = "me_exception_type")
+    private String meExceptionType;
+
     public SneakLifeLog() {
     }
 
-    public SneakLifeLog(Integer isDel, Date createDate, Date updateDate, String logText, String logEx, String logIn, String logOut) {
+    public SneakLifeLog(Integer isDel, Date createDate, Date updateDate, String logText, String logEx, String logIn, String logOut, String meModifier, String meReturnType, String meDeclaring, String meName, String meParameterType, String meExceptionType) {
         this.isDel = isDel;
         this.createDate = createDate;
         this.updateDate = updateDate;
@@ -47,6 +69,12 @@ public class SneakLifeLog extends CommonEntity{
         this.logEx = logEx;
         this.logIn = logIn;
         this.logOut = logOut;
+        this.meModifier = meModifier;
+        this.meReturnType = meReturnType;
+        this.meDeclaring = meDeclaring;
+        this.meName = meName;
+        this.meParameterType = meParameterType;
+        this.meExceptionType = meExceptionType;
     }
 
     public Integer getId() {
@@ -113,6 +141,54 @@ public class SneakLifeLog extends CommonEntity{
         this.logOut = logOut;
     }
 
+    public String getMeModifier() {
+        return meModifier;
+    }
+
+    public void setMeModifier(String meModifier) {
+        this.meModifier = meModifier;
+    }
+
+    public String getMeReturnType() {
+        return meReturnType;
+    }
+
+    public void setMeReturnType(String meReturnType) {
+        this.meReturnType = meReturnType;
+    }
+
+    public String getMeDeclaring() {
+        return meDeclaring;
+    }
+
+    public void setMeDeclaring(String meDeclaring) {
+        this.meDeclaring = meDeclaring;
+    }
+
+    public String getMeName() {
+        return meName;
+    }
+
+    public void setMeName(String meName) {
+        this.meName = meName;
+    }
+
+    public String getMeParameterType() {
+        return meParameterType;
+    }
+
+    public void setMeParameterType(String meParameterType) {
+        this.meParameterType = meParameterType;
+    }
+
+    public String getMeExceptionType() {
+        return meExceptionType;
+    }
+
+    public void setMeExceptionType(String meExceptionType) {
+        this.meExceptionType = meExceptionType;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -132,6 +208,18 @@ public class SneakLifeLog extends CommonEntity{
                 .append(logIn).append('\"');
         sb.append(",\"logOut\":\"")
                 .append(logOut).append('\"');
+        sb.append(",\"meModifier\":\"")
+                .append(meModifier).append('\"');
+        sb.append(",\"meReturnType\":\"")
+                .append(meReturnType).append('\"');
+        sb.append(",\"meDeclaring\":\"")
+                .append(meDeclaring).append('\"');
+        sb.append(",\"meName\":\"")
+                .append(meName).append('\"');
+        sb.append(",\"meParameterType\":\"")
+                .append(meParameterType).append('\"');
+        sb.append(",\"meExceptionType\":\"")
+                .append(meExceptionType).append('\"');
         sb.append('}');
         return sb.toString();
     }

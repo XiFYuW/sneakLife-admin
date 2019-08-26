@@ -11,6 +11,7 @@ import com.sneaklife.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.dao.system.authority.opera.OperaSbMapper;
 import com.sneaklife.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.log.SneakLifeLog;
 import com.sneaklife.service.system.OperaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +103,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
+    @SneakLifeLog
     public List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map) {
         RoleConfig roleConfig = roleConfigMapper.getById(String.valueOf(map.get("menuId")));
         data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));

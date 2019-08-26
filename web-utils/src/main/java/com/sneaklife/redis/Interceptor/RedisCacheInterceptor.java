@@ -22,11 +22,13 @@ import java.util.Set;
 
 @Aspect
 @Component
+@SuppressWarnings("unchecked")
 public class RedisCacheInterceptor {
 
 	private final static RedisUtil REDISUTIL = RedisLoader.load();
 	private static Logger log = LoggerFactory.getLogger(RedisCacheInterceptor.class);
 	private String respCode = "respCode";
+
 	/**
 	 * 插入redis缓存的切面
 	 * @author yuanwei
@@ -38,7 +40,7 @@ public class RedisCacheInterceptor {
 	 */
 	@SuppressWarnings("unchecked")
 	@Around("@annotation(com.sneaklife.redis.Interceptor.InsertCache) && @annotation(insertCache)")
-	public ResponseEntity<String> insertCacheAround(ProceedingJoinPoint pjp, InsertCache insertCache) {
+	public ResponseEntity<String> insertCacheAround(ProceedingJoinPoint pjp, InsertCache insertCache) throws Throwable{
 		Object[] objects = pjp.getArgs();
 		String cacheKey = getKey(pjp, insertCache, objects);
 		if (REDISUTIL.exists(REDISUTIL.getRedisTemplate(), cacheKey)) {
@@ -46,20 +48,9 @@ public class RedisCacheInterceptor {
 			log.info("从缓存中获取：{}", data);
 			return CommonUtil.respResult(RespCode.MSG_SUCCEED.toValue(), data);
 		}
-		Object object = null;
-		try {
-			object = pjp.proceed(objects);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Object object = pjp.proceed(objects);
 		ResponseEntity<String> responseEntity = (ResponseEntity<String>) object;
-		String body = responseEntity.getBody();
-		Map<String, Object> map = (Map<String, Object>) JSON.parse(body);
-		Object data = map.get("respData");
-		REDISUTIL.set(REDISUTIL.getRedisTemplate(), cacheKey, data, Constants.DATA_CACHE_TIMES);
-		String table = StringUtil.disposeStrArray(insertCache.TABLES(), Constants.ARRAY_PARTITION);
-		REDISUTIL.putHash(REDISUTIL.getRedisTemplate1(), Constants.TABLE_TREE, table, cacheKey, Constants.LOGIN_TIMES);
+		setRedisCache(responseEntity, insertCache, cacheKey);
 		return responseEntity;
 	}
 
@@ -73,35 +64,11 @@ public class RedisCacheInterceptor {
 	 */
 	@SuppressWarnings("unchecked")
 	@Around("@annotation(com.sneaklife.redis.Interceptor.UpdateCache) && @annotation(updateCache)")
-	public ResponseEntity<String> updateCacheAround(ProceedingJoinPoint pjp, UpdateCache updateCache) {
+	public ResponseEntity<String> updateCacheAround(ProceedingJoinPoint pjp, UpdateCache updateCache) throws Throwable{
 		Object[] objects = pjp.getArgs();
-		Object object = null;
-		try {
-			object = pjp.proceed(objects);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Object object = pjp.proceed(objects);
 		ResponseEntity<String> responseEntity = (ResponseEntity<String>) object;
-		String body = responseEntity.getBody();
-		Map<String, Object> map = (Map<String, Object>) JSON.parse(body);
-		if (map.get(respCode).equals(RespCode.MSG_SUCCEED.toValue())) {
-			String table = StringUtil.disposeStrArray(updateCache.TABLES(), Constants.ARRAY_PARTITION);
-			int tableLen = table.length();
-			Set<String> set = REDISUTIL.hashKeys(REDISUTIL.getRedisTemplate1(), Constants.TABLE_TREE);
-			for (String key : set) {
-				int keyLen = key.length();
-				if (tableLen >= keyLen) {
-					if (table.indexOf(key) != -1) {
-						deleteCache(key);
-					}
-				} else {
-					if (key.indexOf(table) != -1) {
-						deleteCache(key);
-					}
-				}
-			}
-		}
+		updateRedisCache(responseEntity, updateCache);
 		return responseEntity;
 	}
 
@@ -132,7 +99,7 @@ public class RedisCacheInterceptor {
 	 */
 	private String getKey(ProceedingJoinPoint pjp, InsertCache insertCache, Object[] objects) {
 		String hashCodeMethod = String.valueOf(pjp.getSignature().getName().hashCode());
-		StringBuffer keys = new StringBuffer();
+		StringBuilder keys = new StringBuilder();
 		if (!insertCache.insertTo()) {
 			for (Object object : objects) {
 				keys.append(object);
@@ -152,6 +119,37 @@ public class RedisCacheInterceptor {
 			}
 		}
 		keys.append(CommonUtil.getSessionValue(Constants.USERS_ROLE_TEMP, String.class));
-		return CommonUtil.digest("CACHE_&" + hashCodeMethod + "_&" + keys.hashCode(), "SHA-1");
+		return CommonUtil.digest("CACHE_&" + hashCodeMethod + "_&" + keys.toString().hashCode(), "SHA-1");
+	}
+
+	private void setRedisCache(ResponseEntity<String> responseEntity, InsertCache insertCache, String cacheKey){
+		String body = responseEntity.getBody();
+		Map<String, Object> map = (Map<String, Object>) JSON.parse(body);
+		Object data = map.get("respData");
+		REDISUTIL.set(REDISUTIL.getRedisTemplate(), cacheKey, data, Constants.DATA_CACHE_TIMES);
+		String table = StringUtil.disposeStrArray(insertCache.TABLES(), Constants.ARRAY_PARTITION);
+		REDISUTIL.putHash(REDISUTIL.getRedisTemplate1(), Constants.TABLE_TREE, table, cacheKey, Constants.LOGIN_TIMES);
+	}
+
+	private void updateRedisCache(ResponseEntity<String> responseEntity, UpdateCache updateCache){
+		String body = responseEntity.getBody();
+		Map<String, Object> map = (Map<String, Object>) JSON.parse(body);
+		if (map.get(respCode).equals(RespCode.MSG_SUCCEED.toValue())) {
+			String table = StringUtil.disposeStrArray(updateCache.TABLES(), Constants.ARRAY_PARTITION);
+			int tableLen = table.length();
+			Set<String> set = REDISUTIL.hashKeys(REDISUTIL.getRedisTemplate1(), Constants.TABLE_TREE);
+			for (String key : set) {
+				int keyLen = key.length();
+				if (tableLen >= keyLen) {
+					if (table.indexOf(key) != -1) {
+						deleteCache(key);
+					}
+				} else {
+					if (key.indexOf(table) != -1) {
+						deleteCache(key);
+					}
+				}
+			}
+		}
 	}
 }

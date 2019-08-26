@@ -5,6 +5,7 @@ import com.sneaklife.dao.entity.RoleFunction;
 import com.sneaklife.dao.entity.modal.TableOpera;
 import com.sneaklife.dao.system.authority.roleFunction.RoleFunctionMapper;
 import com.sneaklife.exception.SneakLifeException;
+import com.sneaklife.log.SneakLifeLog;
 import com.sneaklife.resp.RespCode;
 import com.sneaklife.service.system.OperaService;
 import com.sneaklife.service.system.authority.RoleConfigService;
@@ -46,6 +47,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     }
 
     @Override
+    @SneakLifeLog
     public ResponseEntity<String> getRoleFunction(Map<String, Object> map) {
         RoleFunction roleFunction = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
         List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunction, map);
