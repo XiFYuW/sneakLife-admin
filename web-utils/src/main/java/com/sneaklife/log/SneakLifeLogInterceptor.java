@@ -1,21 +1,24 @@
 package com.sneaklife.log;
 
 import com.sneaklife.dao.log.SneakLifeLogJpa;
+import com.sneaklife.date.DateUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/8/25 10:01
+ * @date 2019/8/25 10:01 sneakLifeLogDB
  */
 @Aspect
 @Component
@@ -25,9 +28,16 @@ public class SneakLifeLogInterceptor {
     @Autowired
     private SneakLifeLogJpa sneakLifeLogJpa;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     @Around("@annotation(com.sneaklife.log.SneakLifeLog) && @annotation(sneakLifeLog)")
     public Object sneakLifeLogAround(ProceedingJoinPoint point, SneakLifeLog sneakLifeLog) throws Throwable{
         com.sneaklife.dao.entity.SneakLifeLog sneakLifeLogs = new com.sneaklife.dao.entity.SneakLifeLog();
+        sneakLifeLogs.setId(Integer.valueOf(String.valueOf(DateUtil.getSecond())));
+        sneakLifeLogs.setIsDel(0);
+        sneakLifeLogs.setCreateDate(new Date());
+        sneakLifeLogs.setUpdateDate(new Date());
         Object[] objects = point.getArgs();
         buildLog(objects, point, sneakLifeLogs);
         Object object;
@@ -35,11 +45,11 @@ public class SneakLifeLogInterceptor {
             object = point.proceed(objects);
         } catch (Throwable throwable) {
             setLogEx(throwable, sneakLifeLogs);
-            sneakLifeLogJpa.save(sneakLifeLogs);
+            mongoTemplate.save(sneakLifeLogs);
             throw throwable;
         }
         setLogOut(object, sneakLifeLogs);
-        sneakLifeLogJpa.save(sneakLifeLogs);
+        mongoTemplate.save(sneakLifeLogs);
         return object;
     }
 
