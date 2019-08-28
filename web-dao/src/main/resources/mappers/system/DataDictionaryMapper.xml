@@ -56,4 +56,8 @@
   <update id="deleteDataDictionary" parameterType="map">
     update data_dictionary set is_del = 1 where id = #{id}
   </update>
+
+  <select id="getByType" parameterType="string" resultType="com.sneaklife.dao.entity.DataDictionary">
+    select * from data_dictionary where type = #{type} and is_del = 0;
+  </select>
 </mapper>

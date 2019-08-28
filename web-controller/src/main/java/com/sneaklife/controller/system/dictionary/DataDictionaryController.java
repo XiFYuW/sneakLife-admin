@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Controller
 public class DataDictionaryController {
@@ -40,5 +39,10 @@ public class DataDictionaryController {
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> dataDictionary(HttpServletRequest request) throws Exception{
         return dataDictionaryService.dataDictionary(CommonUtil.getData(request));
+    }
+
+    @RequestMapping(value = "/getByType", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public ResponseEntity<String> getByType(HttpServletRequest request) throws Exception{
+        return dataDictionaryService.getByType(CommonUtil.getData(request));
     }
 }

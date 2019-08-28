@@ -71,7 +71,7 @@ public class SneakLifeLogInterceptor {
         StringBuilder sb = new StringBuilder("入参数据：【");
         Map<String,Object> map = new HashMap<>();
         for (int i = 0; i < objects.length; i++) {
-            map.put(String.valueOf(i), objects[i].toString());
+            map.put(String.valueOf(i), String.valueOf(objects[i]));
         }
         sb.append(map.toString()).append("】");
         sneakLifeLogs.setLogIn(sb.toString());

@@ -3,6 +3,7 @@ package com.sneaklife.service.system.dictionary;
 import com.sneaklife.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,4 +48,6 @@ public interface DataDictionaryService {
      * @throws Exception
      */
     void deleteDataDictionary(Map<String,Object> map) throws Exception;
+
+    ResponseEntity<String> getByType(Map<String,Object> map);
 }

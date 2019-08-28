@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,14 +19,9 @@ import java.util.Map;
 public class ChildNodeInterceptor {
 
     @Around("@annotation(com.sneaklife.interfaces.Interceptor.ChildNode) && @annotation(childNode)")
-    public Map<String,Object> childNodeAround(ProceedingJoinPoint point, ChildNode childNode) {
+    public Map<String,Object> childNodeAround(ProceedingJoinPoint point, ChildNode childNode) throws Throwable{
         Object[] args = point.getArgs();
-        Map<String,Object> data = new HashMap<>();
-        try {
-            data = (Map<String,Object>) point.proceed(args);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        Map<String,Object> data = (Map<String,Object>) point.proceed(args);
         putUrl(data, childNode);
         return data;
     }
