@@ -23,9 +23,9 @@ public class DataDictionaryServiceTest {
     @Test
     public void insertDataDictionary() throws Exception{
         Map<String,Object> map = new HashMap<>();
-        map.put("name","123");
-        map.put("type","1");
-        map.put("value","123456789");
+        map.put("name","button");
+        map.put("type","32");
+        map.put("value","0");
         dataDictionaryService.insertDataDictionary(map);
     }
 

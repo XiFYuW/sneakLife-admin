@@ -1,5 +1,7 @@
 package com.sneaklife.dao.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,7 +13,9 @@ import java.util.Date;
 @Table(name="user_role")
 public class UserRole extends CommonEntity {
     @Id
-    @GeneratedValue(generator="idGenerator")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GenericGenerator(name="idGenerator", strategy="id")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "user_id")

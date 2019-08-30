@@ -22,10 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author https://github.com/XiFYuW
@@ -48,7 +45,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @SneakLifeLog
     public void insertDataDictionary(Map<String,Object> map) throws Exception{
-        map.put("value", DateUtil.getSecond() >> 2);
+        map.put("value", DateUtil.getMilli());
         int t = dataDictionaryMapper.insertDataDictionary(map);
         if(t != 1){
             throw new SneakLifeException(CommonUtil.respResultTJSB());
@@ -95,13 +92,26 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @SneakLifeLog
     public ResponseEntity<String> getByType(Map<String, Object> map) {
         String type = String.valueOf(map.get("type"));
-        List<DataDictionary> list = dataDictionaryMapper.getByType(type);
-        List<Map<String,Object>> data = new ArrayList<>();
-        list.forEach(dataDictionary -> data.add(paramTrans(new HashMap<>(), dataDictionary)));
+        String[] types = type.split(",");
+        List<DataDictionary> list = dataDictionaryMapper.getByType(types);
+        Map<String,Object> item = new HashMap<>();
+        list.forEach(dataDictionary -> {
+            String tempKey = dataDictionary.getTempKey();
+            List<Map<String,Object>> data;
+            if(item.containsKey(tempKey)){
+                data = (List<Map<String,Object>>) item.get(tempKey);
+                data.add(paramTrans(new HashMap<>(), dataDictionary));
+                item.put(tempKey, data);
+            }else {
+                data = new ArrayList<>();
+                data.add(paramTrans(new HashMap<>(), dataDictionary));
+                item.put(tempKey, data);
+            }
+        });
         map.clear();
         map.put("title","select data");
-        map.put("data", data);
-        return CommonUtil.respResultDataSUCCEED(data);
+        map.put("data", item);
+        return CommonUtil.respResultDataSUCCEED(map);
     }
 
     @Override

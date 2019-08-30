@@ -16,5 +16,5 @@ public interface DataDictionaryMapper {
 
     Integer deleteDataDictionary(Map<String, Object> map);
 
-    List<DataDictionary> getByType(@Param("type") String type);
+    List<DataDictionary> getByType(@Param("types") String[] types);
 }

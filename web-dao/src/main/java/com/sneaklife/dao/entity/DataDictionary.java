@@ -2,11 +2,7 @@ package com.sneaklife.dao.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -35,11 +31,14 @@ public class DataDictionary extends CommonEntity {
     @Column(name = "update_date")
     private Date updateDate;
 
+    @Transient
+    private String tempKey;
+
     public DataDictionary() {
         super();
     }
 
-    public DataDictionary(String id, String name, String value, String type, Integer  isDel, Date createDate, Date updateDate) {
+    public DataDictionary(String id, String name, String value, String type, Integer isDel, Date createDate, Date updateDate, String tempKey) {
         this.id = id;
         this.name = name;
         this.value = value;
@@ -47,6 +46,7 @@ public class DataDictionary extends CommonEntity {
         this.isDel = isDel;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.tempKey = tempKey;
     }
 
     public String getId() {
@@ -81,11 +81,11 @@ public class DataDictionary extends CommonEntity {
         this.type = type;
     }
 
-    public Integer  getIsDel() {
+    public Integer getIsDel() {
         return isDel;
     }
 
-    public void setIsDel(Integer  isDel) {
+    public void setIsDel(Integer isDel) {
         this.isDel = isDel;
     }
 
@@ -105,6 +105,14 @@ public class DataDictionary extends CommonEntity {
         this.updateDate = updateDate;
     }
 
+    public String getTempKey() {
+        return tempKey;
+    }
+
+    public void setTempKey(String tempKey) {
+        this.tempKey = tempKey;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -122,6 +130,8 @@ public class DataDictionary extends CommonEntity {
                 .append(createDate).append('\"');
         sb.append(",\"updateDate\":\"")
                 .append(updateDate).append('\"');
+        sb.append(",\"tempKey\":\"")
+                .append(tempKey).append('\"');
         sb.append('}');
         return sb.toString();
     }
