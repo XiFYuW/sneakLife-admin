@@ -1,6 +1,7 @@
 package com.sneaklife.constants;
 
 import com.sneaklife.properties.ConfigProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
