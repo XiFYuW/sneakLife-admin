@@ -38,4 +38,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>sneakLife-admin</finalName>
+    </build>
 </project>
