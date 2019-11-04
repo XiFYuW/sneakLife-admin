@@ -24,7 +24,6 @@
         <module>web-utils</module>
         <module>web-code</module>
         <module>web-dao</module>
-
     </modules>
 
     <properties>

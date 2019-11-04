@@ -1,7 +1,6 @@
 package com.sneaklife.dao.config.interceptor;
 
 import org.hibernate.EmptyInterceptor;
-import org.hibernate.Interceptor;
 import org.hibernate.resource.jdbc.spi.StatementInspector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
