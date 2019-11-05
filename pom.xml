@@ -14,18 +14,13 @@
     <groupId>com.sneakLife</groupId>
     <artifactId>sneakLife-admin</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>2.0</version>
 
     <modules>
-        <module>web-app</module>
-        <module>web-service</module>
-        <module>web-common</module>
-        <module>web-controller</module>
-        <module>web-utils</module>
-        <module>web-code</module>
-        <module>web-dao</module>
-        <module>pms</module>
-
+        <module>sneakLifeAPP</module>
+        <module>sneakLifeUT</module>
+        <module>sneakLifeDAO</module>
+        <module>sneakLifePMS</module>
     </modules>
 
     <properties>

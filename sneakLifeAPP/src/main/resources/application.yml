@@ -1,0 +1,69 @@
+logging:
+  file: xx.log
+
+spring:
+  mvc:
+    dispatch-options-request: true
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/sneaklifedb?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT&rewriteBatchedStatements=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j2
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        session_factory:
+          statement_inspector: JpaInterceptor
+
+  redis:
+#    password: 435e36d6ad16a11b70b7f8cf17db12e9b0ad8dc9
+    timeout: 7000ms
+    jedis:
+      pool:
+        max-active: 1000 # 连接池最大连接数(使用负值表示没有限制)
+        max-wait: -1ms # 连接池最大阻塞等待时间(使用负值表示没有限制)
+        max-idle: 10 # 连接池中的最大空闲连接
+        min-idle: 5 # 连接池中的最小空闲连接
+    host: 192.168.6.134
+    port: 6388
+    password: 123456qwe
+
+  session:
+    store-type: redis
+    timeout: 30m
+    redis:
+      namespace: redis:session
+
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/sneakLifeLogDB
+
+mybatis:
+  mapper-locations: classpath:mappers/*/*.xml
+  type-aliases-package: com.sneaklife.dao.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
