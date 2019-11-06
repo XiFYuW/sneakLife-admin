@@ -26,7 +26,7 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class SneakLifeLogInterceptor {
 
-    @Autowired
+    @Autowired(required = false)
     private SneakLifeLogJpa sneakLifeLogJpa;
 
     @Autowired

@@ -1,12 +1,12 @@
 logging:
-  file: xx.log
+  file: sneakLifeLog.log
 
 spring:
   mvc:
     dispatch-options-request: true
 
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/sneaklifedb?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT&rewriteBatchedStatements=true
     username: root
     password: 123456
@@ -34,10 +34,9 @@ spring:
     properties:
       hibernate:
         session_factory:
-          statement_inspector: JpaInterceptor
+          statement_inspector: com.sneaklife.dao.config.interceptor.SneakLifeJpaInterceptor
 
   redis:
-#    password: 435e36d6ad16a11b70b7f8cf17db12e9b0ad8dc9
     timeout: 7000ms
     jedis:
       pool:

@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JpaInterceptor extends EmptyInterceptor implements StatementInspector {
+public class SneakLifeJpaInterceptor extends EmptyInterceptor implements StatementInspector {
 
-    private static Logger log = LoggerFactory.getLogger(JpaInterceptor.class);
+    private static Logger log = LoggerFactory.getLogger(SneakLifeJpaInterceptor.class);
 
     @Override
     public String inspect(String s) {

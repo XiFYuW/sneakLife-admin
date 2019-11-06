@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface SystemMenuService {
 
     /**
-     * Get system menu
+     * Get pms menu
      * @return ResponseEntity<String>
      */
     ResponseEntity<String> getMenu();
