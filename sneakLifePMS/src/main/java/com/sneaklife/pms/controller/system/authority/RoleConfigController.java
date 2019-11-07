@@ -1,7 +1,7 @@
 package com.sneaklife.pms.controller.system.authority;
 
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
-import com.sneaklife.util.common.CommonUtil;
+import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package com.sneaklife.pms.controller.system.business.businessFunction;
 
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
-import com.sneaklife.util.common.CommonUtil;
+import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

@@ -1,8 +1,8 @@
 package com.sneaklife.pms.controller;
 
 import com.sneaklife.pms.service.verify.VerifyService;
-import com.sneaklife.util.code.FileCode;
-import com.sneaklife.util.common.CommonUtil;
+import com.sneaklife.ut.code.FileCode;
+import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
