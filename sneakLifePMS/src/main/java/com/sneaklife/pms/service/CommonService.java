@@ -1,10 +1,10 @@
 package com.sneaklife.pms.service;
 
 import com.sneaklife.dao.CommonDao;
-import com.sneaklife.util.code.exception.SneakLifeException;
-import com.sneaklife.util.code.page.PageInfo;
-import com.sneaklife.util.code.resp.RespCode;
-import com.sneaklife.util.common.CommonUtil;
+import com.sneaklife.ut.code.exception.SneakLifeException;
+import com.sneaklife.ut.code.page.PageInfo;
+import com.sneaklife.ut.code.resp.RespCode;
+import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

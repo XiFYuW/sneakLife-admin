@@ -1,8 +1,8 @@
 package com.sneaklife.pms.service.system.monitoring.imp;
 
 import com.sneaklife.pms.service.system.monitoring.MonitoringService;
-import com.sneaklife.util.common.CommonUtil;
-import com.sneaklife.util.server.SneakLifeServerInfo;
+import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.server.SneakLifeServerInfo;
 import com.sun.management.OperatingSystemMXBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

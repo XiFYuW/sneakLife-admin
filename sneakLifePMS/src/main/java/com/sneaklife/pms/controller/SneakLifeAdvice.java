@@ -1,8 +1,8 @@
 package com.sneaklife.pms.controller;
 
-import com.sneaklife.util.code.exception.SneakLifeException;
-import com.sneaklife.util.code.resp.RespCode;
-import com.sneaklife.util.common.CommonUtil;
+import com.sneaklife.ut.code.exception.SneakLifeException;
+import com.sneaklife.ut.code.resp.RespCode;
+import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
