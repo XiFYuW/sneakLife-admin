@@ -1,8 +1,8 @@
-package com.sneaklife.util.system;
+package com.sneaklife.app.pms;
 
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
-import com.sneaklife.util.SneakLifeAdminApplication;
-import com.sneaklife.util.code.page.PageInfo;
+import com.sneaklife.app.SneakLifeAdminApplication;
+import com.sneaklife.ut.code.page.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

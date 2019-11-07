@@ -1,7 +1,7 @@
-package com.sneaklife.util.system;
+package com.sneaklife.app.pms;
 
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
-import com.sneaklife.util.SneakLifeAdminApplication;
+import com.sneaklife.app.SneakLifeAdminApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
