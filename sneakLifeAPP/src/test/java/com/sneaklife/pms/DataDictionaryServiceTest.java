@@ -1,7 +1,7 @@
-package com.sneaklife.app.pms;
+package com.sneaklife.pms;
 
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
-import com.sneaklife.app.SneakLifeAdminApplication;
+import com.sneaklife.SneakLifeAdminApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

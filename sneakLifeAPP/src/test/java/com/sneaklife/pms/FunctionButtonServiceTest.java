@@ -1,7 +1,7 @@
-package com.sneaklife.app.pms;
+package com.sneaklife.pms;
 
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
-import com.sneaklife.app.SneakLifeAdminApplication;
+import com.sneaklife.SneakLifeAdminApplication;
 import com.sneaklife.ut.code.page.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
