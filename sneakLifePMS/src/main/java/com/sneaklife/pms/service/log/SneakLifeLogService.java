@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.log;
 
-import com.sneaklife.dao.entity.SneakLifeLog;
+import com.sneaklife.pms.entity.SneakLifeLog;
 
 /**
  * @author https://github.com/XiFYuW

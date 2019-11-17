@@ -1,11 +1,11 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.dao.entity.UserRole;
-import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.authority.userRole.UserRoleJpa;
-import com.sneaklife.dao.system.authority.userRole.UserRoleMapper;
-import com.sneaklife.pms.service.CommonService;
-import com.sneaklife.pms.service.system.OperaService;
+import com.sneaklife.pms.dao.system.authority.userRole.UserRoleJpa;
+import com.sneaklife.pms.dao.system.authority.userRole.UserRoleMapper;
+import com.sneaklife.pms.entity.UserRole;
+import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.service.common.CommonService;
+import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.UserRoleService;
 import com.sneaklife.ut.code.exception.SneakLifeException;
 import com.sneaklife.ut.code.page.PageInfo;

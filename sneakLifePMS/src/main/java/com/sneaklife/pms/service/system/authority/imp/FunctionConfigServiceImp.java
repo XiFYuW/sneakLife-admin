@@ -1,11 +1,11 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.dao.entity.OperaSb;
-import com.sneaklife.dao.entity.SystemMenu;
-import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.SystemMenuJpa;
-import com.sneaklife.dao.system.SystemMenuMapper;
-import com.sneaklife.pms.service.system.OperaService;
+import com.sneaklife.pms.dao.system.SystemMenuJpa;
+import com.sneaklife.pms.dao.system.SystemMenuMapper;
+import com.sneaklife.pms.entity.OperaSb;
+import com.sneaklife.pms.entity.SystemMenu;
+import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.ut.code.exception.SneakLifeException;
 import com.sneaklife.ut.code.resp.RespCode;

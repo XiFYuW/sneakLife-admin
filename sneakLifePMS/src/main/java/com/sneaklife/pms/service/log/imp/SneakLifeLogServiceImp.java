@@ -1,7 +1,7 @@
 package com.sneaklife.pms.service.log.imp;
 
-import com.sneaklife.dao.entity.SneakLifeLog;
-import com.sneaklife.dao.log.SneakLifeLogJpa;
+import com.sneaklife.pms.dao.log.SneakLifeLogJpa;
+import com.sneaklife.pms.entity.SneakLifeLog;
 import com.sneaklife.pms.service.log.SneakLifeLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;

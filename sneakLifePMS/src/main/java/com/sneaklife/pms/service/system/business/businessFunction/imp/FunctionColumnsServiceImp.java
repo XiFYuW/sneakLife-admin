@@ -1,11 +1,11 @@
 package com.sneaklife.pms.service.system.business.businessFunction.imp;
 
-import com.sneaklife.dao.entity.Columns;
-import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsJpa;
-import com.sneaklife.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsMapper;
-import com.sneaklife.pms.service.CommonService;
-import com.sneaklife.pms.service.system.OperaService;
+import com.sneaklife.pms.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsJpa;
+import com.sneaklife.pms.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsMapper;
+import com.sneaklife.pms.entity.Columns;
+import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.service.common.CommonService;
+import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionColumnsService;
 import com.sneaklife.ut.code.page.PageInfo;

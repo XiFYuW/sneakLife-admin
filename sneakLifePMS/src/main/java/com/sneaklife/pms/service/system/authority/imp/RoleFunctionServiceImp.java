@@ -1,15 +1,15 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.dao.entity.RoleFunction;
-import com.sneaklife.dao.entity.modal.TableOpera;
-import com.sneaklife.dao.system.authority.roleFunction.RoleFunctionMapper;
-import com.sneaklife.pms.service.system.OperaService;
+import com.sneaklife.pms.config.log.SneakLifeAnLog;
+import com.sneaklife.pms.dao.system.authority.roleFunction.RoleFunctionMapper;
+import com.sneaklife.pms.entity.RoleFunction;
+import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
 import com.sneaklife.pms.service.system.authority.RoleFunctionService;
 import com.sneaklife.ut.code.exception.SneakLifeException;
 import com.sneaklife.ut.code.resp.RespCode;
 import com.sneaklife.ut.common.CommonUtil;
-import com.sneaklife.ut.log.SneakLifeAnLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

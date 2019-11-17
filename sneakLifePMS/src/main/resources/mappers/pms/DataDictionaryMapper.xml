@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper">
+  <!-- 数据插入 -->
+  <insert id="insertDataDictionary" parameterType="map">
+    insert into data_dictionary(
+      id,
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      create_date,
+      update_date,
+      is_del
+    ) values (
+      REPLACE(UUID(), '-', ''),
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      NOW(),
+      NOW(),
+      0
+    )
+  </insert>
+
+  <update id="updateDataDictionary" parameterType="map">
+    update data_dictionary
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="type != null">
+        type = #{type},
+      </if>
+      <if test="value != null">
+        value = #{value},
+      </if>
+      update_date = now()
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <update id="deleteDataDictionary" parameterType="map">
+    update data_dictionary set is_del = 1 where id = #{id}
+  </update>
+
+  <select id="getByType" parameterType="java.util.ArrayList" resultType="com.sneaklife.pms.entity.DataDictionary">
+    SELECT
+      dd.id as id,
+      dd.name as name,
+      dd.type as type,
+      dd.value as value,
+      td.temp_key as tempKey
+    FROM data_dictionary AS dd INNER JOIN type_dictionary AS td ON dd.type = td.value
+    <where>
+      dd.is_del = 0
+      and dd.type in
+      <foreach collection="types" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
+  </select>
+</mapper>

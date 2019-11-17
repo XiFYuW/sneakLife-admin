@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper">
+  <select id="findOperaSbByShow" resultType="com.sneaklife.pms.entity.OperaSb" parameterType="map">
+    select * from opera_sb
+    <where>
+      is_del = 0
+      <if test="isShow != null">
+        AND is_show = #{isShow}
+      </if>
+      <if test="menuId != null and menuId != ''">
+        AND menu_id = #{menuId}
+      </if>
+    </where>
+  </select>
+  <insert id="insertOperaSb" parameterType="com.sneaklife.pms.entity.OperaSb">
+    insert into opera_sb(
+      id,
+      <if test="type != null and type != ''">
+        type,
+      </if>
+      <if test="text != null and text != ''">
+        text,
+      </if>
+      <if test="code != null and code != ''">
+        code,
+      </if>
+      <if test="icon != null and icon != ''">
+        icon,
+      </if>
+      <if test="url != null and url != ''">
+        url,
+      </if>
+      <if test="menuId != null and menuId != ''">
+        menu_id,
+      </if>
+      create_date,
+      update_date,
+      is_del,
+      is_show
+    )
+    values(
+      REPLACE(UUID(), '-', ''),
+      <if test="type != null and type != ''">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null and text != ''">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null and code != ''">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null and icon != ''">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null and url != ''">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null and menuId != ''">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      NOW(),
+      NOW(),
+      0,
+      0
+    )
+  </insert>
+  <select id="checkOperaSbByShow" parameterType="map" resultType="int">
+    select count(id) from opera_sb where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
+  </select>
+  <update id="updateOperaSbShow" parameterType="map">
+    update opera_sb
+    <set>
+      is_show = #{status}
+    </set>
+    <where>
+      id = #{treeViewId}
+    </where>
+  </update>
+  <select id="checkOperaSbById" parameterType="map" resultType="int">
+    select count(id) from opera_sb where id = #{treeViewId} AND is_del = 0
+  </select>
+</mapper>
