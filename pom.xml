@@ -19,7 +19,6 @@
     <modules>
         <module>sneakLifeAPP</module>
         <module>sneakLifeUT</module>
-        <module>sneakLifeDAO</module>
         <module>sneakLifePMS</module>
     </modules>
 
@@ -184,6 +183,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--lombok插件-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>
