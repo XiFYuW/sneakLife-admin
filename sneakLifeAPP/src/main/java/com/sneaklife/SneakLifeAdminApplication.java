@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@SpringBootApplication()
-//@EnableAspectJAutoProxy(exposeProxy = true)
+@SpringBootApplication
 public class SneakLifeAdminApplication extends SpringBootServletInitializer {
 
     @Override
