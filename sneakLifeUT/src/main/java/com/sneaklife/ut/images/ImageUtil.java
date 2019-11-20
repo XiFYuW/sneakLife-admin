@@ -1,6 +1,6 @@
 package com.sneaklife.ut.images;
 
-import com.sneaklife.ut.code.FileCode;
+import com.sneaklife.ut.file.FileCode;
 import com.sneaklife.ut.code.constants.Constants;
 import com.sneaklife.ut.keyless.Base64Util;
 import com.sun.image.codec.jpeg.ImageFormatException;

@@ -2,12 +2,12 @@ package com.sneaklife.ut.common;
 
 import com.alibaba.fastjson.JSON;
 import com.sneaklife.ut.code.constants.Constants;
-import com.sneaklife.ut.code.page.PageInfo;
-import com.sneaklife.ut.code.resp.RespCode;
-import com.sneaklife.ut.code.resp.RespResult;
+import com.sneaklife.ut.iws.RespCode;
+import com.sneaklife.ut.iws.RespResult;
 import com.sneaklife.ut.date.DateUtil;
 import com.sneaklife.ut.keyless.Base64Util;
 import com.sneaklife.ut.keyless.RSAUtil;
+import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.redis.RedisLoader;
 import com.sneaklife.ut.redis.RedisUtil;
 import org.slf4j.Logger;
@@ -326,7 +326,7 @@ public class CommonUtil {
     public static Map<String, Object> setKey() throws Exception {
         String key = UUID.randomUUID().toString();
         Map<String, Object> rsaKey = null;
-        rsaKey = RSAUtil.initKey();
+        rsaKey = RSAUtil.initRsaKey();
         Long times = DateUtil.getSecond() + Constants.TOKEN_CACHE_TIMES;
         rsaKey.put("ptk", key.substring(0, 16));
         rsaKey.put("time", times);

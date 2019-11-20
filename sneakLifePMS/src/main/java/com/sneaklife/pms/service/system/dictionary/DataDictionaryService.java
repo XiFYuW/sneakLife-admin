@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.dictionary;
 
-import com.sneaklife.ut.code.page.PageInfo;
+import com.sneaklife.ut.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;

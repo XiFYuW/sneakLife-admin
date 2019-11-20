@@ -11,7 +11,7 @@ import com.sneaklife.pms.entity.modal.Opera;
 import com.sneaklife.pms.entity.modal.Table;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
-import com.sneaklife.ut.code.exception.SneakLifeException;
+import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.common.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

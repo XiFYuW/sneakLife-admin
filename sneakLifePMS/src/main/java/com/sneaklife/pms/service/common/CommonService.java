@@ -1,9 +1,9 @@
 package com.sneaklife.pms.service.common;
 
 import com.sneaklife.pms.dao.CommonDao;
-import com.sneaklife.ut.code.exception.SneakLifeException;
-import com.sneaklife.ut.code.page.PageInfo;
-import com.sneaklife.ut.code.resp.RespCode;
+import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

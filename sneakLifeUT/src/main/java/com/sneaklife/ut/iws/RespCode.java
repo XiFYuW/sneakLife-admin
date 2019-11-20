@@ -1,4 +1,4 @@
-package com.sneaklife.ut.code.resp;
+package com.sneaklife.ut.iws;
 
 public enum RespCode {
 	/**

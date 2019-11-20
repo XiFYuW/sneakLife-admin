@@ -12,30 +12,30 @@ import java.util.Map;
 
 public class AESUtil {
 
-	/**
-	 * aes解密
-	 *
-	 * @param encrypt
-	 *            内容
-	 * @return
-	 * @throws Exception
-	 */
-	public static String aesDecrypt(String encrypt) throws Exception {
-		Map<String, Object> map = CommonUtil.getTokenMap();
-		return aesDecrypt(encrypt, String.valueOf(map.get("ptk")));
-	}
-
-	/**
-	 * aes加密
-	 *
-	 * @param content
-	 * @return
-	 * @throws Exception
-	 */
-	public static String aesEncrypt(String content) throws Exception {
-		Map<String, Object> map = CommonUtil.getTokenMap();
-		return aesEncrypt(content, String.valueOf(map.get("hyesptk")));
-	}
+//	/**
+//	 * aes解密
+//	 *
+//	 * @param encrypt
+//	 *            内容
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public static String aesDecrypt(String encrypt) throws Exception {
+//		Map<String, Object> map = CommonUtil.getTokenMap();
+//		return aesDecrypt(encrypt, String.valueOf(map.get("ptk")));
+//	}
+//
+//	/**
+//	 * aes加密
+//	 *
+//	 * @param content
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public static String aesEncrypt(String content) throws Exception {
+//		Map<String, Object> map = CommonUtil.getTokenMap();
+//		return aesEncrypt(content, String.valueOf(map.get("hyesptk")));
+//	}
 
 	/**
 	 * AES加密

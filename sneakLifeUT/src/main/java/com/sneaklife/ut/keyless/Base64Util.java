@@ -1,6 +1,6 @@
 package com.sneaklife.ut.keyless;
 
-import com.sneaklife.ut.code.FileCode;
+import com.sneaklife.ut.file.FileCode;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;

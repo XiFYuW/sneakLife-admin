@@ -110,7 +110,7 @@ public class Constants {
 	/**
 	 * token 缓存键
 	 */
-	public static final String TOKEN_KEY = ConfigProperties.getSystemConfig("TOKEN_KEY");
+	public static final String TOKEN_KEY = "TOKEN_KEY";
 	/**
 	 * 验证码请求路径
 	 */

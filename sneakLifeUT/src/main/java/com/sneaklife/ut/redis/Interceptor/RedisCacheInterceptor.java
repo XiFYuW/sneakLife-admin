@@ -2,8 +2,8 @@ package com.sneaklife.ut.redis.Interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.sneaklife.ut.code.constants.Constants;
-import com.sneaklife.ut.code.page.PageInfo;
-import com.sneaklife.ut.code.resp.RespCode;
+import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.common.CommonUtil;
 import com.sneaklife.ut.redis.RedisLoader;
 import com.sneaklife.ut.redis.RedisUtil;

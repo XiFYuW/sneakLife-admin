@@ -1,4 +1,4 @@
-package com.sneaklife.ut.code.exception;
+package com.sneaklife.ut.exception;
 
 import org.springframework.http.ResponseEntity;
 

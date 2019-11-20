@@ -15,6 +15,7 @@ public class RedisLoader {
 	private RedisUtil getRedisutil() {
 		return REDISUTIL;
 	}
+
 	public static RedisUtil load() {
 		return RedisLoader.getInstance().getRedisutil();
 	}

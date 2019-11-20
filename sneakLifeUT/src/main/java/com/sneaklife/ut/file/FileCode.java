@@ -1,4 +1,4 @@
-package com.sneaklife.ut.code;
+package com.sneaklife.ut.file;
 
 public enum FileCode {
 	/**

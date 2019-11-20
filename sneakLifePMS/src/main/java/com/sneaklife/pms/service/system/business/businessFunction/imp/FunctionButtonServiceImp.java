@@ -8,7 +8,7 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
-import com.sneaklife.ut.code.page.PageInfo;
+import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
