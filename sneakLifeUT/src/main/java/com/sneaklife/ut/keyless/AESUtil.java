@@ -1,41 +1,18 @@
 package com.sneaklife.ut.keyless;
 
 
+import com.sneaklife.pkv.AesPKV;
 import com.sneaklife.ut.code.constants.Constants;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.spring.SpringContextUtil;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
-import java.util.Map;
 
 public class AESUtil {
 
-//	/**
-//	 * aes解密
-//	 *
-//	 * @param encrypt
-//	 *            内容
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public static String aesDecrypt(String encrypt) throws Exception {
-//		Map<String, Object> map = CommonUtil.getTokenMap();
-//		return aesDecrypt(encrypt, String.valueOf(map.get("ptk")));
-//	}
-//
-//	/**
-//	 * aes加密
-//	 *
-//	 * @param content
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public static String aesEncrypt(String content) throws Exception {
-//		Map<String, Object> map = CommonUtil.getTokenMap();
-//		return aesEncrypt(content, String.valueOf(map.get("hyesptk")));
-//	}
+	private static final AesPKV aesPKV = SpringContextUtil.getBean(AesPKV.class);
 
 	/**
 	 * AES加密
@@ -48,9 +25,9 @@ public class AESUtil {
 	 * @throws Exception
 	 */
 	public static byte[] aesEncryptToBytes(String content, String encryptKey) throws Exception {
-		Cipher cipher = Cipher.getInstance(Constants.ALGORITHMSTR);
-		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encryptKey.getBytes(), "AES"));
-		return cipher.doFinal(content.getBytes("utf-8"));
+		Cipher cipher = Cipher.getInstance(aesPKV.getKeyAlgorithm());
+		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encryptKey.getBytes(), aesPKV.getSignatureName()));
+		return cipher.doFinal(content.getBytes(aesPKV.getCharset()));
 	}
 
 	/**
@@ -78,10 +55,10 @@ public class AESUtil {
 	 * @throws Exception
 	 */
 	public static String aesDecryptByBytes(byte[] encryptBytes, String decryptKey) throws Exception {
-		Cipher cipher = Cipher.getInstance(Constants.ALGORITHMSTR);
-		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes(), "AES"));
+		Cipher cipher = Cipher.getInstance(aesPKV.getKeyAlgorithm());
+		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes(), aesPKV.getSignatureName()));
 		byte[] decryptBytes = cipher.doFinal(encryptBytes);
-		return new String(decryptBytes, "utf-8");
+		return new String(decryptBytes, aesPKV.getCharset());
 	}
 
 	/**
