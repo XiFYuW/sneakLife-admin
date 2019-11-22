@@ -3,7 +3,6 @@ package com.sneaklife.ut.iws;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
 public class RespResult1 {
 

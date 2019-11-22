@@ -4,8 +4,8 @@ import com.sneaklife.pms.dao.system.SystemMenuJpa;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.service.system.menu.SystemMenuService;
-import com.sneaklife.ut.common.CommonUtil;
 import com.sneaklife.ut.interfaces.Nodes;
+import com.sneaklife.ut.iws.IwsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu
             size = removeNode(parentMenu, list, size);
             data.add(parentMenu);
         }
-        return CommonUtil.respResultDataSUCCEED(data);
+        return IwsContext.respResultBodyToSC(data);
     }
 
     @Override

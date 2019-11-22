@@ -1,8 +1,8 @@
-package com.sneaklife.pms.controller.system.exception;
+package com.sneaklife.pms.controller;
 
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
-import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,12 +18,12 @@ public class SneakLifeAdvice {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<String> errorHandlerSneakLifeException(Exception exception) {
         exception.printStackTrace();
-        return CommonUtil.respResult(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
+        return IwsContext.respResultBody(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
     }
 
     @ExceptionHandler(value = Throwable.class)
     public ResponseEntity<String> errorHandlerSneakLifeException(Throwable throwable) {
         throwable.printStackTrace();
-        return CommonUtil.respResult(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
+        return IwsContext.respResultBody(RespCode.MSG_XTYC.toValue(),RespCode.MSG_XTYC.toMsg());
     }
 }
