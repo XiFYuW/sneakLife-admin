@@ -1,6 +1,7 @@
 package com.sneaklife.ut.iws;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.servlet.SneakLifeServletFactory;
@@ -99,7 +100,7 @@ public class IwsContext {
     }
 
     private static ResponseEntity<String> buildIwsBody(RespResult1 respResult,SneakLifeServlet sneakLifeServlet){
-        return new ResponseEntity<>(JSON.toJSONString(respResult), sneakLifeServlet.getMvm(), HttpStatus.OK);
+        return new ResponseEntity<>(JSON.toJSONString(respResult, SerializerFeature.DisableCircularReferenceDetect), sneakLifeServlet.getMvm(), HttpStatus.OK);
     }
 
     public static SneakLifeServlet getSneakLifeServletObject(HttpServletRequest request, HttpServletResponse response){

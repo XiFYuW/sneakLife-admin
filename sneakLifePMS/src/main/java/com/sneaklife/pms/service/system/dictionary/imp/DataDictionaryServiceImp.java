@@ -8,9 +8,8 @@ import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
-import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
-import com.sneaklife.ut.common.CommonUtil;
 import com.sneaklife.ut.date.DateUtil;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import org.slf4j.Logger;
@@ -19,11 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author https://github.com/XiFYuW
@@ -32,7 +29,7 @@ import java.util.Map;
 public class DataDictionaryServiceImp extends CommonService implements DataDictionaryService,
         ParameterTransformation<DataDictionary, Map<String,Object>, List<Map<String, Object>>> {
 
-    private static Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
+    private static final Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
 
     @Autowired
     private DataDictionaryMapper dataDictionaryMapper;
@@ -45,52 +42,47 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @SneakLifeAnLog
+    @Transactional(rollbackFor={Exception.class})
     public void insertDataDictionary(Map<String,Object> map) throws Exception{
         map.put("value", DateUtil.getMilli());
-        int t = dataDictionaryMapper.insertDataDictionary(map);
-        if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultTJSB());
-        }
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        map.put("typeId", Long.valueOf(String.valueOf(map.get("typeDictionary.name"))));
+        insert(dataDictionaryMapper, map);
     }
 
     @Override
     @SneakLifeAnLog
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         Page<DataDictionary> page = getPageData(map, pageInfo, dataDictionaryJpa);
-        return CommonUtil.respResultDataSUCCEED(page);
+        return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     @SneakLifeAnLog
+    @Transactional(rollbackFor={Exception.class})
     public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception{
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return CommonUtil.respResultDataSUCCEED(tableOpera);
+        return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
     @SneakLifeAnLog
+    @Transactional(rollbackFor={Exception.class})
     public void updateDataDictionary(Map<String, Object> map) throws Exception{
-        int t = dataDictionaryMapper.updateDataDictionary(map);
-        if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultXGSB());
-        }
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
+        update(dataDictionaryMapper, map);
     }
 
     @Override
     @SneakLifeAnLog
+    @Transactional(rollbackFor={Exception.class})
     public void deleteDataDictionary(Map<String, Object> map) throws Exception {
-        int t = dataDictionaryMapper.deleteDataDictionary(map);
-        if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultSCSB());
-        }
-        throw new SneakLifeException(CommonUtil.respResultSCCG());
+        delete(dataDictionaryMapper, map);
     }
 
     @Override
     @SneakLifeAnLog
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getByType(Map<String, Object> map) {
         String type = String.valueOf(map.get("type"));
         String[] types = type.split(",");
@@ -112,7 +104,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
         map.clear();
         map.put("title","select data");
         map.put("data", item);
-        return CommonUtil.respResultDataSUCCEED(map);
+        return IwsContext.respResultBodyToSC(map);
     }
 
     @Override

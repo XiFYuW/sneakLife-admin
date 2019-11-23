@@ -120,6 +120,7 @@ public class RSAUtil {
 
 	private static byte[] decryptAndEncrypt(Cipher cipher, byte[] data, int MaxDE) throws BadPaddingException, IllegalBlockSizeException, IOException {
 		int inputLen = data.length;
+		System.out.println(inputLen);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		int offSet = 0;
 		byte[] cache;
