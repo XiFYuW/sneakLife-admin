@@ -1,41 +1,48 @@
 package com.sneaklife.pms.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/8/6 14:30
+ * @date 2019/11/23 12:01
  */
 @Entity
-@Table(name="role_function")
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "type_dictionary")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleFunction extends CommonEntity {
+@Proxy(lazy = false)
+public class TypeDictionary extends CommonEntity{
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY, generator="idGenerator")
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "menu_id")
-    private String menuId;
-
-    @Column(name = "role_id")
-    private String roleId;
+    @Column(name = "name")
+    @NotNull
+    private String name;
 
     @Column(name = "is_del")
+    @NotNull
     private Integer isDel;
 
     @Column(name = "create_date")
+    @NotNull
     private Date createDate;
 
     @Column(name = "update_date")
+    @NotNull
     private Date updateDate;
+
+    @Column(name = "temp_key")
+    @NotNull
+    private String tempKey;
 }
