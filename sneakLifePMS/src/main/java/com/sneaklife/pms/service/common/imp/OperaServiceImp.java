@@ -413,4 +413,9 @@ public class OperaServiceImp implements OperaService {
         buildOperaInTree(map, s, 0);
         return parent;
     }
+
+    @Override
+    public List<Map<String, Object>> getSelectsKyByMenuId(String menuId) {
+        return operaInMapper.getSelectsKyByMenuId(menuId);
+    }
 }

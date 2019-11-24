@@ -28,4 +28,12 @@
   <select id="checkOperaInById" parameterType="map" resultType="int">
     select count(id) from opera_in where id = #{treeViewId} AND is_del = 0
   </select>
+
+  <select id="getSelectsKyByMenuId" parameterType="string" resultType="map">
+    SELECT
+      id as id,
+      field as field
+    FROM opera_in
+    where menu_id = #{menuId} and html_type = 'selects' and is_del = 0 and is_show = 0;
+  </select>
 </mapper>

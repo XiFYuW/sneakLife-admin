@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -100,15 +101,18 @@ public class IwsContext {
     }
 
     private static ResponseEntity<String> buildIwsBody(RespResult1 respResult,SneakLifeServlet sneakLifeServlet){
-        return new ResponseEntity<>(JSON.toJSONString(respResult, SerializerFeature.DisableCircularReferenceDetect), sneakLifeServlet.getMvm(), HttpStatus.OK);
+        MultiValueMap<String, String> m = sneakLifeServlet.getMvm();
+        return new ResponseEntity<>(JSON.toJSONString(respResult), sneakLifeServlet.getMvm(), HttpStatus.OK);
     }
 
     public static SneakLifeServlet getSneakLifeServletObject(HttpServletRequest request, HttpServletResponse response){
-        SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
-        if(null == sneakLifeServlet){
-            sneakLifeServlet = SneakLifeServletFactory.getSneakLifeServletObject(request,response);
-            sneakLifeServletLocal.set(sneakLifeServlet);
-        }
+//        SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
+//        if(null == sneakLifeServlet){
+//            sneakLifeServlet = SneakLifeServletFactory.getSneakLifeServletObject(request,response);
+//            sneakLifeServletLocal.set(sneakLifeServlet);
+//        }
+        SneakLifeServlet sneakLifeServlet = SneakLifeServletFactory.getSneakLifeServletObject(request,response);
+        sneakLifeServletLocal.set(sneakLifeServlet);
         return sneakLifeServlet;
     }
 }

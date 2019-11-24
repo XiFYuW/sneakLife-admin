@@ -2,6 +2,7 @@ package com.sneaklife.pms.dao.system.authority.opera;
 
 import com.sneaklife.pms.entity.OperaIn;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -19,4 +20,6 @@ public interface OperaInMapper {
     Integer checkOperaInByShow(Map<String, Object> map);
 
     Integer checkOperaInById(Map<String, Object> map);
+
+    List<Map<String,Object>> getSelectsKyByMenuId(@Param("menuId") String menuId);
 }

@@ -1,7 +1,7 @@
 package com.sneaklife.pms.controller.system.dictionary;
 
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,31 +18,31 @@ public class DataDictionaryController {
 
     @RequestMapping(value = "/insertDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertDataDictionary(HttpServletRequest request) throws Exception{
-        dataDictionaryService.insertDataDictionary(CommonUtil.getData(request));
+        dataDictionaryService.insertDataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateDataDictionary(HttpServletRequest request) throws Exception{
-        dataDictionaryService.updateDataDictionary(CommonUtil.getData(request));
+        dataDictionaryService.updateDataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteDataDictionary(HttpServletRequest request) throws Exception{
-        dataDictionaryService.deleteDataDictionary(CommonUtil.getData(request));
+        dataDictionaryService.deleteDataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getDataDictionary(HttpServletRequest request) throws Exception{
-        return dataDictionaryService.getDataDictionary(CommonUtil.getData(request), CommonUtil.getPageInfo(request));
+        return dataDictionaryService.getDataDictionary(IwsContext.getData(), IwsContext.getPageInfo());
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> dataDictionary(HttpServletRequest request) throws Exception{
-        return dataDictionaryService.dataDictionary(CommonUtil.getData(request));
+        return dataDictionaryService.dataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getByType", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getByType(HttpServletRequest request) throws Exception{
-        return dataDictionaryService.getByType(CommonUtil.getData(request));
+        return dataDictionaryService.getByType(IwsContext.getData());
     }
 }

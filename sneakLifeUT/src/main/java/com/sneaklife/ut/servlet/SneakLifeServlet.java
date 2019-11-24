@@ -15,17 +15,17 @@ import java.io.UnsupportedEncodingException;
  * @author https://github.com/XiFYuW
  * @date 2019/11/18 13:48
  */
-public class SneakLifeServlet {
+public final class SneakLifeServlet {
 
     private static final Logger log = LoggerFactory.getLogger(SneakLifeServlet.class);
 
     private static final String CHARSET_NAME = "iso-8859-1";
 
-    private volatile MultiValueMap<String, String> mvm;
+    private final MultiValueMap<String, String> mvm;
 
-    private volatile HttpServletRequest httpServletRequest;
+    private final HttpServletRequest httpServletRequest;
 
-    private volatile HttpServletResponse httpServletResponse;
+    private final HttpServletResponse httpServletResponse;
 
     SneakLifeServlet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         this.httpServletRequest = httpServletRequest;
@@ -46,7 +46,8 @@ public class SneakLifeServlet {
     }
 
     public void setCrossDomain() {
-        mvm.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, httpServletRequest.getHeader(HttpHeaders.ORIGIN));
+        String origin =  httpServletRequest.getHeader(HttpHeaders.ORIGIN);
+        mvm.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
         mvm.set(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     }
 

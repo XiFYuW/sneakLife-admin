@@ -60,4 +60,6 @@ public interface OperaService {
      * @return tree data，Id as the current node and pid as the parent node
      */
     List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map);
+
+    List<Map<String, Object>> getSelectsKyByMenuId(String menuId);
 }

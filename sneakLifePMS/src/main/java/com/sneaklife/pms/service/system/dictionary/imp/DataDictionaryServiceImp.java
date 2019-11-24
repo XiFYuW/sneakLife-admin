@@ -3,7 +3,7 @@ package com.sneaklife.pms.service.system.dictionary.imp;
 import com.sneaklife.pms.config.log.SneakLifeAnLog;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper;
-import com.sneaklife.pms.entity.DataDictionary;
+import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
@@ -11,7 +11,6 @@ import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.date.DateUtil;
-import com.sneaklife.ut.interfaces.ParameterTransformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +25,15 @@ import java.util.*;
  * @author https://github.com/XiFYuW
  */
 @Service
-public class DataDictionaryServiceImp extends CommonService implements DataDictionaryService,
-        ParameterTransformation<DataDictionary, Map<String,Object>, List<Map<String, Object>>> {
+public class DataDictionaryServiceImp extends CommonService implements DataDictionaryService {
 
     private static final Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
 
     @Autowired
     private DataDictionaryMapper dataDictionaryMapper;
+
+    @Autowired
+    private TypeDictionaryMapper typeDictionaryMapper;
 
     @Autowired
     private DataDictionaryJpa dataDictionaryJpa;
@@ -42,40 +43,39 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @SneakLifeAnLog
-    @Transactional(rollbackFor={Exception.class})
-    public void insertDataDictionary(Map<String,Object> map) throws Exception{
+    @Transactional(rollbackFor = {Exception.class})
+    public void insertDataDictionary(Map<String, Object> map) throws Exception {
         map.put("value", DateUtil.getMilli());
-        map.put("typeId", Long.valueOf(String.valueOf(map.get("typeDictionary.name"))));
         insert(dataDictionaryMapper, map);
     }
 
     @Override
     @SneakLifeAnLog
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        Page<DataDictionary> page = getPageData(map, pageInfo, dataDictionaryJpa);
+    public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+        Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     @SneakLifeAnLog
-    @Transactional(rollbackFor={Exception.class})
-    public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception{
-        map.put("isShow",0);
-        TableOpera tableOpera = operaService.buildOperaBody(map,false);
+    @Transactional(rollbackFor = {Exception.class})
+    public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception {
+        map.put("isShow", 0);
+        TableOpera tableOpera = operaService.buildOperaBody(map, false);
         return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
     @SneakLifeAnLog
-    @Transactional(rollbackFor={Exception.class})
-    public void updateDataDictionary(Map<String, Object> map) throws Exception{
+    @Transactional(rollbackFor = {Exception.class})
+    public void updateDataDictionary(Map<String, Object> map) throws Exception {
         update(dataDictionaryMapper, map);
     }
 
     @Override
     @SneakLifeAnLog
-    @Transactional(rollbackFor={Exception.class})
+    @Transactional(rollbackFor = {Exception.class})
     public void deleteDataDictionary(Map<String, Object> map) throws Exception {
         delete(dataDictionaryMapper, map);
     }
@@ -84,39 +84,36 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @SneakLifeAnLog
     @Transactional(readOnly = true)
     public ResponseEntity<String> getByType(Map<String, Object> map) {
-        String type = String.valueOf(map.get("type"));
-        String[] types = type.split(",");
-        List<DataDictionary> list = dataDictionaryMapper.getByType(types);
-        Map<String,Object> item = new HashMap<>();
-        list.forEach(dataDictionary -> {
-            String tempKey = dataDictionary.getTempKey();
-            List<Map<String,Object>> data;
-            if(item.containsKey(tempKey)){
-                data = (List<Map<String,Object>>) item.get(tempKey);
-                data.add(paramTrans(new HashMap<>(), dataDictionary));
-                item.put(tempKey, data);
-            }else {
-                data = new ArrayList<>();
-                data.add(paramTrans(new HashMap<>(), dataDictionary));
-                item.put(tempKey, data);
-            }
-        });
+        String express = String.valueOf(map.get("express"));
+        String menuId = String.valueOf(map.get("menuId"));
+        Map<String, Object> item = buildSelectKey(express, menuId);
         map.clear();
-        map.put("title","select data");
+        map.put("title", "select data");
         map.put("data", item);
         return IwsContext.respResultBodyToSC(map);
     }
 
-    @Override
-    @SneakLifeAnLog
-    public Map<String, Object> paramTrans(Map<String, Object> map, DataDictionary dataDictionary) {
-        map.put("name", dataDictionary.getName());
-        map.put("value", dataDictionary.getValue());
-        return map;
+    private Map<String, Object> buildSelectKey(String express, String menuId) {
+        Map<String, Object> data = new HashMap<>();
+        List<Map<String, Object>> selectKey = operaService.getSelectsKyByMenuId(menuId);
+        String[] types = express.split(",");
+        for (String type : types) {
+            String[] match = type.split(":");
+            for (Map<String, Object> select : selectKey) {
+                if (match[0].equals(String.valueOf(select.get("id")))) {
+                    String field = String.valueOf(select.get("field"));
+                    String va = match[1];
+                    if ("*".equals(va)) {
+                        List<Map<String, Object>> item = typeDictionaryMapper.getIdName();
+                        data.put(field, item);
+                    } else {
+                        List<Map<String, Object>> item = dataDictionaryMapper.getNameValueByTypeId(Long.valueOf(va));
+                        data.put(field, item);
+                    }
+                }
+            }
+        }
+        return data;
     }
 
-    @Override
-    public List<Map<String, Object>> fixedParamTrans(List<Map<String, Object>> maps, Map<String, Object> map) {
-        return new ArrayList<>();
-    }
 }

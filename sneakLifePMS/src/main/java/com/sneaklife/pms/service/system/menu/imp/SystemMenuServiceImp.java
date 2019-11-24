@@ -28,6 +28,9 @@ public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu
     @Autowired
     private SystemMenuMapper systemMenuMapper;
 
+    @Autowired
+    private Nodes<SystemMenu, SystemMenu, List<SystemMenu>> nodes;
+
     private static Logger log = LoggerFactory.getLogger(SystemMenuServiceImp.class);
 
     @Override
@@ -37,8 +40,8 @@ public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu
         int size = list.size();
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
-            SystemMenu parentMenu = findChildMenu(systemMenu, list);
-            size = removeNode(parentMenu, list, size);
+            SystemMenu parentMenu = nodes.findChildMenu(systemMenu, list);
+            size = nodes.removeNode(parentMenu, list, size);
             data.add(parentMenu);
         }
         return IwsContext.respResultBodyToSC(data);

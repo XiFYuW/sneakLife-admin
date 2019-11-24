@@ -2,6 +2,7 @@ package com.sneaklife.pms.service.common;
 
 import com.sneaklife.pms.dao.CommonDao;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.common.CommonUtil;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -48,11 +50,15 @@ public abstract class CommonService {
         return page;
     }
 
-    private Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
-        if(!CommonUtil.isNull(pageInfo)){
-            throw new SneakLifeException(CommonUtil.respResult(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
+    public Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
+        if(ObjectUtils.isEmpty(pageInfo)){
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
         }
-        return PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), Sort.Direction.ASC, "id");
+        Sort.Direction direction = Sort.Direction.ASC;
+        if("desc".equals(pageInfo.getSortOrder().toLowerCase())){
+            direction = Sort.Direction.DESC;
+        }
+        return PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), direction, "id");
     }
 
     protected void insert(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{

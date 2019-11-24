@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper">
   <!-- 数据插入 -->
-  <insert id="insertDataDictionary" parameterType="map">
+  <insert id="insert" parameterType="map">
     insert into data_dictionary(
       id,
       <if test="name != null">
         name,
       </if>
-      <if test="type != null">
-        type,
+      <if test="typeId != null">
+        type_id,
       </if>
       <if test="value != null">
         value,
@@ -22,8 +22,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+      <if test="typeId != null">
+        #{typeId},
       </if>
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
@@ -34,14 +34,14 @@
     )
   </insert>
 
-  <update id="updateDataDictionary" parameterType="map">
+  <update id="update" parameterType="map">
     update data_dictionary
     <set>
       <if test="name != null">
         name = #{name},
       </if>
-      <if test="type != null">
-        type = #{type},
+      <if test="typeId != null">
+        type_id = #{typeId},
       </if>
       <if test="value != null">
         value = #{value},
@@ -53,7 +53,7 @@
     </where>
   </update>
 
-  <update id="deleteDataDictionary" parameterType="map">
+  <update id="delete" parameterType="map">
     update data_dictionary set is_del = 1 where id = #{id}
   </update>
 
@@ -61,16 +61,25 @@
     SELECT
       dd.id as id,
       dd.name as name,
-      dd.type as type,
+      dd.type_id as typId,
       dd.value as value,
       td.temp_key as tempKey
-    FROM data_dictionary AS dd INNER JOIN type_dictionary AS td ON dd.type = td.value
+    FROM data_dictionary AS dd INNER JOIN type_dictionary AS td ON dd.type_id = td.id
     <where>
       dd.is_del = 0
-      and dd.type in
+      and dd.type_id in
       <foreach collection="types" index="index" item="item" open="(" separator="," close=")">
         #{item}
       </foreach>
     </where>
+  </select>
+
+
+  <select id="getNameValueByTypeId" parameterType="long" resultType="map">
+    SELECT
+      dd.name as name,
+      dd.value as value,
+    FROM data_dictionary dd
+    where dd.isdel = 0 and dd.type_id = #{typeId}
   </select>
 </mapper>

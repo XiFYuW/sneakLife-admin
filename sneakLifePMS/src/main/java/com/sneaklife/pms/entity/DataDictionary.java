@@ -30,7 +30,7 @@ public class DataDictionary extends CommonEntity {
     @NotNull
     private String value;
 
-    @Column(name = "type_id",insertable = false,updatable = false)
+    @Column(name = "type_id")
     @NotNull
     private Long typeId;
 
@@ -45,11 +45,4 @@ public class DataDictionary extends CommonEntity {
     @Column(name = "update_date")
     @NotNull
     private Date updateDate;
-
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "type_id")
-    private TypeDictionary typeDictionary;
-
-    @Transient
-    private String tempKey;
 }
