@@ -82,7 +82,7 @@ public class OperaServiceImp implements OperaService {
     public TableOpera buildOperaBody(Map<String, Object> map, boolean is) {
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
         Table table = new Table("",columnsList);
-        List<OperaSb> operaSbList = operaSbMapper.findOperaSbByShow(map);
+        List<Map<String,Object>> operaSbList = operaSbMapper.findOperaSbByShow(map);
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
         Opera opera = new Opera(operaSbList,dispOperaIn(operaInList,is));
         return new TableOpera(opera,table);
@@ -173,8 +173,13 @@ public class OperaServiceImp implements OperaService {
     private void buildOperaSbTree(Map<String, Object> map, int pid, int num){
         data.add(buildOperaItem(OPERA_SB,"OperaSb", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
-        List<OperaSb> operaSbList = operaSbMapper.findOperaSbByShow(map);
-        operaSbList.forEach(operaSb -> data.add(buildOperaItem(operaSb.getId(),operaSb.getText(), ++size, p, operaSb.getIsShow(),operaSb.getIsShow() == 0)));
+        List<Map<String,Object>> operaSbList = operaSbMapper.findOperaSbByShow(map);
+        operaSbList.forEach(operaSb -> {
+            String id = String.valueOf(operaSb.get("id"));
+            String codeName = String.valueOf(operaSb.get("codeName"));
+            int isShow = Integer.valueOf(String.valueOf(operaSb.get("isShow")));
+            data.add(buildOperaItem(id, codeName, ++size, p, isShow,isShow == 0));
+        });
     }
 
     /**

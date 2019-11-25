@@ -8,8 +8,8 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
-import com.sneaklife.ut.common.CommonUtil;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,40 +46,40 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     public void insertRoleConfig(Map<String, Object> map) throws Exception {
         int t = roleConfigMapper.insertRoleConfig(map);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultTJSB());
+            throw new SneakLifeException(IwsContext.respResultTJSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
     public ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<RoleConfig> page = getPageData(map, pageInfo, roleConfigJpa);
-        return CommonUtil.respResultDataSUCCEED(page);
+        return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     public ResponseEntity<String> roleConfig(Map<String, Object> map) throws Exception {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return CommonUtil.respResultDataSUCCEED(tableOpera);
+        return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
     public void updateRoleConfig(Map<String, Object> map) throws Exception {
         int t = roleConfigMapper.updateRoleConfig(map);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultXGSB());
+            throw new SneakLifeException(IwsContext.respResultXGSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
+        throw new SneakLifeException(IwsContext.respResultXGCG());
     }
 
     @Override
     public void deleteRoleConfig(Map<String, Object> map) throws Exception {
         int t = roleConfigMapper.deleteRoleConfig(map);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultSCSB());
+            throw new SneakLifeException(IwsContext.respResultSCSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultSCCG());
+        throw new SneakLifeException(IwsContext.respResultSCCG());
     }
 
     @Override
@@ -102,7 +102,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
         });
         map.put("title","select role");
         map.put("data", data);
-        return CommonUtil.respResultDataSUCCEED(map);
+        return IwsContext.respResultBodyToSC(map);
     }
 
     @Override

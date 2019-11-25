@@ -18,9 +18,6 @@ public class OperaSb extends CommonEntity {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "text")
-    private String text;
-
     @Column(name = "is_del")
     private Integer isDel;
 
@@ -47,10 +44,9 @@ public class OperaSb extends CommonEntity {
 
     public OperaSb() { super();}
 
-    public OperaSb(String id, String type, String text, Integer isDel, Date createDate, Date updateDate, String code, String icon, String url, String menuId, Integer isShow) {
+    public OperaSb(String id, String type, Integer isDel, Date createDate, Date updateDate, String code, String icon, String url, String menuId, Integer isShow) {
         this.id = id;
         this.type = type;
-        this.text = text;
         this.isDel = isDel;
         this.createDate = createDate;
         this.updateDate = updateDate;
@@ -75,14 +71,6 @@ public class OperaSb extends CommonEntity {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public Integer getIsDel() {
@@ -156,8 +144,6 @@ public class OperaSb extends CommonEntity {
                 .append(id).append('\"');
         sb.append(",\"type\":\"")
                 .append(type).append('\"');
-        sb.append(",\"text\":\"")
-                .append(text).append('\"');
         sb.append(",\"isDel\":")
                 .append(isDel);
         sb.append(",\"createDate\":\"")

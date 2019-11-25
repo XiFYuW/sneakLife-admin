@@ -12,7 +12,7 @@ import java.util.Map;
 @Mapper
 public interface OperaSbMapper {
 
-    List<OperaSb> findOperaSbByShow(Map<String, Object> map);
+    List<Map<String,Object>> findOperaSbByShow(Map<String, Object> map);
 
     Integer insertOperaSb(OperaSb operaSb);
 

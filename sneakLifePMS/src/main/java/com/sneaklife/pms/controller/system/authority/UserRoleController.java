@@ -1,14 +1,12 @@
 package com.sneaklife.pms.controller.system.authority;
 
 import com.sneaklife.pms.service.system.authority.UserRoleService;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserRoleController {
@@ -17,27 +15,27 @@ public class UserRoleController {
     private UserRoleService userRoleService;
 
     @RequestMapping(value = "/userRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> userRole(HttpServletRequest request) throws Exception{
-        return userRoleService.userRole(CommonUtil.getData(request));
+    public ResponseEntity<String> userRole() throws Exception{
+        return userRoleService.userRole(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getUserRole(HttpServletRequest request) throws Exception{
-        return userRoleService.getUserRole(CommonUtil.getData(request), CommonUtil.getPageInfo(request));
+    public ResponseEntity<String> getUserRole() throws Exception{
+        return userRoleService.getUserRole(IwsContext.getData(), IwsContext.getPageInfo());
     }
 
     @RequestMapping(value = "/insertUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertUserRole(HttpServletRequest request) throws Exception{
-        userRoleService.insertUserRole(CommonUtil.getData(request));
+    public void insertUserRole() throws Exception{
+        userRoleService.insertUserRole(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateUserRole(HttpServletRequest request) throws Exception{
-        userRoleService.updateUserRole(CommonUtil.getData(request));
+    public void updateUserRole() throws Exception{
+        userRoleService.updateUserRole(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteUserRole(HttpServletRequest request) throws Exception{
-        userRoleService.deleteUserRole(CommonUtil.getData(request));
+    public void deleteUserRole() throws Exception{
+        userRoleService.deleteUserRole(IwsContext.getData());
     }
 }

@@ -1,14 +1,12 @@
 package com.sneaklife.pms.controller.system.business.businessFunction;
 
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author https://github.com/XiFYuW
@@ -21,32 +19,32 @@ public class FunctionButtonController {
     private FunctionButtonService functionButtonService;
 
     @RequestMapping(value = "/functionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionButton(HttpServletRequest request) throws Exception{
-        return functionButtonService.functionButton(CommonUtil.getData(request));
+    public ResponseEntity<String> functionButton() throws Exception{
+        return functionButtonService.functionButton(IwsContext.getData());
     }
 
     @RequestMapping(value = "/functionButtonTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionButtonTableView(HttpServletRequest request) throws Exception{
-        return functionButtonService.functionButtonTableView(CommonUtil.getData(request));
+    public ResponseEntity<String> functionButtonTableView() throws Exception{
+        return functionButtonService.functionButtonTableView(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getFunctionButton(HttpServletRequest request) throws Exception{
-        return functionButtonService.getFunctionButton(CommonUtil.getData(request), CommonUtil.getPageInfo(request));
+    public ResponseEntity<String> getFunctionButton() throws Exception{
+        return functionButtonService.getFunctionButton(IwsContext.getData(), IwsContext.getPageInfo());
     }
 
     @RequestMapping(value = "/insertFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertFunctionButton(HttpServletRequest request) throws Exception{
-        functionButtonService.insertFunctionButton(CommonUtil.getData(request));
+    public void insertFunctionButton() throws Exception{
+        functionButtonService.insertFunctionButton(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateFunctionButton(HttpServletRequest request) throws Exception{
-        functionButtonService.updateFunctionButton(CommonUtil.getData(request));
+    public void updateFunctionButton() throws Exception{
+        functionButtonService.updateFunctionButton(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteFunctionButton(HttpServletRequest request) throws Exception{
-        functionButtonService.deleteFunctionButton(CommonUtil.getData(request));
+    public void deleteFunctionButton() throws Exception{
+        functionButtonService.deleteFunctionButton(IwsContext.getData());
     }
 }

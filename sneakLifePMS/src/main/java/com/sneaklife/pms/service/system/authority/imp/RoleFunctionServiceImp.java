@@ -8,8 +8,8 @@ import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
 import com.sneaklife.pms.service.system.authority.RoleFunctionService;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
-import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,13 +38,13 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     public ResponseEntity<String> roleFunctionTreeView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return CommonUtil.respResultDataSUCCEED(tableOpera);
+        return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
     public ResponseEntity<String> roleFunction(Map<String, Object> map) {
         List<Map<String,Object>> data = roleConfigService.buildRoleTreeView();
-        return CommonUtil.respResultDataSUCCEED(data);
+        return IwsContext.respResultBodyToSC(data);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
         RoleFunction roleFunction = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
         List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunction, map);
         operaService.clean();
-        return CommonUtil.respResultDataSUCCEED(data);
+        return IwsContext.respResultBodyToSC(data);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Override
     public void insertRoleFunction(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
         String roleId = String.valueOf(root.get("treeViewId"));
         roleFunctionMapper.deleteByRoleId(roleId);
         roleFunctionMapper.insertBatch(upList, roleId);
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
+        throw new SneakLifeException(IwsContext.respResultXGCG());
     }
 
     private Map<String,Object> findRootPid(List<Map<String,Object>> upList) throws SneakLifeException{
@@ -84,13 +84,13 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
                 return map;
             }
         }
-        throw new SneakLifeException(CommonUtil.respResult(RespCode.MSG_PARAM_ILLEGAL_NOT_ROOT.toValue(),
+        throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PARAM_ILLEGAL_NOT_ROOT.toValue(),
                 RespCode.MSG_PARAM_ILLEGAL_NOT_ROOT.toMsg()));
     }
 
     @Override
     public void deleteRoleFunction(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(CommonUtil.respResultSCCG());
+        throw new SneakLifeException(IwsContext.respResultSCCG());
     }
 
 }

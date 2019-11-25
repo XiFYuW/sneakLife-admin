@@ -8,8 +8,8 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionColumnsService;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
-import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -45,13 +45,13 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     public ResponseEntity<String> functionColumnsTableView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return CommonUtil.respResultDataSUCCEED(tableOpera);
+        return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
     public ResponseEntity<String> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Columns> page = getPageDataById(map, pageInfo, functionColumnsJpa);
-        return CommonUtil.respResultDataSUCCEED(page);
+        return IwsContext.respResultBodyToSC(page);
     }
 
     @Override

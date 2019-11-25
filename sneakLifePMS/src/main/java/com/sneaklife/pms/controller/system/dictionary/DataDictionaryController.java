@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 public class DataDictionaryController {
 
@@ -17,32 +15,32 @@ public class DataDictionaryController {
     private DataDictionaryService dataDictionaryService;
 
     @RequestMapping(value = "/insertDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertDataDictionary(HttpServletRequest request) throws Exception{
+    public void insertDataDictionary() throws Exception{
         dataDictionaryService.insertDataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateDataDictionary(HttpServletRequest request) throws Exception{
+    public void updateDataDictionary() throws Exception{
         dataDictionaryService.updateDataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteDataDictionary(HttpServletRequest request) throws Exception{
+    public void deleteDataDictionary() throws Exception{
         dataDictionaryService.deleteDataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getDataDictionary(HttpServletRequest request) throws Exception{
+    public ResponseEntity<String> getDataDictionary() throws Exception{
         return dataDictionaryService.getDataDictionary(IwsContext.getData(), IwsContext.getPageInfo());
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> dataDictionary(HttpServletRequest request) throws Exception{
+    public ResponseEntity<String> dataDictionary() throws Exception{
         return dataDictionaryService.dataDictionary(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getByType", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getByType(HttpServletRequest request) throws Exception{
+    public ResponseEntity<String> getByType() throws Exception{
         return dataDictionaryService.getByType(IwsContext.getData());
     }
 }

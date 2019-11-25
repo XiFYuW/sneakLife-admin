@@ -107,7 +107,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
                         List<Map<String, Object>> item = typeDictionaryMapper.getIdName();
                         data.put(field, item);
                     } else {
-                        List<Map<String, Object>> item = dataDictionaryMapper.getNameValueByTypeId(Long.valueOf(va));
+                        List<Map<String, Object>> item = dataDictionaryMapper.getNameValueByTypeId(Long.parseLong(va));
                         data.put(field, item);
                     }
                 }

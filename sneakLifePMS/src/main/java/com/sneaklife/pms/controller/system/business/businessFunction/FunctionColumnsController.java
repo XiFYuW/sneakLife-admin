@@ -1,14 +1,12 @@
 package com.sneaklife.pms.controller.system.business.businessFunction;
 
 import com.sneaklife.pms.service.system.business.businessFunction.FunctionColumnsService;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author https://github.com/XiFYuW
@@ -21,32 +19,32 @@ public class FunctionColumnsController {
     private FunctionColumnsService functionColumnsService;
 
     @RequestMapping(value = "/functionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionColumns(HttpServletRequest request) throws Exception{
-        return functionColumnsService.functionColumns(CommonUtil.getData(request));
+    public ResponseEntity<String> functionColumns() throws Exception{
+        return functionColumnsService.functionColumns(IwsContext.getData());
     }
 
     @RequestMapping(value = "/functionColumnsTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionColumnsTableView(HttpServletRequest request) throws Exception{
-        return functionColumnsService.functionColumnsTableView(CommonUtil.getData(request));
+    public ResponseEntity<String> functionColumnsTableView() throws Exception{
+        return functionColumnsService.functionColumnsTableView(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getFunctionColumns(HttpServletRequest request) throws Exception{
-        return functionColumnsService.getFunctionColumns(CommonUtil.getData(request), CommonUtil.getPageInfo(request));
+    public ResponseEntity<String> getFunctionColumns() throws Exception{
+        return functionColumnsService.getFunctionColumns(IwsContext.getData(), IwsContext.getPageInfo());
     }
 
     @RequestMapping(value = "/insertFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertFunctionColumns(HttpServletRequest request) throws Exception{
-        functionColumnsService.insertFunctionColumns(CommonUtil.getData(request));
+    public void insertFunctionColumns() throws Exception{
+        functionColumnsService.insertFunctionColumns(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateFunctionColumns(HttpServletRequest request) throws Exception{
-        functionColumnsService.updateFunctionColumns(CommonUtil.getData(request));
+    public void updateFunctionColumns() throws Exception{
+        functionColumnsService.updateFunctionColumns(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteFunctionColumns(HttpServletRequest request) throws Exception{
-        functionColumnsService.deleteFunctionColumns(CommonUtil.getData(request));
+    public void deleteFunctionColumns() throws Exception{
+        functionColumnsService.deleteFunctionColumns(IwsContext.getData());
     }
 }

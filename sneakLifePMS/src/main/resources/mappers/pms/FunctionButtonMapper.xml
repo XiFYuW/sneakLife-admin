@@ -6,7 +6,6 @@
     (
       id,
       type,
-      text,
       code,
       icon,
       create_date,
@@ -20,7 +19,6 @@
     (
       REPLACE(UUID(), '-', ''),
       #{type,jdbcType=VARCHAR},
-      #{text,jdbcType=VARCHAR},
       #{code,jdbcType=INTEGER},
       #{icon,jdbcType=VARCHAR},
       NOW(),
@@ -37,9 +35,6 @@
     <set>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="text != null">
-        text = #{text,jdbcType=VARCHAR},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=INTEGER},

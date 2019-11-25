@@ -5,7 +5,6 @@ import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.iws.RespCode;
-import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,24 +63,24 @@ public abstract class CommonService {
     protected void insert(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
         int t = commonDao.insert(map);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultTJSB());
+            throw new SneakLifeException(IwsContext.respResultTJSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     protected void update(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
         int t = commonDao.update(map);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultXGSB());
+            throw new SneakLifeException(IwsContext.respResultXGSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
+        throw new SneakLifeException(IwsContext.respResultXGCG());
     }
 
     protected void delete(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
         int t = commonDao.delete(map);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultSCSB());
+            throw new SneakLifeException(IwsContext.respResultSCSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultSCCG());
+        throw new SneakLifeException(IwsContext.respResultSCCG());
     }
 }

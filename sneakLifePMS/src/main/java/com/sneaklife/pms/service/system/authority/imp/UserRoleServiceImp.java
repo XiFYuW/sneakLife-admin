@@ -8,8 +8,8 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.UserRoleService;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
-import com.sneaklife.ut.common.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     public ResponseEntity<String> userRole(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return CommonUtil.respResultDataSUCCEED(tableOpera);
+        return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
@@ -54,12 +54,12 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
             userRole.setValue(temp.getValue());
             userRole.setText(temp.getRoleName());
         });
-        return CommonUtil.respResultDataSUCCEED(page);
+        return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     public void insertUserRole(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
@@ -68,13 +68,13 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
         List<Map<String,Object>> upList = (List<Map<String, Object>>) map.get("up");
         int t = userRoleMapper.updateBatch(upList);
         if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultXGSB());
+            throw new SneakLifeException(IwsContext.respResultXGSB());
         }
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
+        throw new SneakLifeException(IwsContext.respResultXGCG());
     }
 
     @Override
     public void deleteUserRole(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(CommonUtil.respResultSCCG());
+        throw new SneakLifeException(IwsContext.respResultSCCG());
     }
 }

@@ -8,8 +8,8 @@ import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
-import com.sneaklife.ut.common.CommonUtil;
 import com.sneaklife.ut.interfaces.Interceptor.ChildNode;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
@@ -55,7 +55,7 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     public void insertFunctionConfig(Map<String, Object> map) throws Exception {
         String id = String.valueOf(map.get("id"));
         if("opera-columns".equals(id) || "opera-in".equals(id)){
-            throw new SneakLifeException(CommonUtil.respResult(RespCode.MSG_NO_OPERA_ADD.toValue(),RespCode.MSG_NO_OPERA_ADD.toMsg()));
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_NO_OPERA_ADD.toValue(),RespCode.MSG_NO_OPERA_ADD.toMsg()));
         }
 
         if("opera-sb".equals(id)){
@@ -63,13 +63,13 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
             operaSb.setCode("3");
             operaSb.setIcon("glyphicon-pencil");
             operaSb.setMenuId(String.valueOf(map.get("tempMenuId")));
-            operaSb.setText(String.valueOf(map.get("pid")));
+//            operaSb.setText(String.valueOf(map.get("pid")));
             operaSb.setType("button");
             operaSb.setUrl("#");
             operaService.insertOperaSb(operaSb);
         }
 
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
+        throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
@@ -87,21 +87,21 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
             data.add(parentMenu);
         }
         List<Map<String, Object>> left = fixedParamTrans(data, new HashMap<>());
-        return CommonUtil.respResultDataSUCCEED(left);
+        return IwsContext.respResultBodyToSC(left);
     }
 
     @Override
     public ResponseEntity<String> functionConfigTreeView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return CommonUtil.respResultDataSUCCEED(tableOpera);
+        return IwsContext.respResultBodyToSC(tableOpera);
     }
 
     @Override
     public ResponseEntity<String> getFunctionConfig(Map<String, Object> map) {
         List<Map<String,Object>> data = operaService.buildOperaTreeGrid(map);
         operaService.clean();
-        return CommonUtil.respResultDataSUCCEED(data);
+        return IwsContext.respResultBodyToSC(data);
     }
 
     @ChildNode
@@ -123,7 +123,7 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     @Override
     public int removeNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>)parentMenu.get("nodes");
-        if(!CommonUtil.isNull(childMenu)){
+        if(!IwsContext.isNull(childMenu)){
             parentMenu.remove("nodes");
             return size;
         }

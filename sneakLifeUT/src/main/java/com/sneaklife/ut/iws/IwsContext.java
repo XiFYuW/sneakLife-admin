@@ -1,7 +1,6 @@
 package com.sneaklife.ut.iws;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.servlet.SneakLifeServletFactory;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author https://github.com/XiFYuW
@@ -106,13 +106,36 @@ public class IwsContext {
     }
 
     public static SneakLifeServlet getSneakLifeServletObject(HttpServletRequest request, HttpServletResponse response){
-//        SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
-//        if(null == sneakLifeServlet){
-//            sneakLifeServlet = SneakLifeServletFactory.getSneakLifeServletObject(request,response);
-//            sneakLifeServletLocal.set(sneakLifeServlet);
-//        }
         SneakLifeServlet sneakLifeServlet = SneakLifeServletFactory.getSneakLifeServletObject(request,response);
         sneakLifeServletLocal.set(sneakLifeServlet);
         return sneakLifeServlet;
+    }
+
+    public static ResponseEntity<String> respResultXGCG() {
+        return respResultBody(RespCode.MSG_XGCG.toValue(), RespCode.MSG_XGCG.toMsg());
+    }
+
+    public static ResponseEntity<String> respResultXGSB() {
+        return respResultBody(RespCode.MSG_XGSB.toValue(), RespCode.MSG_XGSB.toMsg());
+    }
+
+    public static ResponseEntity<String> respResultTJCG() {
+        return respResultBody(RespCode.MSG_TJCG.toValue(), RespCode.MSG_TJCG.toMsg());
+    }
+
+    public static ResponseEntity<String> respResultTJSB() {
+        return respResultBody(RespCode.MSG_TJSB.toValue(), RespCode.MSG_TJSB.toMsg());
+    }
+
+    public static ResponseEntity<String> respResultSCCG() {
+        return respResultBody(RespCode.MSG_SCCG.toValue(), RespCode.MSG_SCCG.toMsg());
+    }
+
+    public static ResponseEntity<String> respResultSCSB() {
+        return respResultBody(RespCode.MSG_SCSB.toValue(), RespCode.MSG_SCSB.toMsg());
+    }
+
+    public static boolean isNull(Object ob) {
+        return Optional.ofNullable(ob).isPresent();
     }
 }

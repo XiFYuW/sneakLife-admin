@@ -78,8 +78,10 @@
   <select id="getNameValueByTypeId" parameterType="long" resultType="map">
     SELECT
       dd.name as name,
-      dd.value as value,
+      dd.value as value
     FROM data_dictionary dd
-    where dd.isdel = 0 and dd.type_id = #{typeId}
+    <where>
+      dd.is_del = 0 and dd.type_id = #{typeId}
+    </where>
   </select>
 </mapper>
