@@ -2,7 +2,6 @@ package com.sneaklife.pms.service.system.business.businessFunction.imp;
 
 import com.sneaklife.pms.dao.system.business.businessFunction.functionInput.FunctionInputJpa;
 import com.sneaklife.pms.dao.system.business.businessFunction.functionInput.FunctionInputMapper;
-import com.sneaklife.pms.entity.OperaIn;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -37,11 +37,13 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     private FunctionInputMapper functionInputMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> functionInput(Map<String, Object> map) {
         return functionConfigService.functionConfig(map);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> functionInputTableView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
@@ -49,22 +51,27 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<OperaIn> page = getPageDataById(map, pageInfo, functionInputJpa);
+        String menuId = String.valueOf(map.get("menuId"));
+        Page<Map<String,Object>> page = functionInputJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insertFunctionInput(Map<String, Object> map) throws Exception {
         insert(functionInputMapper, map);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateFunctionInput(Map<String, Object> map) throws Exception {
         update(functionInputMapper, map);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteFunctionInput(Map<String, Object> map) throws Exception {
         delete(functionInputMapper, map);
     }

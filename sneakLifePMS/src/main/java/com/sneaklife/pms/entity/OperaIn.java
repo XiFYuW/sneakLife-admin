@@ -1,5 +1,10 @@
 package com.sneaklife.pms.entity;
 
+import com.sneaklife.pms.entity.modal.CommonEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -10,13 +15,14 @@ import java.util.Date;
 
 @Entity
 @Table(name = "opera_in")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class OperaIn extends CommonEntity {
     @Id
     @GenericGenerator(name="idGenerator", strategy="uuid")
     private String id;
-
-    @Column(name = "type")
-    private String type;
 
     @Column(name = "text_name")
     private String textName;
@@ -42,108 +48,11 @@ public class OperaIn extends CommonEntity {
     @Column(name = "menu_id")
     private String menuId;
 
-    public OperaIn() { super();}
-
-    public OperaIn(String id, String type, String textName, String htmlType, Integer isDel, Date createDate, Date updateDate, String field, Integer isShow, String menuId) {
-        this.id = id;
-        this.type = type;
-        this.textName = textName;
-        this.htmlType = htmlType;
-        this.isDel = isDel;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.field = field;
-        this.isShow = isShow;
-        this.menuId = menuId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getTextName() {
-        return textName;
-    }
-
-    public void setTextName(String textName) {
-        this.textName = textName;
-    }
-
-    public String getHtmlType() {
-        return htmlType;
-    }
-
-    public void setHtmlType(String htmlType) {
-        this.htmlType = htmlType;
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public Integer getIsShow() {
-        return isShow;
-    }
-
-    public void setIsShow(Integer isShow) {
-        this.isShow = isShow;
-    }
-
-    public String getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
         sb.append("\"id\":\"")
                 .append(id).append('\"');
-        sb.append(",\"type\":\"")
-                .append(type).append('\"');
         sb.append(",\"textName\":\"")
                 .append(textName).append('\"');
         sb.append(",\"htmlType\":\"")

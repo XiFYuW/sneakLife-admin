@@ -1,5 +1,10 @@
 package com.sneaklife.pms.entity;
 
+import com.sneaklife.pms.entity.modal.CommonEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -14,6 +19,10 @@ import java.util.Date;
  */
 @Entity
 @Table(name="role_config")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class RoleConfig extends CommonEntity {
 
     @Id
@@ -34,65 +43,6 @@ public class RoleConfig extends CommonEntity {
 
     @Column(name = "update_date")
     private Date updateDate;
-
-    public RoleConfig(){}
-
-    public RoleConfig(String id, String name, String type, Integer isDel, Date createDate, Date updateDate) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.isDel = isDel;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
 
     @Override
     public String toString() {

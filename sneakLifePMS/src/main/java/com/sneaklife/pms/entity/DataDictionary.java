@@ -1,5 +1,6 @@
 package com.sneaklife.pms.entity;
 
+import com.sneaklife.pms.entity.modal.CommonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,4 +46,25 @@ public class DataDictionary extends CommonEntity {
     @Column(name = "update_date")
     @NotNull
     private Date updateDate;
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\":\"")
+                .append(id).append('\"');
+        sb.append(",\"name\":\"")
+                .append(name).append('\"');
+        sb.append(",\"value\":\"")
+                .append(value).append('\"');
+        sb.append(",\"typeId\":")
+                .append(typeId);
+        sb.append(",\"isDel\":")
+                .append(isDel);
+        sb.append(",\"updateDate\":\"")
+                .append(updateDate).append('\"');
+        sb.append(",\"createDate\":\"")
+                .append(createDate).append('\"');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -1,7 +1,7 @@
 package com.sneaklife.pms.entity;
 
+import com.sneaklife.pms.entity.modal.CommonEntity;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Proxy(lazy = false)
-public class TypeDictionary extends CommonEntity{
+public class TypeDictionary extends CommonEntity {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY, generator="idGenerator")

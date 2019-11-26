@@ -81,11 +81,11 @@ public class OperaServiceImp implements OperaService {
     @Override
     public TableOpera buildOperaBody(Map<String, Object> map, boolean is) {
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
-        Table table = new Table("",columnsList);
+        Table table = new Table(columnsList);
         List<Map<String,Object>> operaSbList = operaSbMapper.findOperaSbByShow(map);
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
         Opera opera = new Opera(operaSbList,dispOperaIn(operaInList,is));
-        return new TableOpera(opera,table);
+        return new TableOpera(table,opera);
     }
 
     @Override

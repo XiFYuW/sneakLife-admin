@@ -7,7 +7,6 @@
     (
       id,
       text_name,
-      type,
       html_type,
       field,
       create_date,
@@ -20,7 +19,6 @@
     (
       REPLACE(UUID(), '-', ''),
       #{textName,jdbcType=VARCHAR},
-      #{type,jdbcType=VARCHAR},
       #{htmlType,jdbcType=VARCHAR},
       #{field,jdbcType=VARCHAR},
       NOW(),
@@ -36,9 +34,6 @@
     <set>
       <if test="textName != null">
         text_name = #{textName,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
       </if>
       <if test="htmlType != null">
         html_type = #{htmlType,jdbcType=INTEGER},

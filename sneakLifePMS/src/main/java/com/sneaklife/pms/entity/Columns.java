@@ -1,5 +1,10 @@
 package com.sneaklife.pms.entity;
 
+import com.sneaklife.pms.entity.modal.CommonEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -10,6 +15,10 @@ import java.util.Date;
 
 @Entity
 @Table(name = "columns")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Columns extends CommonEntity {
 
     @Id
@@ -39,92 +48,6 @@ public class Columns extends CommonEntity {
 
     @Column(name = "menu_id")
     private String menuId;
-
-    public Columns() { super();}
-
-    public Columns(String id, String field, String title, Integer isDel, Date createDate, Date updateDate, String align, Integer isShow, String menuId) {
-        this.id = id;
-        this.field = field;
-        this.title = title;
-        this.isDel = isDel;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.align = align;
-        this.isShow = isShow;
-        this.menuId = menuId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public String getAlign() {
-        return align;
-    }
-
-    public void setAlign(String align) {
-        this.align = align;
-    }
-
-    public Integer getIsShow() {
-        return isShow;
-    }
-
-    public void setIsShow(Integer isShow) {
-        this.isShow = isShow;
-    }
-
-    public String getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
-    }
 
     @Override
     public String toString() {

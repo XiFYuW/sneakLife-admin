@@ -7,7 +7,6 @@ import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
-import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,22 +42,24 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Autowired
     private OperaService operaService;
 
+    @Autowired
+    private ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> ptf;
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insertRoleConfig(Map<String, Object> map) throws Exception {
-        int t = roleConfigMapper.insertRoleConfig(map);
-        if(t != 1){
-            throw new SneakLifeException(IwsContext.respResultTJSB());
-        }
-        throw new SneakLifeException(IwsContext.respResultTJCG());
+        insert(roleConfigMapper,map);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<RoleConfig> page = getPageData(map, pageInfo, roleConfigJpa);
+        Page<Map<String, Object>> page = roleConfigJpa.findAllPage(getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> roleConfig(Map<String, Object> map) throws Exception {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
@@ -65,32 +67,28 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateRoleConfig(Map<String, Object> map) throws Exception {
-        int t = roleConfigMapper.updateRoleConfig(map);
-        if(t != 1){
-            throw new SneakLifeException(IwsContext.respResultXGSB());
-        }
-        throw new SneakLifeException(IwsContext.respResultXGCG());
+        update(roleConfigMapper,map);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteRoleConfig(Map<String, Object> map) throws Exception {
-        int t = roleConfigMapper.deleteRoleConfig(map);
-        if(t != 1){
-            throw new SneakLifeException(IwsContext.respResultSCSB());
-        }
-        throw new SneakLifeException(IwsContext.respResultSCCG());
+        delete(roleConfigMapper,map);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Map<String, Object>> buildRoleTreeView(){
         List<Map<String,Object>> data = new ArrayList<>();
         List<RoleConfig> list = roleConfigMapper.getByIsDel(0);
-        list.forEach(roleConfig -> data.add(paramTrans(new HashMap<>(), roleConfig)));
-        return fixedParamTrans(data, new HashMap<>());
+        list.forEach(roleConfig -> data.add(ptf.paramTrans(new HashMap<>(), roleConfig)));
+        return ptf.fixedParamTrans(data, new HashMap<>());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> selectsList(Map<String,Object> map) {
         List<RoleConfig> roleConfigList = roleConfigMapper.getByIsDel(0);
         List<Map<String,Object>> data = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.sneaklife.pms.entity;
 
+import com.sneaklife.pms.entity.modal.CommonEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
