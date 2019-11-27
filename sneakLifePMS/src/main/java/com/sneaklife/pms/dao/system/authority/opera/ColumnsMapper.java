@@ -1,5 +1,6 @@
 package com.sneaklife.pms.dao.system.authority.opera;
 
+import com.sneaklife.pms.dao.CommonDao;
 import com.sneaklife.pms.entity.Columns;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  */
 @Mapper
-public interface ColumnsMapper {
+public interface ColumnsMapper extends CommonDao {
 
     List<Columns> findColumnsByShow(Map<String, Object> map);
 

@@ -1,5 +1,6 @@
 package com.sneaklife.pms.dao.system.authority.opera;
 
+import com.sneaklife.pms.dao.CommonDao;
 import com.sneaklife.pms.entity.OperaIn;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  */
 @Mapper
-public interface OperaInMapper {
+public interface OperaInMapper extends CommonDao {
 
     List<OperaIn> findOperaInByShow(Map<String, Object> map);
 

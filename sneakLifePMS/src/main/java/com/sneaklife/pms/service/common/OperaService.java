@@ -1,6 +1,5 @@
 package com.sneaklife.pms.service.common;
 
-import com.sneaklife.pms.entity.OperaSb;
 import com.sneaklife.pms.entity.RoleFunction;
 import com.sneaklife.pms.entity.modal.TableOpera;
 
@@ -31,27 +30,6 @@ public interface OperaService {
      *  Clear global variables，Size, data for OperaServiceIml
      */
     void clean();
-
-    /**
-     * Insert function options
-     * @param operaSb parameter
-     * @throws Exception Global exceptions are handled
-     */
-    void insertOperaSb(OperaSb operaSb) throws Exception;
-
-    /**
-     * Update function options
-     * @param map parameter
-     * @throws Exception Global exceptions are handled
-     */
-    void updateOpera(Map<String, Object> map) throws Exception;
-
-    /**
-     * Delete function options
-     * @param map parameter
-     * @throws Exception Global exceptions are handled
-     */
-    void deleteOpera(Map<String, Object> map) throws Exception;
 
     /**
      * Build the role function tree data

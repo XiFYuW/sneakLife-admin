@@ -1,12 +1,12 @@
-package com.sneaklife.pms.service.system.business.businessFunction.imp;
+package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsJpa;
-import com.sneaklife.pms.dao.system.business.businessFunction.fcuntionColumns.FunctionColumnsMapper;
+import com.sneaklife.pms.dao.system.authority.opera.ColumnsJpa;
+import com.sneaklife.pms.dao.system.authority.opera.ColumnsMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
-import com.sneaklife.pms.service.system.business.businessFunction.FunctionColumnsService;
+import com.sneaklife.pms.service.system.authority.FunctionColumnsService;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +31,10 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     private OperaService operaService;
 
     @Autowired
-    private FunctionColumnsJpa functionColumnsJpa;
+    private ColumnsJpa columnsJpa;
 
     @Autowired
-    private FunctionColumnsMapper functionColumnsMapper;
+    private ColumnsMapper columnsMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -54,25 +54,25 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Transactional(readOnly = true)
     public ResponseEntity<String> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         String menuId = String.valueOf(map.get("menuId"));
-        Page<Map<String,Object>> page = functionColumnsJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
+        Page<Map<String,Object>> page = columnsJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertFunctionColumns(Map<String, Object> map) throws Exception {
-        insert(functionColumnsMapper, map);
+        insert(columnsMapper, map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateFunctionColumns(Map<String, Object> map) throws Exception {
-        update(functionColumnsMapper, map);
+        update(columnsMapper, map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteFunctionColumns(Map<String, Object> map) throws Exception {
-        delete(functionColumnsMapper, map);
+        delete(columnsMapper, map);
     }
 }

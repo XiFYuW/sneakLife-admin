@@ -1,6 +1,6 @@
 package com.sneaklife.ut.interfaces.Interceptor;
 
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,7 +28,7 @@ public class ChildNodeInterceptor {
 
     private void putUrl(Map<String,Object> data, ChildNode childNode){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>) data.get("nodes");
-        if(CommonUtil.isNull(childMenu)){
+        if(IwsContext.isNull(childMenu)){
             data.put("url", childNode.itemUrl());
             childMenu.forEach(map -> putUrl(map, childNode));
         }

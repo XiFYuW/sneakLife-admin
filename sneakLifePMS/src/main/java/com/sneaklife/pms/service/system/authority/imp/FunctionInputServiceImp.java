@@ -1,12 +1,12 @@
-package com.sneaklife.pms.service.system.business.businessFunction.imp;
+package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.dao.system.business.businessFunction.functionButton.FunctionButtonJpa;
-import com.sneaklife.pms.dao.system.business.businessFunction.functionButton.FunctionButtonMapper;
+import com.sneaklife.pms.dao.system.authority.opera.OperaInJpa;
+import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
-import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
+import com.sneaklife.pms.service.system.authority.FunctionInputService;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/8/21 10:25
+ * @date 2019/8/22 11:20
  */
 @Service
-public class FunctionButtonServiceImp extends CommonService implements FunctionButtonService {
+public class FunctionInputServiceImp extends CommonService implements FunctionInputService {
 
     @Autowired
     private FunctionConfigService functionConfigService;
@@ -31,20 +31,20 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     private OperaService operaService;
 
     @Autowired
-    private FunctionButtonJpa functionButtonJpa;
+    private OperaInJpa operaInJpa;
 
     @Autowired
-    private FunctionButtonMapper functionButtonMapper;
+    private OperaInMapper operaInMapper;
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> functionButton(Map<String, Object> map) {
+    public ResponseEntity<String> functionInput(Map<String, Object> map) {
         return functionConfigService.functionConfig(map);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> functionButtonTableView(Map<String, Object> map) {
+    public ResponseEntity<String> functionInputTableView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
         return IwsContext.respResultBodyToSC(tableOpera);
@@ -52,27 +52,27 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
+    public ResponseEntity<String> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         String menuId = String.valueOf(map.get("menuId"));
-        Page<Map<String,Object>> page = functionButtonJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
+        Page<Map<String,Object>> page = operaInJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void insertFunctionButton(Map<String, Object> map) throws Exception {
-        insert(functionButtonMapper, map);
+    public void insertFunctionInput(Map<String, Object> map) throws Exception {
+        insert(operaInMapper, map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFunctionButton(Map<String, Object> map) throws Exception {
-        update(functionButtonMapper, map);
+    public void updateFunctionInput(Map<String, Object> map) throws Exception {
+        update(operaInMapper, map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteFunctionButton(Map<String, Object> map) throws Exception {
-        delete(functionButtonMapper, map);
+    public void deleteFunctionInput(Map<String, Object> map) throws Exception {
+        delete(operaInMapper, map);
     }
 }

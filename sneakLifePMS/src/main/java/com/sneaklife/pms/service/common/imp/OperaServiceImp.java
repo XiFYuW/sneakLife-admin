@@ -11,13 +11,11 @@ import com.sneaklife.pms.entity.modal.Opera;
 import com.sneaklife.pms.entity.modal.Table;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
-import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.common.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -55,28 +53,7 @@ public class OperaServiceImp implements OperaService {
 
     private volatile int size = 1;
 
-    private volatile List<Map<String, Object>> data = new LinkedList<>();
-
-    @Override
-    public void deleteOpera(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(CommonUtil.respResultSCCG());
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateOpera(Map<String, Object> map) throws Exception {
-        List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
-        dispUpdate(upList,new HashMap<>());
-    }
-
-    @Override
-    public void insertOperaSb(OperaSb operaSb) throws Exception{
-        int t = operaSbMapper.insertOperaSb(operaSb);
-        if(t != 1){
-            throw new SneakLifeException(CommonUtil.respResultTJSB());
-        }
-        throw new SneakLifeException(CommonUtil.respResultTJCG());
-    }
+    private volatile List<Map<String, Object>> data = new ArrayList<>();
 
     @Override
     public TableOpera buildOperaBody(Map<String, Object> map, boolean is) {
@@ -227,133 +204,6 @@ public class OperaServiceImp implements OperaService {
         return data;
     }
 
-    /**
-     * Add elements based on key
-     * @param key A primary key
-     * @param data Data list
-     * @param map The element
-     */
-    private void pushByKey(String key, Map<String,List<Map<String,Object>>> data, Map<String,Object> map){
-        List<Map<String,Object>> list;
-        if(!data.containsKey(key)){
-            list = new ArrayList<>();
-            list.add(map);
-            data.put(key,list);
-        }else {
-            list = data.get(key);
-            list.add(map);
-            data.put(key,list);
-        }
-    }
-
-    /**
-     * Change the status according to check
-     * @param map The element
-     */
-    private void updateStatus(Map<String,Object> map){
-        if(!map.containsKey("check")){
-            map.put("status",1);
-        }else {
-            map.put("status",0);
-        }
-    }
-
-    /**
-     * Control modify function field, function button, function input
-     * @param str Determine the functional options to modify
-     * @param map The element
-     * @param data Data list
-     * @param isUpdate Whether to perform a modification action for recursive invocation
-     * @return Whether an option is a functional option
-     */
-    private boolean switchOpera(String str, Map<String,Object> map, Map<String,List<Map<String,Object>>> data, boolean isUpdate){
-        boolean del = false;
-        switch (str){
-            case OPERA_COLUMNS:
-                del = true;
-                if(isUpdate){
-                    updateStatus(map);
-                    columnsMapper.updateColumnsShow(map);
-                    break;
-                }
-                pushByKey(OPERA_COLUMNS, data, map);
-                break;
-            case OPERA_IN:
-                del = true;
-                if(isUpdate){
-                    updateStatus(map);
-                    operaInMapper.updateOperaInShow(map);
-                    break;
-                }
-                pushByKey(OPERA_IN, data, map);
-                break;
-            case OPERA_SB:
-                del = true;
-                if(isUpdate){
-                    updateStatus(map);
-                    operaSbMapper.updateOperaSbShow(map);
-                    break;
-                }
-                pushByKey(OPERA_SB, data, map);
-                break;
-            default:
-                // Illegal node detection
-                if(checkIllegalNode(map)){
-                    del = true;
-                    break;
-                }
-                // The root node
-                if("0".equals(String.valueOf(map.get("pid")))){
-                    del = true;
-                    pushByKey(OPERA, data, map);
-                    break;
-                }
-                // Perform related modification actions
-                Set<String> set = data.keySet();
-                for (String keys : set) {
-                    List<Map<String, Object>> items = data.get(keys);
-                    for (Map<String, Object> mi : items) {
-                        if (String.valueOf(map.get("pid")).equals(String.valueOf(mi.get("id")))) {
-                            del = switchOpera(keys, map, data, true);
-                        }
-                    }
-                }
-        }
-        return del;
-    }
-
-    /**
-     * Handle update action
-     * @param upList List to be updated
-     * @param data Data list
-     * @throws SneakLifeException
-     */
-    private void dispUpdate(List<Map<String,Object>> upList,Map<String,List<Map<String,Object>>> data) throws SneakLifeException{
-        for (Iterator<Map<String, Object>> it = upList.iterator(); it.hasNext();){
-            Map<String,Object> map = it.next();
-            boolean bl = switchOpera(String.valueOf(map.get("treeViewId")), map, data, false);
-            if(bl){
-                it.remove();
-            }
-        }
-        // Resolve list unordering
-        if(upList.size() > 0){
-            dispUpdate(upList,data);
-        }
-        throw new SneakLifeException(CommonUtil.respResultXGCG());
-    }
-
-    /**
-     * Detect illegal node
-     * @param map The element
-     * @return Illegal node
-     */
-    private boolean checkIllegalNode(Map<String,Object> map){
-        int cm = columnsMapper.checkColumnsById(map);
-        int oim = operaInMapper.checkOperaInById(map);
-        int obm = operaSbMapper.checkOperaSbById(map);
-        return cm + oim + obm == 0;
-    }
 
     /**
      * Remove duplicate nodes from all nodes

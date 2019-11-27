@@ -1,4 +1,4 @@
-package com.sneaklife.pms.service.system.business.businessFunction;
+package com.sneaklife.pms.service.system.authority;
 
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.http.ResponseEntity;

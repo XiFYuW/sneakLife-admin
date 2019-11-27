@@ -2,14 +2,12 @@ package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.pms.dao.system.SystemMenuJpa;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
-import com.sneaklife.pms.entity.OperaSb;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
-import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.interfaces.Interceptor.ChildNode;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -38,37 +35,24 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     @Autowired
     private OperaService operaService;
 
-    @Resource(name = "functionConfigServiceImp")
+    @Autowired
+    private ParameterTransformation<SystemMenu, Map<String,Object>, List<Map<String,Object>>> ptf;
+
+    @Autowired
     private Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> nodes;
 
     @Override
     public void deleteFunctionConfig(Map<String, Object> map) throws Exception {
-        operaService.deleteOpera(map);
+        throw new SneakLifeException(IwsContext.respResultSCCG());
     }
 
     @Override
     public void updateFunctionConfig(Map<String, Object> map) throws Exception {
-        operaService.updateOpera(map);
+        throw new SneakLifeException(IwsContext.respResultXGCG());
     }
 
     @Override
     public void insertFunctionConfig(Map<String, Object> map) throws Exception {
-        String id = String.valueOf(map.get("id"));
-        if("opera-columns".equals(id) || "opera-in".equals(id)){
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_NO_OPERA_ADD.toValue(),RespCode.MSG_NO_OPERA_ADD.toMsg()));
-        }
-
-        if("opera-sb".equals(id)){
-            OperaSb operaSb = new OperaSb();
-            operaSb.setCode("3");
-            operaSb.setIcon("glyphicon-pencil");
-            operaSb.setMenuId(String.valueOf(map.get("tempMenuId")));
-//            operaSb.setText(String.valueOf(map.get("pid")));
-            operaSb.setType("button");
-            operaSb.setUrl("#");
-            operaService.insertOperaSb(operaSb);
-        }
-
         throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
@@ -82,12 +66,12 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
             systemMenu.setItemUrl(itemUrl);
-            Map<String,Object> parentMenu = nodes.findChildMenu(systemMenu, list);
+            Map<String,Object> parentMenu = nodes.findNode(systemMenu, list, true);
             size = nodes.removeNode(parentMenu, list, size);
+            i--;
             data.add(parentMenu);
         }
-        List<Map<String, Object>> left = fixedParamTrans(data, new HashMap<>());
-        return IwsContext.respResultBodyToSC(left);
+        return IwsContext.respResultBodyToSC(data);
     }
 
     @Override
@@ -106,15 +90,19 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
 
     @ChildNode
     @Override
-    public Map<String,Object> findChildMenu(SystemMenu parent, List<SystemMenu> list){
-        Map<String,Object> parentMap = paramTrans(new HashMap<>(), parent);
+    public Map<String,Object> findNode(SystemMenu node, List<SystemMenu> list, boolean parent){
+        Map<String,Object> parentMap = ptf.paramTrans(new HashMap<>(), node);
         List<Map<String,Object>> childList = new ArrayList<>();
         for (SystemMenu menu : list) {
-            menu.setItemUrl(parent.getItemUrl());
-            if (parent.getId().equals(menu.getPid())) {
-                Map<String,Object> child = findChildMenu(menu, list);
+            menu.setItemUrl(node.getItemUrl());
+            if (node.getId().equals(menu.getPid())) {
+                Map<String,Object> child = findNode(menu, list, false);
                 childList.add(child);
                 parentMap.put("nodes", childList);
+            }
+
+            if(parent && node.getPid().equals(menu.getId())){
+                return findNode(menu, list, false);
             }
         }
         return parentMap;
@@ -125,13 +113,24 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>)parentMenu.get("nodes");
         if(!IwsContext.isNull(childMenu)){
             parentMenu.remove("nodes");
+            Iterator<SystemMenu> it = list.iterator();
+            while (it.hasNext()) {
+                SystemMenu menu = it.next();
+                boolean isRemove = parentMenu.get("id").equals(menu.getId());
+                if (isRemove) {
+                    it.remove();
+                    size--;
+                }
+            }
             return size;
         }
+
         for (Map<String, Object> child : childMenu) {
             Iterator<SystemMenu> it = list.iterator();
             while (it.hasNext()) {
                 SystemMenu menu = it.next();
-                if (child.get("id").equals(menu.getId())) {
+                boolean isRemove = child.get("id").equals(menu.getId()) || parentMenu.get("id").equals(menu.getId());
+                if (isRemove) {
                     it.remove();
                     size--;
                 }
@@ -158,5 +157,10 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
         map.put("nodes", list);
         data.add(map);
         return data;
+    }
+
+    @Override
+    public Map<String, Object> findChildNode(SystemMenu parent, List<SystemMenu> list) {
+        return null;
     }
 }

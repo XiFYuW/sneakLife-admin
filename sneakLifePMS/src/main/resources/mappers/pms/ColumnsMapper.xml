@@ -28,4 +28,54 @@
   <select id="checkColumnsById" parameterType="map" resultType="int">
     select count(id) from columns where id = #{treeViewId} AND is_del = 0
   </select>
+
+
+  <insert id="insert" parameterType="map">
+    insert columns
+    (
+      id,
+      field,
+      title,
+      is_del,
+      create_date,
+      update_date,
+      align,
+      menu_id,
+      is_show
+    )
+    value
+    (
+      REPLACE(UUID(), '-', ''),
+      #{field,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR},
+      0,
+      NOW(),
+      NOW(),
+      #{align,jdbcType=VARCHAR},
+      #{menuIdTemp,jdbcType=CHAR},
+      0
+    )
+  </insert>
+
+  <update id="update" parameterType="map">
+    update columns
+    <set>
+      <if test="field != null">
+        field = #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="align != null">
+        align = #{align,jdbcType=INTEGER},
+      </if>
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <update id="delete" parameterType="map">
+    update columns set is_del = 1 where id = #{id}
+  </update>
 </mapper>

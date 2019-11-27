@@ -1,6 +1,6 @@
-package com.sneaklife.pms.controller.system.business.businessFunction;
+package com.sneaklife.pms.controller.system.authority;
 
-import com.sneaklife.pms.service.system.business.businessFunction.FunctionColumnsService;
+import com.sneaklife.pms.service.system.authority.FunctionColumnsService;
 import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

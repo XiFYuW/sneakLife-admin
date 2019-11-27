@@ -38,21 +38,23 @@ public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu
         List<SystemMenu> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
         int size = list.size();
-        for (int i = 0; i < size; i++) {
+        for(int i = 0; i < size; i++){
             SystemMenu systemMenu = list.get(i);
-            SystemMenu parentMenu = nodes.findChildMenu(systemMenu, list);
+            SystemMenu parentMenu = nodes.findChildNode(systemMenu, list);
             size = nodes.removeNode(parentMenu, list, size);
+            nodes.removeNode(parentMenu, data, data.size());
             data.add(parentMenu);
         }
         return IwsContext.respResultBodyToSC(data);
     }
 
     @Override
-    public SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list){
+    public SystemMenu findChildNode(SystemMenu parent, List<SystemMenu> list){
         List<SystemMenu> childMenu = new ArrayList<>();
-        for (SystemMenu menu : list) {
-            if (parent.getId().equals(menu.getPid())) {
-                SystemMenu child = findChildMenu(menu, list);
+        for(SystemMenu menu : list){
+            // 判断是不是满仔
+            if(parent.getId().equals(menu.getPid())){
+                SystemMenu child = findChildNode(menu, list);
                 childMenu.add(child);
                 parent.setSon(childMenu);
             }
@@ -63,11 +65,11 @@ public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu
     @Override
     public int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
-        for (SystemMenu child : childMenu) {
+        for(SystemMenu child : childMenu){
             Iterator<SystemMenu> it = list.iterator();
-            while (it.hasNext()) {
+            while(it.hasNext()){
                 SystemMenu menu = it.next();
-                if (child.getId().equals(menu.getId())) {
+                if(child.getId().equals(menu.getId())){
                     it.remove();
                     size--;
                 }
@@ -75,5 +77,10 @@ public class SystemMenuServiceImp implements SystemMenuService, Nodes<SystemMenu
             size = removeNode(child, list, size);
         }
         return size;
+    }
+
+    @Override
+    public SystemMenu findNode(SystemMenu node, List<SystemMenu> list, boolean parent) {
+        return null;
     }
 }

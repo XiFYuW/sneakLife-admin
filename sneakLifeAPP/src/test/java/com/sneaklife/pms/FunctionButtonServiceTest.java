@@ -1,6 +1,6 @@
 package com.sneaklife.pms;
 
-import com.sneaklife.pms.service.system.business.businessFunction.FunctionButtonService;
+import com.sneaklife.pms.service.system.authority.FunctionButtonService;
 import com.sneaklife.SneakLifeAdminApplication;
 import com.sneaklife.ut.page.PageInfo;
 import org.junit.Test;
@@ -35,5 +35,12 @@ public class FunctionButtonServiceTest {
         Map<String,Object> map = new HashMap<>();
         map.put("menuId","493b7b82c25211e98f5680fa5b3a283a");
         functionButtonService.getFunctionButton(map,pageInfo);
+    }
+
+    @Test
+    public void functionButton() throws Exception {
+        Map<String,Object> map = new HashMap<>();
+        map.put("menuId","493b7b82c25211e98f5680fa5b3a283a");
+        functionButtonService.functionButton(map);
     }
 }

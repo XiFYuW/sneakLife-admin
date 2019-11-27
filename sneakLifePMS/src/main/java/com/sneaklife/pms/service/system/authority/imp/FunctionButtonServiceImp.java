@@ -1,12 +1,12 @@
-package com.sneaklife.pms.service.system.business.businessFunction.imp;
+package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.dao.system.business.businessFunction.functionInput.FunctionInputJpa;
-import com.sneaklife.pms.dao.system.business.businessFunction.functionInput.FunctionInputMapper;
+import com.sneaklife.pms.dao.system.authority.opera.OperaSbJpa;
+import com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionConfigService;
-import com.sneaklife.pms.service.system.business.businessFunction.FunctionInputService;
+import com.sneaklife.pms.service.system.authority.FunctionButtonService;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/8/22 11:20
+ * @date 2019/8/21 10:25
  */
 @Service
-public class FunctionInputServiceImp extends CommonService implements FunctionInputService {
+public class FunctionButtonServiceImp extends CommonService implements FunctionButtonService {
 
     @Autowired
     private FunctionConfigService functionConfigService;
@@ -31,20 +31,20 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     private OperaService operaService;
 
     @Autowired
-    private FunctionInputJpa functionInputJpa;
+    private OperaSbJpa operaSbJpa;
 
     @Autowired
-    private FunctionInputMapper functionInputMapper;
+    private OperaSbMapper operaSbMapper;
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> functionInput(Map<String, Object> map) {
+    public ResponseEntity<String> functionButton(Map<String, Object> map) {
         return functionConfigService.functionConfig(map);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> functionInputTableView(Map<String, Object> map) {
+    public ResponseEntity<String> functionButtonTableView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
         return IwsContext.respResultBodyToSC(tableOpera);
@@ -52,27 +52,27 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public ResponseEntity<String> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         String menuId = String.valueOf(map.get("menuId"));
-        Page<Map<String,Object>> page = functionInputJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
+        Page<Map<String,Object>> page = operaSbJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void insertFunctionInput(Map<String, Object> map) throws Exception {
-        insert(functionInputMapper, map);
+    public void insertFunctionButton(Map<String, Object> map) throws Exception {
+        insert(operaSbMapper, map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateFunctionInput(Map<String, Object> map) throws Exception {
-        update(functionInputMapper, map);
+    public void updateFunctionButton(Map<String, Object> map) throws Exception {
+        update(operaSbMapper, map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteFunctionInput(Map<String, Object> map) throws Exception {
-        delete(functionInputMapper, map);
+    public void deleteFunctionButton(Map<String, Object> map) throws Exception {
+        delete(operaSbMapper, map);
     }
 }
