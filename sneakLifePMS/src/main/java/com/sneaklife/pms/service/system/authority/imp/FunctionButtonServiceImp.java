@@ -4,8 +4,8 @@ import com.sneaklife.pms.dao.system.authority.opera.OperaSbJpa;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
+import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.pms.service.common.OperaService;
-import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.pms.service.system.authority.FunctionButtonService;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
@@ -25,9 +25,6 @@ import java.util.Map;
 public class FunctionButtonServiceImp extends CommonService implements FunctionButtonService {
 
     @Autowired
-    private FunctionConfigService functionConfigService;
-
-    @Autowired
     private OperaService operaService;
 
     @Autowired
@@ -36,10 +33,13 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Autowired
     private OperaSbMapper operaSbMapper;
 
+    @Autowired
+    private LeftSelectViewService leftSelectViewService;
+
     @Override
     @Transactional(readOnly = true)
     public ResponseEntity<String> functionButton(Map<String, Object> map) {
-        return functionConfigService.functionConfig(map);
+        return leftSelectViewService.leftSelectsView(map);
     }
 
     @Override

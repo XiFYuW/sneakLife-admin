@@ -14,9 +14,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,22 +31,7 @@ public abstract class CommonService {
         return page;
     }
 
-    protected <T> Page<T> getPageDataById(Map<String, Object> map, PageInfo pageInfo, JpaSpecificationExecutor<T> jpaSpecificationExecutor) throws SneakLifeException {
-        Pageable pageable = getPageable(pageInfo);
-        Page<T> page = jpaSpecificationExecutor.findAll((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
-            Path<String> isDel = root.get("isDel");
-            Path<String> id = root.get("menuId");
-            List<Predicate> list = new ArrayList<>();
-            list.add(criteriaBuilder.equal(isDel.as(Integer.class),0));
-            String menuId = String.valueOf(map.get("menuId"));
-            list.add(criteriaBuilder.equal(id.as(String.class), menuId));
-            Predicate[] predicates = new Predicate[list.size()];
-            return criteriaBuilder.and(list.toArray(predicates));
-        }, pageable);
-        return page;
-    }
-
-    public Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
+    protected Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
         if(ObjectUtils.isEmpty(pageInfo)){
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
         }

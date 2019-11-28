@@ -1,6 +1,5 @@
 package com.sneaklife.pms.service.common.imp;
 
-import com.sneaklife.pms.config.log.SneakLifeAnLog;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.dao.system.authority.opera.ColumnsMapper;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
@@ -11,7 +10,7 @@ import com.sneaklife.pms.entity.modal.Opera;
 import com.sneaklife.pms.entity.modal.Table;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,23 +79,23 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
-    @SneakLifeAnLog
     public List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map) {
         RoleConfig roleConfig = roleConfigMapper.getById(String.valueOf(map.get("menuId")));
         data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
-        List<String> menuId;
-        if(CommonUtil.isNull(roleFunction)){
-            menuId = Arrays.asList(roleFunction.getMenuId().split(","));
+        List<String> roleFunctionMenuId;
+        if(IwsContext.isNull(roleFunction)){
+            roleFunctionMenuId = Arrays.asList(roleFunction.getMenuId().split(","));
         }else {
-            menuId = new ArrayList<>();
+            roleFunctionMenuId = new ArrayList<>();
         }
         List<SystemMenu> systemMenuList = systemMenuMapper.getByIsDel(0);
         int len = systemMenuList.size();
         int p = size;
         for (int i = 0; i < len; i++) {
             SystemMenu systemMenu = systemMenuList.get(i);
-            SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, menuId, p);
-            len = removeNode(parentMenu, systemMenuList, menuId, len);
+            SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, roleFunctionMenuId, p,true);
+            len = removeNode(parentMenu, systemMenuList, roleFunctionMenuId, len);
+            i--;
         }
         return data;
     }
@@ -209,21 +208,34 @@ public class OperaServiceImp implements OperaService {
      * Remove duplicate nodes from all nodes
      * @param parentMenu Delete the item
      * @param list All the nodes
-     * @param menuId Roles already have function menus
+     * @param roleFunctionMenuId Roles already have function menus
      * @param size The size of all nodes, can change the list length, do not need to pass 0
      * @return Residual size of all nodes
      */
-    private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, List<String> menuId, int size){
+    private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, List<String> roleFunctionMenuId, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
+        if(childMenu.size() <= 0){
+            Iterator<SystemMenu> it = list.iterator();
+            while (it.hasNext()) {
+                SystemMenu menu = it.next();
+                boolean isRemove = parentMenu.getId().equals(menu.getId());
+                if (isRemove) {
+                    it.remove();
+                    size--;
+                }
+            }
+            return size;
+        }
+
         for (SystemMenu child : childMenu) {
             Iterator<SystemMenu> it = list.iterator();
             while (it.hasNext()) {
                 SystemMenu menu = it.next();
-                if (child.getId().equals(menu.getId())) {
+                if (child.getId().equals(menu.getId()) || parentMenu.getId().equals(menu.getId())) {
                     it.remove();
                     size--;
                 }
-                if(menuId.contains(child.getId())){
+                if(roleFunctionMenuId.contains(child.getId())){
                     data.forEach(map -> {
                         if(child.getPid().equals(map.get("treeViewId"))){
                             map.put("check", true);
@@ -232,7 +244,7 @@ public class OperaServiceImp implements OperaService {
                     });
                 }
             }
-            size = removeNode(child, list, menuId, size);
+            size = removeNode(child, list, roleFunctionMenuId, size);
         }
         return size;
     }
@@ -241,32 +253,47 @@ public class OperaServiceImp implements OperaService {
      * Find child node
      * @param parent The parent node
      * @param list All the nodes
-     * @param menuId Roles already have function menus
+     * @param roleFunctionMenuId Roles already have function menus
      * @param p Parent id
      * @return Parent node tape node
      */
-    private SystemMenu findChildMenu(SystemMenu parent, List<SystemMenu> list, List<String> menuId, int p){
+    private SystemMenu findChildMenu(SystemMenu node, List<SystemMenu> list, List<String> roleFunctionMenuId, int p, boolean parent){
         List<SystemMenu> childMenu = new ArrayList<>();
-        if(menuId.contains(parent.getId())){
-            data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 0, true));
+        if(roleFunctionMenuId.contains(node.getId())){
+            data.add(buildOperaItem(node.getId(), node.getTab(), ++size, p, 0, true));
         }else {
-            data.add(buildOperaItem(parent.getId(), parent.getTab(), ++size, p, 1, false));
+            data.add(buildOperaItem(node.getId(), node.getTab(), ++size, p, 1, false));
         }
         p = size;
         for (SystemMenu menu : list) {
-            if (parent.getId().equals(menu.getPid())) {
-                SystemMenu child = findChildMenu(menu, list, menuId, p);
+            if (node.getId().equals(menu.getPid())) {
+                SystemMenu child = findChildMenu(menu, list, roleFunctionMenuId, p,false);
                 childMenu.add(child);
-                parent.setSon(childMenu);
+                node.setSon(childMenu);
+            }
+
+            if(parent && node.getPid().equals(menu.getId())){
+                synchronized (OPERA){
+                    Iterator<Map<String,Object>> iterator = data.iterator();
+                    while (iterator.hasNext()){
+                        Map<String,Object> m = iterator.next();
+                        if(m.get("treeViewId").equals(node.getId())){
+                            iterator.remove();
+                            p--;
+                        }
+                    }
+                }
+                return findChildMenu(menu, list, roleFunctionMenuId, p,false);
             }
         }
+
         Map<String, Object> map = new HashMap<>();
-        map.put("menuId", parent.getId());
+        map.put("menuId", node.getId());
         int s = size;
-        buildOperaColumnsTree(map, s, 0);
-        buildOperaSbTree(map, s, 0);
-        buildOperaInTree(map, s, 0);
-        return parent;
+        buildOperaColumnsTree(map, s, 1);
+        buildOperaSbTree(map, s, 1);
+        buildOperaInTree(map, s, 1);
+        return node;
     }
 
     @Override

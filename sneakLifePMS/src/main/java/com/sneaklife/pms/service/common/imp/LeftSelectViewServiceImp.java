@@ -1,16 +1,12 @@
-package com.sneaklife.pms.service.system.authority.imp;
+package com.sneaklife.pms.service.common.imp;
 
-import com.sneaklife.pms.dao.system.SystemMenuJpa;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
-import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.OperaService;
-import com.sneaklife.pms.service.system.authority.FunctionConfigService;
-import com.sneaklife.ut.exception.SneakLifeException;
-import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.ut.interfaces.Interceptor.ChildNode;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
+import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,21 +15,15 @@ import java.util.*;
 
 /**
  * @author https://github.com/XiFYuW
+ * @date 2019/11/28 12:15
  */
 @Service
-@SuppressWarnings("unchecked")
-public class FunctionConfigServiceImp implements FunctionConfigService,
+public class LeftSelectViewServiceImp implements LeftSelectViewService,
         ParameterTransformation<SystemMenu, Map<String,Object>, List<Map<String,Object>>>,
         Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> {
 
     @Autowired
-    private SystemMenuJpa systemMenuJpa;
-
-    @Autowired
     private SystemMenuMapper systemMenuMapper;
-
-    @Autowired
-    private OperaService operaService;
 
     @Autowired
     private ParameterTransformation<SystemMenu, Map<String,Object>, List<Map<String,Object>>> ptf;
@@ -42,22 +32,7 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
     private Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> nodes;
 
     @Override
-    public void deleteFunctionConfig(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(IwsContext.respResultSCCG());
-    }
-
-    @Override
-    public void updateFunctionConfig(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(IwsContext.respResultXGCG());
-    }
-
-    @Override
-    public void insertFunctionConfig(Map<String, Object> map) throws Exception {
-        throw new SneakLifeException(IwsContext.respResultTJCG());
-    }
-
-    @Override
-    public ResponseEntity<String> functionConfig(Map<String, Object> map){
+    public ResponseEntity<String> leftSelectsView(Map<String, Object> map) {
         List<Map<String,Object>> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
         String menuId = String.valueOf(map.get("menuId"));
@@ -71,20 +46,6 @@ public class FunctionConfigServiceImp implements FunctionConfigService,
             i--;
             data.add(parentMenu);
         }
-        return IwsContext.respResultBodyToSC(data);
-    }
-
-    @Override
-    public ResponseEntity<String> functionConfigTreeView(Map<String, Object> map) {
-        map.put("isShow",0);
-        TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return IwsContext.respResultBodyToSC(tableOpera);
-    }
-
-    @Override
-    public ResponseEntity<String> getFunctionConfig(Map<String, Object> map) {
-        List<Map<String,Object>> data = operaService.buildOperaTreeGrid(map);
-        operaService.clean();
         return IwsContext.respResultBodyToSC(data);
     }
 

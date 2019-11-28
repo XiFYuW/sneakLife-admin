@@ -20,9 +20,9 @@
   </select>
 
   <sql id="getGroupByRoleIdSql">
-    ID,CREATE_DATE,IS_DEL,GROUP_CONCAT(menu_id) AS MENU_ID,ROLE_ID,UPDATE_DATE
+    ID as id,menu_id as menuId,ROLE_ID as roleId
   </sql>
-  <select id="getGroupByRoleId" resultType="com.sneaklife.pms.entity.RoleFunction">
+  <select id="getGroupByRoleId" resultType="map">
     SELECT <include refid="getGroupByRoleIdSql"/> from role_function
     where role_id = #{roleId} and is_del = 0
   </select>

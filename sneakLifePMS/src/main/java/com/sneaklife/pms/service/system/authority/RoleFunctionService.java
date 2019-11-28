@@ -45,10 +45,4 @@ public interface RoleFunctionService {
      * @throws Exception
      */
     void deleteRoleFunction(Map<String, Object> map) throws Exception;
-
-    /**
-     * Mutually exclusive role functionality
-     * @param map parameter
-     */
-    void mutualRoleFunction(Map<String, Object> map);
 }

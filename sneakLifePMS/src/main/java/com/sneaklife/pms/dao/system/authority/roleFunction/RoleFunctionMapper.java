@@ -22,7 +22,7 @@ public interface RoleFunctionMapper {
 
     List<RoleFunction> getByIsDel(@Param("isDel") int isDel);
 
-    RoleFunction getGroupByRoleId(@Param("roleId") String roleId);
+    List<Map<String,Object>> getGroupByRoleId(@Param("roleId") String roleId);
 
     Integer deleteByRoleId(@Param("roleId") String roleId);
 

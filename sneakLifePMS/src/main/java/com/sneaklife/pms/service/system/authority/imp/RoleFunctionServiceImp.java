@@ -1,6 +1,5 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.config.log.SneakLifeAnLog;
 import com.sneaklife.pms.dao.system.authority.roleFunction.RoleFunctionMapper;
 import com.sneaklife.pms.entity.RoleFunction;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -35,6 +34,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     private RoleConfigService roleConfigService;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> roleFunctionTreeView(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
@@ -42,32 +42,35 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> roleFunction(Map<String, Object> map) {
         List<Map<String,Object>> data = roleConfigService.buildRoleTreeView();
         return IwsContext.respResultBodyToSC(data);
     }
 
     @Override
-    @SneakLifeAnLog
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getRoleFunction(Map<String, Object> map) {
-        RoleFunction roleFunction = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
+        List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
+        RoleFunction roleFunction = new RoleFunction();
+        StringBuilder stringBuilder = new StringBuilder();
+        roleFunctionList.forEach(map1 -> {
+            stringBuilder.append(map1.get("menuId")).append(",");
+        });
+        roleFunction.setMenuId(stringBuilder.toString());
         List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunction, map);
         operaService.clean();
         return IwsContext.respResultBodyToSC(data);
     }
 
     @Override
-    public void mutualRoleFunction(Map<String, Object> map) {
-
-    }
-
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insertRoleFunction(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateRoleFunction(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
         Map<String,Object> root = findRootPid(upList);
@@ -89,6 +92,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteRoleFunction(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultSCCG());
     }

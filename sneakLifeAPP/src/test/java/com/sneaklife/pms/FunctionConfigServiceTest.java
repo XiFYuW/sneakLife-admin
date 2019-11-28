@@ -1,7 +1,7 @@
 package com.sneaklife.pms;
 
-import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.SneakLifeAdminApplication;
+import com.sneaklife.pms.service.common.LeftSelectViewService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +17,13 @@ import java.util.Map;
 @ContextConfiguration
 public class FunctionConfigServiceTest {
     @Autowired
-    private FunctionConfigService functionConfigService;
+    private LeftSelectViewService leftSelectViewService;
 
     @Test
     public void functionConfig(){
         Map<String,Object> map = new HashMap<>();
         map.put("menuId","b8209ee58b3411e99d7380fa5b3a283a");
-        functionConfigService.functionConfig(map);
+        leftSelectViewService.leftSelectsView(map);
     }
 
-    @Test
-    public void getFunctionConfig(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("menuId","99a6c4b38b4711e99d7380fa5b3a283a");
-        map.put("treeViewId","b8209ee58b3411e99d7380fa5b3a283a");
-        map.put("name","DataDictionary");
-        functionConfigService.getFunctionConfig(map);
-    }
 }

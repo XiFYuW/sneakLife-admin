@@ -4,8 +4,8 @@ import com.sneaklife.pms.dao.system.authority.opera.OperaInJpa;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
+import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.pms.service.common.OperaService;
-import com.sneaklife.pms.service.system.authority.FunctionConfigService;
 import com.sneaklife.pms.service.system.authority.FunctionInputService;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class FunctionInputServiceImp extends CommonService implements FunctionInputService {
 
     @Autowired
-    private FunctionConfigService functionConfigService;
+    private LeftSelectViewService leftSelectViewService;
 
     @Autowired
     private OperaService operaService;
@@ -39,7 +39,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(readOnly = true)
     public ResponseEntity<String> functionInput(Map<String, Object> map) {
-        return functionConfigService.functionConfig(map);
+        return leftSelectViewService.leftSelectsView(map);
     }
 
     @Override
