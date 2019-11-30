@@ -64,13 +64,13 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void insertRoleFunction(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateRoleFunction(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
         Map<String,Object> root = findRootPid(upList);
@@ -92,7 +92,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void deleteRoleFunction(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultSCCG());
     }

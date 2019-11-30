@@ -27,8 +27,8 @@ public class SystemMenu extends CommonEntity {
     @Column(name = "tab")
     private String tab;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "create_date")
     private Date createDate;
@@ -61,8 +61,8 @@ public class SystemMenu extends CommonEntity {
                 .append(id).append('\"');
         sb.append(",\"tab\":\"")
                 .append(tab).append('\"');
-        sb.append(",\"type\":\"")
-                .append(type).append('\"');
+        sb.append(",\"name\":\"")
+                .append(name).append('\"');
         sb.append(",\"createDate\":\"")
                 .append(createDate).append('\"');
         sb.append(",\"updateDate\":\"")

@@ -59,19 +59,19 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void insertFunctionColumns(Map<String, Object> map) throws Exception {
         insert(columnsMapper, map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateFunctionColumns(Map<String, Object> map) throws Exception {
         update(columnsMapper, map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void deleteFunctionColumns(Map<String, Object> map) throws Exception {
         delete(columnsMapper, map);
     }

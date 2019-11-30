@@ -41,8 +41,8 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
         for (int i = 0; i < size; i++) {
             SystemMenu systemMenu = list.get(i);
             systemMenu.setItemUrl(itemUrl);
-            Map<String,Object> parentMenu = nodes.findNode(systemMenu, list, true);
-            size = nodes.removeNode(parentMenu, list, size);
+            Map<String,Object> parentMenu = nodes.findChildNode(systemMenu, list, true);
+            size = nodes.removeChildNode(parentMenu, list, size);
             i--;
             data.add(parentMenu);
         }
@@ -51,26 +51,26 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
 
     @ChildNode
     @Override
-    public Map<String,Object> findNode(SystemMenu node, List<SystemMenu> list, boolean parent){
+    public Map<String,Object> findChildNode(SystemMenu node, List<SystemMenu> list, boolean parent){
         Map<String,Object> parentMap = ptf.paramTrans(new HashMap<>(), node);
         List<Map<String,Object>> childList = new ArrayList<>();
         for (SystemMenu menu : list) {
             menu.setItemUrl(node.getItemUrl());
             if (node.getId().equals(menu.getPid())) {
-                Map<String,Object> child = findNode(menu, list, false);
+                Map<String,Object> child = findChildNode(menu, list, false);
                 childList.add(child);
                 parentMap.put("nodes", childList);
             }
 
             if(parent && node.getPid().equals(menu.getId())){
-                return findNode(menu, list, false);
+                return findChildNode(menu, list, false);
             }
         }
         return parentMap;
     }
 
     @Override
-    public int removeNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
+    public int removeChildNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>)parentMenu.get("nodes");
         if(!IwsContext.isNull(childMenu)){
             parentMenu.remove("nodes");
@@ -96,7 +96,7 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
                     size--;
                 }
             }
-            size = removeNode(child, list, size);
+            size = removeChildNode(child, list, size);
         }
         return size;
     }
@@ -118,10 +118,5 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
         map.put("nodes", list);
         data.add(map);
         return data;
-    }
-
-    @Override
-    public Map<String, Object> findChildNode(SystemMenu parent, List<SystemMenu> list) {
-        return null;
     }
 }

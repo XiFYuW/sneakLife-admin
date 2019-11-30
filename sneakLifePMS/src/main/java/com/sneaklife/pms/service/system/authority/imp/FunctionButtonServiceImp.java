@@ -59,19 +59,19 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void insertFunctionButton(Map<String, Object> map) throws Exception {
         insert(operaSbMapper, map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateFunctionButton(Map<String, Object> map) throws Exception {
         update(operaSbMapper, map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void deleteFunctionButton(Map<String, Object> map) throws Exception {
         delete(operaSbMapper, map);
     }

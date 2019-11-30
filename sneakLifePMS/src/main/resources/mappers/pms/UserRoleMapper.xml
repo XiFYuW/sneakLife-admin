@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.userRole.UserRoleMapper">
-  <insert id="insertUserRole" parameterType="map">
+  <insert id="insert" parameterType="map">
 
   </insert>
 
-  <update id="updateUserRole" parameterType="map">
+  <update id="update" parameterType="map">
 
   </update>
 
-  <delete id="deleteUserRole" parameterType="map">
+  <delete id="delete" parameterType="map">
 
   </delete>
-
-  <select id="getAllNameById" parameterType="com.sneaklife.pms.entity.UserRole" resultType="com.sneaklife.pms.entity.UserRole">
-    SELECT u.name as userName,rc.name as roleName, rc.id as value
-    from user_role ur
-    LEFT JOIN user u on ur.user_id = u.uuid
-    LEFT JOIN role_config rc on ur.role_id = rc.id
-    <where>
-      and ur.is_del = 0
-      and ur.role_id = #{roleId}
-      and ur.user_id = #{userId}
-    </where>
-  </select>
 
   <update id="updateBatch" parameterType="list">
     update user_role

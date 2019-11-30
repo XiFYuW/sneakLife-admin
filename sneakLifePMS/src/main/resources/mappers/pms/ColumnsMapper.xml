@@ -31,7 +31,7 @@
 
 
   <insert id="insert" parameterType="map">
-    insert columns
+    insert into columns
     (
       id,
       field,

@@ -4,7 +4,7 @@
   <resultMap id="SystemMenuMap" type="com.sneaklife.pms.entity.SystemMenu">
     <id column="ID" jdbcType="CHAR" property="id" />
     <result column="TAB" jdbcType="VARCHAR" property="tab" />
-    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="PAGE_URL" jdbcType="VARCHAR" property="pageUrl" />
     <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
     <result column="UPDATE_DATE" jdbcType="DATE" property="updateDate" />
@@ -14,7 +14,7 @@
     <result column="ITEM_URL" jdbcType="VARCHAR" property="itemUrl" />
   </resultMap>
   <sql id="SystemMenuBody">
-    ID,TAB,TYPE,PAGE_URL,CREATE_DATE,UPDATE_DATE,PID,IS_DEL,DATA_URL,ITEM_URL
+    ID,TAB,NAME,PAGE_URL,PID,DATA_URL,ITEM_URL
   </sql>
   <select id="getByIsDel" parameterType="int" resultMap="SystemMenuMap">
     select <include refid="SystemMenuBody"/> from system_menu

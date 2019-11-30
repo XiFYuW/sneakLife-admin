@@ -1,6 +1,5 @@
 package com.sneaklife.pms.service.system.dictionary.imp;
 
-import com.sneaklife.pms.config.log.SneakLifeAnLog;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
@@ -42,15 +41,13 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     private OperaService operaService;
 
     @Override
-    @SneakLifeAnLog
-    @Transactional(rollbackFor = {Exception.class})
+    @Transactional
     public void insertDataDictionary(Map<String, Object> map) throws Exception {
         map.put("value", DateUtil.getMilli());
         insert(dataDictionaryMapper, map);
     }
 
     @Override
-    @SneakLifeAnLog
     @Transactional(readOnly = true)
     public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(getPageable(pageInfo));
@@ -58,8 +55,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     }
 
     @Override
-    @SneakLifeAnLog
-    @Transactional(rollbackFor = {Exception.class})
+    @Transactional
     public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception {
         map.put("isShow", 0);
         TableOpera tableOpera = operaService.buildOperaBody(map, false);
@@ -67,21 +63,18 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     }
 
     @Override
-    @SneakLifeAnLog
-    @Transactional(rollbackFor = {Exception.class})
+    @Transactional
     public void updateDataDictionary(Map<String, Object> map) throws Exception {
         update(dataDictionaryMapper, map);
     }
 
     @Override
-    @SneakLifeAnLog
-    @Transactional(rollbackFor = {Exception.class})
+    @Transactional
     public void deleteDataDictionary(Map<String, Object> map) throws Exception {
         delete(dataDictionaryMapper, map);
     }
 
     @Override
-    @SneakLifeAnLog
     @Transactional(readOnly = true)
     public ResponseEntity<String> getByType(Map<String, Object> map) {
         String express = String.valueOf(map.get("express"));

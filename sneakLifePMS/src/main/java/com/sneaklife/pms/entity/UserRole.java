@@ -1,6 +1,10 @@
 package com.sneaklife.pms.entity;
 
 import com.sneaklife.pms.entity.modal.CommonEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,6 +16,10 @@ import java.util.Date;
  */
 @Entity
 @Table(name="user_role")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class UserRole extends CommonEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -45,100 +53,6 @@ public class UserRole extends CommonEntity {
 
     @Transient
     private String text;
-
-    public UserRole() { }
-
-    public UserRole(String userId, String roleId, Integer isDel, Date createDate, Date updateDate, String userName, String roleName, String value, String text) {
-        this.userId = userId;
-        this.roleId = roleId;
-        this.isDel = isDel;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.userName = userName;
-        this.roleName = roleName;
-        this.value = value;
-        this.text = text;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 
     @Override
     public String toString() {

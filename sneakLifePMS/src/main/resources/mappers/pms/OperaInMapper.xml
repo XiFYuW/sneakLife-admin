@@ -39,7 +39,7 @@
 
 
   <insert id="insert" parameterType="map">
-    insert columns
+    insert into opera_in
     (
       id,
       text_name,

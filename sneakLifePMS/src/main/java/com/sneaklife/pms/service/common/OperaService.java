@@ -1,6 +1,7 @@
 package com.sneaklife.pms.service.common;
 
 import com.sneaklife.pms.entity.RoleFunction;
+import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.entity.modal.TableOpera;
 
 import java.util.List;
@@ -40,4 +41,6 @@ public interface OperaService {
     List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map);
 
     List<Map<String, Object>> getSelectsKyByMenuId(String menuId);
+
+    int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size);
 }

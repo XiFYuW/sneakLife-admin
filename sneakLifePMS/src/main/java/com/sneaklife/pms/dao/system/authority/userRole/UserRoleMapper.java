@@ -1,6 +1,6 @@
 package com.sneaklife.pms.dao.system.authority.userRole;
 
-import com.sneaklife.pms.entity.UserRole;
+import com.sneaklife.pms.dao.CommonDao;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,15 +11,7 @@ import java.util.Map;
  * @date 2019/8/4 10:07
  */
 @Mapper
-public interface UserRoleMapper {
-
-    Integer insertUserRole(Map<String, Object> map);
-
-    Integer updateUserRole(Map<String, Object> map);
-
-    Integer deleteUserRole(Map<String, Object> map);
-
-    UserRole getAllNameById(UserRole userRole);
+public interface UserRoleMapper extends CommonDao {
 
     Integer updateBatch(List<Map<String, Object>> list);
 

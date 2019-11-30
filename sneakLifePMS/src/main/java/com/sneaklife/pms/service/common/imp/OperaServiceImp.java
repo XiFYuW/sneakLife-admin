@@ -94,7 +94,7 @@ public class OperaServiceImp implements OperaService {
         for (int i = 0; i < len; i++) {
             SystemMenu systemMenu = systemMenuList.get(i);
             SystemMenu parentMenu = findChildMenu(systemMenu, systemMenuList, roleFunctionMenuId, p,true);
-            len = removeNode(parentMenu, systemMenuList, roleFunctionMenuId, len);
+            len = removeChildNode(parentMenu, systemMenuList, roleFunctionMenuId, len);
             i--;
         }
         return data;
@@ -212,19 +212,10 @@ public class OperaServiceImp implements OperaService {
      * @param size The size of all nodes, can change the list length, do not need to pass 0
      * @return Residual size of all nodes
      */
-    private int removeNode(SystemMenu parentMenu, List<SystemMenu> list, List<String> roleFunctionMenuId, int size){
+    private int removeChildNode(SystemMenu parentMenu, List<SystemMenu> list, List<String> roleFunctionMenuId, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
         if(childMenu.size() <= 0){
-            Iterator<SystemMenu> it = list.iterator();
-            while (it.hasNext()) {
-                SystemMenu menu = it.next();
-                boolean isRemove = parentMenu.getId().equals(menu.getId());
-                if (isRemove) {
-                    it.remove();
-                    size--;
-                }
-            }
-            return size;
+            return removeNode(parentMenu, list, size);
         }
 
         for (SystemMenu child : childMenu) {
@@ -244,7 +235,7 @@ public class OperaServiceImp implements OperaService {
                     });
                 }
             }
-            size = removeNode(child, list, roleFunctionMenuId, size);
+            size = removeChildNode(child, list, roleFunctionMenuId, size);
         }
         return size;
     }
@@ -266,12 +257,14 @@ public class OperaServiceImp implements OperaService {
         }
         p = size;
         for (SystemMenu menu : list) {
+            // 为根节点
             if (node.getId().equals(menu.getPid())) {
                 SystemMenu child = findChildMenu(menu, list, roleFunctionMenuId, p,false);
                 childMenu.add(child);
                 node.setSon(childMenu);
             }
 
+            // 为子节点
             if(parent && node.getPid().equals(menu.getId())){
                 synchronized (OPERA){
                     Iterator<Map<String,Object>> iterator = data.iterator();
@@ -279,10 +272,11 @@ public class OperaServiceImp implements OperaService {
                         Map<String,Object> m = iterator.next();
                         if(m.get("treeViewId").equals(node.getId())){
                             iterator.remove();
-                            p--;
+                            size--;
                         }
                     }
                 }
+                p = 1;
                 return findChildMenu(menu, list, roleFunctionMenuId, p,false);
             }
         }
@@ -299,5 +293,19 @@ public class OperaServiceImp implements OperaService {
     @Override
     public List<Map<String, Object>> getSelectsKyByMenuId(String menuId) {
         return operaInMapper.getSelectsKyByMenuId(menuId);
+    }
+
+    @Override
+    public int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size) {
+        Iterator<SystemMenu> it = list.iterator();
+        while (it.hasNext()) {
+            SystemMenu menu = it.next();
+            boolean isRemove = parentMenu.getId().equals(menu.getId());
+            if (isRemove) {
+                it.remove();
+                size--;
+            }
+        }
+        return size;
     }
 }

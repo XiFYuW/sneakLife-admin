@@ -46,7 +46,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     private ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> ptf;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void insertRoleConfig(Map<String, Object> map) throws Exception {
         insert(roleConfigMapper,map);
     }
@@ -67,13 +67,13 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateRoleConfig(Map<String, Object> map) throws Exception {
         update(roleConfigMapper,map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void deleteRoleConfig(Map<String, Object> map) throws Exception {
         delete(roleConfigMapper,map);
     }

@@ -13,15 +13,7 @@ public interface Nodes<S, M, L>{
      * @param parent =true: You can find the parent node  =false: You cannot find a parent node
      * @return Parent node tape node
      */
-     M findNode(S node, L list, boolean parent);
-
-    /**
-     * Find child node
-     * @param parent The parent node
-     * @param list All the nodes
-     * @return Parent node tape node
-     */
-     M findChildNode(S parent, L list);
+     M findChildNode(S node, L list, boolean parent);
 
     /**
      * Remove duplicate nodes from all nodes
@@ -30,5 +22,5 @@ public interface Nodes<S, M, L>{
      * @param size The size of all nodes, can change the list length, do not need to pass 0
      * @return Residual size of all nodes
      */
-     int removeNode(M parentNode, L list, int size);
+     int removeChildNode(M parentNode, L list, int size);
 }

@@ -37,6 +37,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     private OperaService operaService;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> userRole(Map<String, Object> map) {
         map.put("isShow",0);
         TableOpera tableOpera = operaService.buildOperaBody(map,false);
@@ -44,20 +45,14 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        Page<UserRole> page = getPageData(map, pageInfo, userRoleJpa);
-        List<UserRole> content = page.getContent();
-        content.forEach(userRole -> {
-            UserRole temp = userRoleMapper.getAllNameById(userRole);
-            userRole.setRoleName(temp.getRoleName());
-            userRole.setUserName(temp.getUserName());
-            userRole.setValue(temp.getValue());
-            userRole.setText(temp.getRoleName());
-        });
+        Page<Map<String,Object>> page = userRoleJpa.findAllPage(getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(page);
     }
 
     @Override
+    @Transactional
     public void insertUserRole(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultTJCG());
     }
@@ -67,13 +62,14 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     public void updateUserRole(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String, Object>>) map.get("up");
         int t = userRoleMapper.updateBatch(upList);
-        if(t != 1){
+        if(t <= 0){
             throw new SneakLifeException(IwsContext.respResultXGSB());
         }
         throw new SneakLifeException(IwsContext.respResultXGCG());
     }
 
     @Override
+    @Transactional
     public void deleteUserRole(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultSCCG());
     }

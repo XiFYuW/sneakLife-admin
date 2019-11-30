@@ -59,19 +59,19 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void insertFunctionInput(Map<String, Object> map) throws Exception {
         insert(operaInMapper, map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateFunctionInput(Map<String, Object> map) throws Exception {
         update(operaInMapper, map);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void deleteFunctionInput(Map<String, Object> map) throws Exception {
         delete(operaInMapper, map);
     }
