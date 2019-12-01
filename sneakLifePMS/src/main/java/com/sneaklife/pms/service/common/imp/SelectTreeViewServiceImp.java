@@ -1,0 +1,59 @@
+package com.sneaklife.pms.service.common.imp;
+
+import com.sneaklife.pms.entity.SystemMenu;
+import com.sneaklife.pms.service.common.OperaService;
+import com.sneaklife.pms.service.common.SelectTreeViewService;
+import com.sneaklife.ut.iws.IwsContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author https://github.com/XiFYuW
+ * @date 2019/12/1 12:28
+ */
+@Service
+public class SelectTreeViewServiceImp extends LeftSelectViewServiceImp implements SelectTreeViewService {
+
+    @Autowired
+    private OperaService operaService;
+
+    @Override
+    public ResponseEntity<String> selectTreeView(Map<String, Object> map) {
+        String express = String.valueOf(map.get("express"));
+        String menuId = String.valueOf(map.get("menuId"));
+        List<Map<String, Object>> selectKey = operaService.getSelectsKyByMenuId(menuId, "selectsTree");
+        ResponseEntity<String> responseEntity = super.leftSelectsView(map);
+        Object object = IwsContext.getResponseEntityData(responseEntity);
+        map.clear();
+        String[] types = express.split(",");
+        for (String type : types) {
+            String[] match = type.split(":");
+            for (Map<String, Object> select : selectKey) {
+                if (match[0].equals(String.valueOf(select.get("id")))) {
+                    String field = String.valueOf(select.get("field"));
+                    map.put(field, object);
+                }
+            }
+        }
+        return IwsContext.respResultBodyToSC(map);
+    }
+
+    @Override
+    public Map<String, Object> paramTrans(Map<String, Object> map, SystemMenu systemMenu) {
+        map.put("text", systemMenu.getTab());
+        map.put("value", systemMenu.getId());
+        map.put("id", systemMenu.getId());
+        map.put("nodes", null);
+        return map;
+    }
+
+    @Override
+    public List<Map<String, Object>> fixedParamTrans(List<Map<String, Object>> list, Map<String, Object> map) {
+        return super.fixedParamTrans(list, map);
+    }
+}

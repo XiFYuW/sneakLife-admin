@@ -72,7 +72,7 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
     @Override
     public int removeChildNode(Map<String,Object> parentMenu, List<SystemMenu> list, int size){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>)parentMenu.get("nodes");
-        if(!IwsContext.isNull(childMenu)){
+        if(!IwsContext.isNotNull(childMenu)){
             parentMenu.remove("nodes");
             Iterator<SystemMenu> it = list.iterator();
             while (it.hasNext()) {
@@ -112,11 +112,6 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
 
     @Override
     public List<Map<String, Object>> fixedParamTrans(List<Map<String, Object>> list, Map<String, Object> map) {
-        List<Map<String, Object>> data = new ArrayList<>();
-        map.put("text", "SystemSetting");
-        map.put("url", "#");
-        map.put("nodes", list);
-        data.add(map);
-        return data;
+        return null;
     }
 }

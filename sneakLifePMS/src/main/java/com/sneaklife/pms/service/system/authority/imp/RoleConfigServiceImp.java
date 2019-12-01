@@ -55,7 +55,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(readOnly = true)
     public ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = roleConfigJpa.findAllPage(getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(page);
+        return IwsContext.respResultBodyToSC(pageToMap(page));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(readOnly = true)
     public ResponseEntity<String> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         Page<Map<String,Object>> page = userRoleJpa.findAllPage(getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(page);
+        return IwsContext.respResultBodyToSC(pageToMap(page));
     }
 
     @Override

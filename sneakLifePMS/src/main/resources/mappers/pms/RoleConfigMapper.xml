@@ -53,11 +53,19 @@
   </select>
 
   <select id="getByIsDelMap" parameterType="int" resultType="map">
-    select * from role_config where is_del = #{isDel}
+    select
+      id as id,
+      name as name,
+      type as type
+    from role_config where is_del = #{isDel}
   </select>
 
   <select id="getById" parameterType="string" resultType="com.sneaklife.pms.entity.RoleConfig">
-    select * from role_config
+    select
+      id as id,
+      name as name,
+      type as type
+    from role_config
     <where>
       id = #{id} AND is_del = 0
     </where>

@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.opera.OperaInMapper">
   <select id="findOperaInByShow" resultType="com.sneaklife.pms.entity.OperaIn" parameterType="map">
-    select * from opera_in
+    select
+      id as id,
+      text_name as textName,
+      html_type as htmlType,
+      field as field,
+      is_show as isShow,
+      menu_id as menuId
+    from opera_in
     <where>
       is_del = 0
       <if test="isShow != null">
@@ -34,7 +41,7 @@
       id as id,
       field as field
     FROM opera_in
-    where menu_id = #{menuId} and html_type = 'selects' and is_del = 0 and is_show = 0;
+    where menu_id = #{menuId} and html_type = #{htmlType} and is_del = 0 and is_show = 0;
   </select>
 
 

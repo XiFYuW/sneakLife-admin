@@ -51,7 +51,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(readOnly = true)
     public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(page);
+        return IwsContext.respResultBodyToSC(pageToMap(page));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     private Map<String, Object> buildSelectKey(String express, String menuId) {
         Map<String, Object> data = new HashMap<>();
-        List<Map<String, Object>> selectKey = operaService.getSelectsKyByMenuId(menuId);
+        List<Map<String, Object>> selectKey = operaService.getSelectsKyByMenuId(menuId, "selects");
         String[] types = express.split(",");
         for (String type : types) {
             String[] match = type.split(":");

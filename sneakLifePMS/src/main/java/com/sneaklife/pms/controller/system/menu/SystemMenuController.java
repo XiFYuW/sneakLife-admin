@@ -43,4 +43,9 @@ public class SystemMenuController {
     public void deleteSystemFunctionMenu() throws Exception{
         systemMenuService.deleteSystemFunctionMenu(IwsContext.getData());
     }
+
+    @RequestMapping(value = "/selectTreeView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    public ResponseEntity<String> selectTreeView() throws Exception{
+        return systemMenuService.selectTreeView(IwsContext.getData());
+    }
 }

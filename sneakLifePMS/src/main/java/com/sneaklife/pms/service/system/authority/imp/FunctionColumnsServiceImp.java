@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Map;
 @Service
 public class FunctionColumnsServiceImp extends CommonService implements FunctionColumnsService {
 
-    @Autowired
+    @Resource(name = "leftSelectViewServiceImp")
     private LeftSelectViewService leftSelectViewService;
 
     @Autowired
@@ -55,7 +56,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     public ResponseEntity<String> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         String menuId = String.valueOf(map.get("menuId"));
         Page<Map<String,Object>> page = columnsJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(page);
+        return IwsContext.respResultBodyToSC(pageToMap(page));
     }
 
     @Override

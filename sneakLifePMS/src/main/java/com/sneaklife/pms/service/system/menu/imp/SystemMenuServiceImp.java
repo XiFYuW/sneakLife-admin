@@ -6,6 +6,7 @@ import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
+import com.sneaklife.pms.service.common.SelectTreeViewService;
 import com.sneaklife.pms.service.system.menu.SystemMenuService;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.iws.IwsContext;
@@ -42,6 +43,9 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Autowired
     private Nodes<SystemMenu, SystemMenu, List<SystemMenu>> nodes;
 
+    @Autowired
+    private SelectTreeViewService selectTreeViewService;
+
     private static Logger log = LoggerFactory.getLogger(SystemMenuServiceImp.class);
 
     @Override
@@ -60,12 +64,14 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = systemMenuJpa.findAllPage(getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(page);
+        return IwsContext.respResultBodyToSC(pageToMap(page));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<String> systemFunctionMenu(Map<String, Object> map) throws Exception {
         map.put("isShow", 0);
         TableOpera tableOpera = operaService.buildOperaBody(map, false);
@@ -75,7 +81,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     public int removeChildNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
         List<SystemMenu> childMenu = parentMenu.getSon();
-        if(!IwsContext.isNull(childMenu)){
+        if(!IwsContext.isNotNull(childMenu)){
             return operaService.removeNode(parentMenu, list, size);
         }
         for(SystemMenu child : childMenu){
@@ -110,17 +116,26 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     }
 
     @Override
+    @Transactional
     public void insertSystemFunctionMenu(Map<String, Object> map) throws Exception {
         insert(systemMenuMapper,map);
     }
 
     @Override
+    @Transactional
     public void updateSystemFunctionMenu(Map<String, Object> map) throws Exception {
         update(systemMenuMapper,map);
     }
 
     @Override
+    @Transactional
     public void deleteSystemFunctionMenu(Map<String, Object> map) throws Exception {
         delete(systemMenuMapper,map);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseEntity<String> selectTreeView(Map<String, Object> map) {
+        return selectTreeViewService.selectTreeView(map);
     }
 }

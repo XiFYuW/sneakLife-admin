@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -33,7 +34,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Autowired
     private OperaSbMapper operaSbMapper;
 
-    @Autowired
+    @Resource(name = "leftSelectViewServiceImp")
     private LeftSelectViewService leftSelectViewService;
 
     @Override
@@ -55,7 +56,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     public ResponseEntity<String> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         String menuId = String.valueOf(map.get("menuId"));
         Page<Map<String,Object>> page = operaSbJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(page);
+        return IwsContext.respResultBodyToSC(pageToMap(page));
     }
 
     @Override

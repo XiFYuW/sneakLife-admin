@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.criteria.Path;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -64,5 +65,12 @@ public abstract class CommonService {
             throw new SneakLifeException(IwsContext.respResultSCSB());
         }
         throw new SneakLifeException(IwsContext.respResultSCCG());
+    }
+
+    protected Map<String,Object> pageToMap(Page<Map<String, Object>> page){
+        Map<String,Object> map = new HashMap<>();
+        map.put("content", page.getContent());
+        map.put("totalElements", page.getTotalElements());
+        return map;
     }
 }

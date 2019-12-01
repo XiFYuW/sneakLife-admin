@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.opera.ColumnsMapper">
   <select id="findColumnsByShow" resultType="com.sneaklife.pms.entity.Columns" parameterType="map">
-    select * from columns
+    select
+      id as id,
+      field as field,
+      title as title,
+      align as align,
+      menu_id as menuId,
+      is_show as isShow
+    from columns
     <where>
       is_del = 0
       <if test="isShow != null">

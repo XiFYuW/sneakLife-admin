@@ -54,5 +54,6 @@ public interface SystemMenuService {
      */
     void deleteSystemFunctionMenu(Map<String, Object> map) throws Exception;
 
+    ResponseEntity<String> selectTreeView(Map<String, Object> map);
 
 }

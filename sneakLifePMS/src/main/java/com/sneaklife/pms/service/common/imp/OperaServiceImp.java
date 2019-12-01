@@ -83,7 +83,7 @@ public class OperaServiceImp implements OperaService {
         RoleConfig roleConfig = roleConfigMapper.getById(String.valueOf(map.get("menuId")));
         data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
         List<String> roleFunctionMenuId;
-        if(IwsContext.isNull(roleFunction)){
+        if(IwsContext.isNotNull(roleFunction)){
             roleFunctionMenuId = Arrays.asList(roleFunction.getMenuId().split(","));
         }else {
             roleFunctionMenuId = new ArrayList<>();
@@ -291,8 +291,8 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
-    public List<Map<String, Object>> getSelectsKyByMenuId(String menuId) {
-        return operaInMapper.getSelectsKyByMenuId(menuId);
+    public List<Map<String, Object>> getSelectsKyByMenuId(String menuId, String htmlType) {
+        return operaInMapper.getSelectsKyByMenuId(menuId, htmlType);
     }
 
     @Override

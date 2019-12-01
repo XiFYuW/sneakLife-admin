@@ -12,10 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author https://github.com/XiFYuW
@@ -101,7 +98,6 @@ public class IwsContext {
     }
 
     private static ResponseEntity<String> buildIwsBody(RespResult1 respResult,SneakLifeServlet sneakLifeServlet){
-        MultiValueMap<String, String> m = sneakLifeServlet.getMvm();
         return new ResponseEntity<>(JSON.toJSONString(respResult), sneakLifeServlet.getMvm(), HttpStatus.OK);
     }
 
@@ -135,7 +131,13 @@ public class IwsContext {
         return respResultBody(RespCode.MSG_SCSB.toValue(), RespCode.MSG_SCSB.toMsg());
     }
 
-    public static boolean isNull(Object ob) {
+    public static boolean isNotNull(Object ob) {
         return Optional.ofNullable(ob).isPresent();
+    }
+
+    public static Object getResponseEntityData(ResponseEntity<String> responseEntity){
+        String body = responseEntity.getBody();
+        Map<String, Object> map = (Map<String, Object>) JSON.parse(body);
+        return Objects.requireNonNull(map).get("respData");
     }
 }

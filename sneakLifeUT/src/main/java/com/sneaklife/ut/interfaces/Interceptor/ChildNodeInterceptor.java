@@ -28,7 +28,7 @@ public class ChildNodeInterceptor {
 
     private void putUrl(Map<String,Object> data, ChildNode childNode){
         List<Map<String,Object>> childMenu = (List<Map<String,Object>>) data.get("nodes");
-        if(IwsContext.isNull(childMenu)){
+        if(IwsContext.isNotNull(childMenu)){
             data.put("url", childNode.itemUrl());
             childMenu.forEach(map -> putUrl(map, childNode));
         }

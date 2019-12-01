@@ -40,7 +40,7 @@ public interface OperaService {
      */
     List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map);
 
-    List<Map<String, Object>> getSelectsKyByMenuId(String menuId);
+    List<Map<String, Object>> getSelectsKyByMenuId(String menuId, String htmlType);
 
     int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size);
 }
