@@ -46,4 +46,77 @@
   <select id="getItemUrlById" parameterType="string" resultType="string">
     SELECT item_url as itemUrl from system_menu where id = #{id} and is_del = 0
   </select>
+
+  <insert id="insert" parameterType="map">
+    insert into system_menu
+    (
+      id,
+      tab,
+      name,
+      <if test="pageUrl != null">
+        page_url,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="dataUrl != null">
+        data_url,
+      </if>
+      <if test="itemUrl != null">
+        item_url,
+      </if>
+      create_date,
+      update_date,
+      is_del
+    )
+    values
+    (
+      REPLACE(UUID(), '-', ''),
+      #{tab},
+      #{name},
+      <if test="pageUrl != null">
+        #{pageUrl},
+      </if>
+      <if test="pid != null">
+        #{pid},
+      </if>
+      <if test="dataUrl != null">
+        #{dataUrl},
+      </if>
+      <if test="itemUrl != null">
+        #{itemUrl},
+      </if>
+      now(),
+      now(),
+      0
+    )
+  </insert>
+
+  <update id="update" parameterType="map">
+    update system_menu
+    <set>
+      tab = #{tab},
+      name = #{name},
+      <if test="pageUrl != null">
+        page_url = #{pageUrl},
+      </if>
+      <if test="pid != null">
+        pid = #{pid},
+      </if>
+      <if test="dataUrl != null">
+        data_url = #{dataUrl},
+      </if>
+      <if test="itemUrl != null">
+        item_url = #{itemUrl},
+      </if>
+      update_date = now()
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <update id="delete" parameterType="map">
+    update system_menu set is_del = 1 where id = #{id}
+  </update>
 </mapper>

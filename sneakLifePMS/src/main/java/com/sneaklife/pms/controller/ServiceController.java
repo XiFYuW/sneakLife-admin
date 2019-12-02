@@ -50,7 +50,8 @@ public class ServiceController {
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_SZQMJYBTG.toValue(), RespCode.MSG_SZQMJYBTG.toMsg()));
         }
         if (!KeyLessContext.checkToken(sessionId, token, hashOperations)) {
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_GQTOKEN.toValue(), KeyLessContext.setKey(sessionId ,hashOperations)));
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_GQTOKEN.toValue(), RespCode.MSG_GQTOKEN.toMsg(),
+                    KeyLessContext.setKey(sessionId ,hashOperations)));
         }
         try {
             data = AESUtil.aesDecrypt((String) map.get("data"), token);

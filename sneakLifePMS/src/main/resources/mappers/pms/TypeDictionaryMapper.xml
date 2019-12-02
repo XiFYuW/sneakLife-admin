@@ -9,4 +9,41 @@
     where is_del = 0
   </select>
 
+  <insert id="insert" parameterType="map">
+    insert into type_dictionary
+    (
+      <if test="name != null">
+        name,
+      </if>
+      create_date,
+      update_date,
+      is_del
+    )
+    values
+    (
+    <if test="name != null">
+      #{name},
+    </if>
+    now(),
+    now(),
+    0
+    )
+  </insert>
+
+  <update id="update" parameterType="map">
+    update type_dictionary
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      update_date = now()
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <update id="delete" parameterType="map">
+    update type_dictionary set is_del = 1 where id = #{id}
+  </update>
 </mapper>

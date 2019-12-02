@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -49,6 +47,14 @@ public class IwsContext {
 
     public static ResponseEntity<String> respResultBody(int code, String msg) {
         RespResult1 respResult = getRespResult(code, msg, null);
+        SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
+        sneakLifeServlet.setCrossDomain();
+        log.info("返回数据为：【{}】",respResult);
+        return buildIwsBody(respResult, sneakLifeServlet);
+    }
+
+    public static ResponseEntity<String> respResultBody(int code, String msg, Object data) {
+        RespResult1 respResult = getRespResult(code, msg, data);
         SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
         sneakLifeServlet.setCrossDomain();
         log.info("返回数据为：【{}】",respResult);

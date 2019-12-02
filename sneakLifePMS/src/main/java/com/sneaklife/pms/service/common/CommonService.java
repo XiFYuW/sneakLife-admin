@@ -9,11 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.util.ObjectUtils;
 
-import javax.persistence.criteria.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,22 +19,16 @@ import java.util.Map;
  */
 public abstract class CommonService {
 
-    protected <T> Page<T> getPageData(Map<String, Object> map, PageInfo pageInfo, JpaSpecificationExecutor<T> jpaSpecificationExecutor) throws SneakLifeException {
-        Pageable pageable = getPageable(pageInfo);
-        Page<T> page = jpaSpecificationExecutor.findAll((Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
-            Path<String> isDel = root.get("isDel");
-            return criteriaBuilder.equal(isDel.as(Integer.class),0);
-        }, pageable);
-        return page;
-    }
-
     protected Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
-        if(ObjectUtils.isEmpty(pageInfo)){
+        if(!IwsContext.isNotNull(pageInfo)){
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
         }
         Sort.Direction direction = Sort.Direction.ASC;
         if("desc".equals(pageInfo.getSortOrder().toLowerCase())){
             direction = Sort.Direction.DESC;
+        }
+        if(!IwsContext.isNotNull(pageInfo.getPage()) || !IwsContext.isNotNull(pageInfo.getRows())){
+            return null;
         }
         return PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), direction, "id");
     }

@@ -22,7 +22,7 @@ import java.util.Date;
 public class TypeDictionary extends CommonEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="idGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "idGenerator")
     @Column(name = "id")
     private Long id;
 
@@ -41,8 +41,4 @@ public class TypeDictionary extends CommonEntity {
     @Column(name = "update_date")
     @NotNull
     private Date updateDate;
-
-    @Column(name = "temp_key")
-    @NotNull
-    private String tempKey;
 }
