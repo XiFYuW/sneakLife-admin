@@ -55,7 +55,8 @@ public class RSAUtil {
 	private static final RsaPKV rsaPKV = SpringContextUtil.getBean(RsaPKV.class);
 
 	private static Cipher getCipherObject() throws NoSuchAlgorithmException, NoSuchPaddingException {
-		return Cipher.getInstance(getKeyFactoryObject().getAlgorithm());
+//		return Cipher.getInstance(getKeyFactoryObject().getAlgorithm());
+		return Cipher.getInstance("RSA/ECB/PKCS1Padding");
 	}
 
 	private static KeyFactory getKeyFactoryObject() throws NoSuchAlgorithmException {

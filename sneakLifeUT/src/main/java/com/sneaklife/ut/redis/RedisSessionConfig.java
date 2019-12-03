@@ -1,4 +1,4 @@
-package com.sneaklife.ut.redis.config;
+package com.sneaklife.ut.redis;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

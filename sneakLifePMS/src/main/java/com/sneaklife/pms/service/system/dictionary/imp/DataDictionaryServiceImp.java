@@ -13,6 +13,9 @@ import com.sneaklife.ut.date.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.util.*;
  * @author https://github.com/XiFYuW
  */
 @Service
+@CacheConfig(cacheNames = "DataDictionaryServiceImp")
 public class DataDictionaryServiceImp extends CommonService implements DataDictionaryService {
 
     private static final Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
@@ -42,6 +46,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @Transactional
+//    @CacheEvict(allEntries = true)
     public void insertDataDictionary(Map<String, Object> map) throws Exception {
         map.put("value", DateUtil.getMilli());
         insert(dataDictionaryMapper, map);
@@ -49,6 +54,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @Transactional(readOnly = true)
+//    @Cacheable
     public ResponseEntity<String> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(getPageable(pageInfo));
         return IwsContext.respResultBodyToSC(pageToMap(page));
@@ -56,6 +62,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @Transactional
+//    @Cacheable
     public ResponseEntity<String> dataDictionary(Map<String, Object> map) throws Exception {
         map.put("isShow", 0);
         TableOpera tableOpera = operaService.buildOperaBody(map, false);
@@ -64,18 +71,21 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @Transactional
+//    @CacheEvict(allEntries = true)
     public void updateDataDictionary(Map<String, Object> map) throws Exception {
         update(dataDictionaryMapper, map);
     }
 
     @Override
     @Transactional
+//    @CacheEvict(allEntries = true)
     public void deleteDataDictionary(Map<String, Object> map) throws Exception {
         delete(dataDictionaryMapper, map);
     }
 
     @Override
     @Transactional(readOnly = true)
+//    @Cacheable
     public ResponseEntity<String> getByType(Map<String, Object> map) {
         String express = String.valueOf(map.get("express"));
         String menuId = String.valueOf(map.get("menuId"));

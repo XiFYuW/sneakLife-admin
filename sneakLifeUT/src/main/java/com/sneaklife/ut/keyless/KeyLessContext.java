@@ -1,9 +1,10 @@
 package com.sneaklife.ut.keyless;
 
-import com.sneaklife.ut.code.constants.Constants;
+import com.sneaklife.pkv.CommonPKV;
 import com.sneaklife.ut.date.DateUtil;
 import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.spring.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
@@ -19,15 +20,15 @@ public class KeyLessContext {
 
     private static final Logger log = LoggerFactory.getLogger(KeyLessContext.class);
 
-    private static final String TOKEN_KEY = "TOKEN_KEY";
+    private static final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object> setKey(String localKey, HashOperations hashOperations) throws SneakLifeException {
         Map<String, Object> rsaKey;
-        if(hashOperations.hasKey(localKey, TOKEN_KEY)){
-            rsaKey = (Map<String, Object>) hashOperations.get(localKey, TOKEN_KEY);
+        if(hashOperations.hasKey(localKey, commonPKV.getTokenKey())){
+            rsaKey = (Map<String, Object>) hashOperations.get(localKey, commonPKV.getTokenKey());
             rsaKey.put("ptk", Base64Util.base64Encode(String.valueOf(rsaKey.get("ptk")).getBytes()));
-            rsaKey.put("link",Base64Util.base64Encode(Constants.SERVICE_URL.getBytes()));
+            rsaKey.put("link",Base64Util.base64Encode(commonPKV.getServerUrl().getBytes()));
             return rsaKey;
         }
         String token = UUID.randomUUID().toString().substring(0, 16);
@@ -38,11 +39,11 @@ public class KeyLessContext {
             throw new SneakLifeException(IwsContext.respResultBody(1,"12"));
         }
         rsaKey.put("ptk", token);
-        rsaKey.put("time", DateUtil.getSecond() + Constants.TOKEN_CACHE_TIMES);
-        hashOperations.put(localKey, TOKEN_KEY, rsaKey);
+        rsaKey.put("time", DateUtil.getSecond() + commonPKV.getTokenCacheTimes());
+        hashOperations.put(localKey, commonPKV.getTokenKey(), rsaKey);
         rsaKey.remove("prk");
         rsaKey.put("ptk", Base64Util.base64Encode(token.getBytes()));
-        rsaKey.put("link",Base64Util.base64Encode(Constants.SERVICE_URL.getBytes()));
+        rsaKey.put("link",Base64Util.base64Encode(commonPKV.getServerUrl().getBytes()));
         return rsaKey;
     }
 
@@ -66,7 +67,7 @@ public class KeyLessContext {
         String ptk = String.valueOf(map.get("ptk"));
         Long time = (Long) map.get("time");
         if(ptk.equals(token) || DateUtil.getSecond() > time){
-            hashOperations.delete(localKey,TOKEN_KEY);
+            hashOperations.delete(localKey, commonPKV.getTokenKey());
             return false;
         }
         return true;

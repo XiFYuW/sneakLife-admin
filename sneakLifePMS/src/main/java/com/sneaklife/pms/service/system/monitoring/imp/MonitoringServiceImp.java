@@ -1,7 +1,7 @@
 package com.sneaklife.pms.service.system.monitoring.imp;
 
 import com.sneaklife.pms.service.system.monitoring.MonitoringService;
-import com.sneaklife.ut.common.CommonUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.server.SneakLifeServerInfo;
 import com.sun.management.OperatingSystemMXBean;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class MonitoringServiceImp implements MonitoringService {
         Map<String,Object> map = new HashMap<>();
         map.put("head","SystemMonitoring");
         map.put("data",data);
-        return CommonUtil.respResultDataSUCCEED(map);
+        return IwsContext.respResultBodyToSC(map);
     }
 
     private List<Map<String,Object>> generateCpuData(List<Map<String,Object>> cpu){

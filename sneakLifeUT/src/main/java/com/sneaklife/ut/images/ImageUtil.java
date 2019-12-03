@@ -1,8 +1,9 @@
 package com.sneaklife.ut.images;
 
+import com.sneaklife.pkv.CommonPKV;
 import com.sneaklife.ut.file.FileCode;
-import com.sneaklife.ut.code.constants.Constants;
 import com.sneaklife.ut.keyless.Base64Util;
+import com.sneaklife.ut.spring.SpringContextUtil;
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -20,6 +21,8 @@ import java.util.UUID;
 
 @SuppressWarnings("restriction")
 public class ImageUtil {
+
+	private static final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
 	/**
 	 * 插入图片
 	 *
@@ -267,8 +270,8 @@ public class ImageUtil {
 	 * @throws IOException
 	 */
 	public static String buildServerPath(ByteArrayInputStream byteArrayInputStream,String name,String gs) {
-		String filep = Constants.FILE_PATH_YZM + name + gs;
-		String serverp = Constants.SERVER_PATH_YZM + name + gs;
+		String filep = commonPKV.getFilePathYzm() + name + gs;
+		String serverp = commonPKV.getServerPathYzm() + name + gs;
 		try (OutputStream outputStream = new FileOutputStream(filep)){
 			byte[] bytes = new byte[1024];
 			int len = 0;

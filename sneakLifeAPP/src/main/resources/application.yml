@@ -63,3 +63,10 @@ ail-sms:
   access_key_id: LTAIp3VosJKnxh5R
   access_key_secret: W4jQWOFv4IqcrGO86TQASkSYVPPUYy
   template_code: SMS_148614528
+
+common:
+  token_cache_times: 30
+  token_key: TOKEN_KEY
+  server_url: http://127.0.0.1:8080/sneakLife-admin/service
+  serverPathYzm: http://192.168.6.134:9090/sneakLife-admin/yzm/
+  filePathYzm: D:\\Compressed\\JCV\\Tomcat\\webapps\\test\\yzm\\

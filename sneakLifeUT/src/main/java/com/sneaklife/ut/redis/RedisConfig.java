@@ -1,11 +1,17 @@
-package com.sneaklife.ut.redis.config;
+package com.sneaklife.ut.redis;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -14,11 +20,28 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.Assert;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+
+    @Bean
+    public RedisCacheConfiguration redisCacheConfiguration(){
+        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
+        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig();
+        configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer)).entryTtl(Duration.ofHours(6));
+        return configuration;
+    }
 
     /**
      * 选择redis作为默认缓存工具
@@ -120,5 +143,31 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
         return redisTemplate.opsForZSet();
+    }
+
+    /**
+     * 自定义缓存key生成策略，默认将使用该策略
+     */
+    @Bean
+    @Override
+    public KeyGenerator keyGenerator() {
+        return (target, method, params) -> {
+            Map<String,Object> container = new HashMap<>();
+            Class<?> targetClassClass = target.getClass();
+            // 类地址
+            container.put("class",targetClassClass.toGenericString());
+            // 方法名称
+            container.put("methodName",method.getName());
+            // 包名称
+            container.put("package",targetClassClass.getPackage());
+            // 参数列表
+            for (int i = 0; i < params.length; i++) {
+                container.put(String.valueOf(i),params[i]);
+            }
+            // 转为JSON字符串
+            String jsonString = JSON.toJSONString(container);
+            // 做SHA256 Hash计算，得到一个SHA256摘要作为Key
+            return DigestUtils.sha256Hex(jsonString);
+        };
     }
 }
