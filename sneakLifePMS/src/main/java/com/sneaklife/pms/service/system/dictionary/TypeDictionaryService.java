@@ -1,7 +1,7 @@
 package com.sneaklife.pms.service.system.dictionary;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
@@ -21,18 +21,17 @@ public interface TypeDictionaryService {
      * Paging to get type dictionary data
      * @param map parameter
      * @param pageInfo Paging object
-     * @return ResponseEntity<String>
+     * @return Map
      * @throws Exception
      */
-    ResponseEntity<String> getTypeDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String,Object> getTypeDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
-     * @throws Exception
+     * @return TableOpera
      */
-    ResponseEntity<String> typeDictionary(Map<String, Object> map) throws Exception;
+    TableOpera typeDictionary(Map<String, Object> map);
 
     /**
      * Update type dictionary

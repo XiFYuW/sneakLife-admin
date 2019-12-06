@@ -2,7 +2,6 @@ package com.sneaklife.ut.keyless;
 
 import com.sneaklife.ut.file.FileCode;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -11,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Base64.Decoder;
 
 @SuppressWarnings("restriction")
 public class Base64Util {
@@ -170,8 +168,7 @@ public class Base64Util {
 	 * @throws Exception
 	 */
 	public static byte[] base64Decode(String base64Code) throws Exception {
-		Decoder decoder = java.util.Base64.getDecoder();
-		return StringUtils.isEmpty(base64Code) ? null : decoder.decode(base64Code);
+		return Base64.decodeBase64(base64Code);
 	}
 
 	/**
@@ -180,8 +177,6 @@ public class Base64Util {
 	 * @param imgFile
 	 *            图片本地路径
 	 * @return
-	 *
-	 * @author ZHANGJL
 	 * @throws IOException
 	 * @dateTime 2018-02-23 14:40:46
 	 */

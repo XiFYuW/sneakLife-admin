@@ -15,13 +15,13 @@ public class RoleFunctionController {
     private RoleFunctionService roleFunctionService;
 
     @RequestMapping(value = "/roleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> roleFunction() throws Exception{
-        return roleFunctionService.roleFunction(IwsContext.getData());
+    public ResponseEntity<String> roleFunction() {
+        return IwsContext.respResultBodyToSC(roleFunctionService.roleFunction(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getRoleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getRoleFunction() throws Exception{
-        return roleFunctionService.getRoleFunction(IwsContext.getData());
+    public ResponseEntity<String> getRoleFunction() {
+        return IwsContext.respResultBodyToSC(roleFunctionService.getRoleFunction(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/insertRoleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
@@ -41,7 +41,7 @@ public class RoleFunctionController {
 
     @RequestMapping(value = "/roleFunctionTreeView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> buildRoleTreeView() throws Exception{
-        return roleFunctionService.roleFunctionTreeView(IwsContext.getData());
+        return IwsContext.respResultBodyToSC(roleFunctionService.roleFunctionTreeView(IwsContext.getData()));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.system.menu.imp;
 
+import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.SystemMenuJpa;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
@@ -8,14 +9,16 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.SelectTreeViewService;
 import com.sneaklife.pms.service.system.menu.SystemMenuService;
+import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  */
 @Service
+@CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class SystemMenuServiceImp extends CommonService implements SystemMenuService,
         Nodes<SystemMenu, SystemMenu, List<SystemMenu>> {
 
@@ -50,7 +54,8 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getMenu() {
+    @Cacheable
+    public List<SystemMenu> getMenu() {
         List<SystemMenu> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
         int size = list.size();
@@ -60,22 +65,23 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
             size = nodes.removeChildNode(parentMenu, list, size);
             data.add(parentMenu);
         }
-        return IwsContext.respResultBodyToSC(data);
+        return data;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    @Cacheable
+    public Map<String, Object> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = systemMenuJpa.findAllPage(getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(pageToMap(page));
+        return pageToMap(page);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> systemFunctionMenu(Map<String, Object> map) throws Exception {
+    @Cacheable
+    public TableOpera systemFunctionMenu(Map<String, Object> map) {
         map.put("isShow", 0);
-        TableOpera tableOpera = operaService.buildOperaBody(map, false);
-        return IwsContext.respResultBodyToSC(tableOpera);
+        return operaService.buildOperaBody(map, false);
     }
 
     @Override
@@ -116,26 +122,30 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void insertSystemFunctionMenu(Map<String, Object> map) throws Exception {
         insert(systemMenuMapper,map);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void updateSystemFunctionMenu(Map<String, Object> map) throws Exception {
         update(systemMenuMapper,map);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void deleteSystemFunctionMenu(Map<String, Object> map) throws Exception {
         delete(systemMenuMapper,map);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> selectTreeView(Map<String, Object> map) {
+    @Cacheable
+    public Map<String, Object> selectTreeView(Map<String, Object> map) {
         return selectTreeViewService.selectTreeView(map);
     }
 }

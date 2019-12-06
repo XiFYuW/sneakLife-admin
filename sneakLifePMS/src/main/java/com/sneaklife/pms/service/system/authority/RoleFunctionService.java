@@ -1,7 +1,9 @@
 package com.sneaklife.pms.service.system.authority;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,21 +11,26 @@ import java.util.Map;
  */
 public interface RoleFunctionService {
 
-    ResponseEntity<String> roleFunctionTreeView(Map<String, Object> map);
+    /**
+     * Secondary page construction
+     * @param map parameter
+     * @return TableOpera
+     */
+    TableOpera roleFunctionTreeView(Map<String, Object> map);
 
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return List<Map<String,Object>>
      */
-    ResponseEntity<String> roleFunction(Map<String, Object> map);
+    List<Map<String,Object>> roleFunction(Map<String, Object> map);
 
     /**
      * Gets roleFunction function data
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return List<Map<String,Object>>
      */
-    ResponseEntity<String> getRoleFunction(Map<String, Object> map);
+    List<Map<String,Object>> getRoleFunction(Map<String, Object> map);
 
     /**
      * Insert roleFunction function configuration

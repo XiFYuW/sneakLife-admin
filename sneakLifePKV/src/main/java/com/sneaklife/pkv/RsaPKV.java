@@ -27,4 +27,5 @@ public class RsaPKV {
     private int maxEncryptBlock;
     private String privateKey;
     private String publicKey;
+    private String cipherAlgorithm;
 }

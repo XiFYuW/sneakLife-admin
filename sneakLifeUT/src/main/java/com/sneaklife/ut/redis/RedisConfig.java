@@ -1,16 +1,18 @@
 package com.sneaklife.ut.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,20 +23,21 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.util.Assert;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
+    private static final Logger log = LoggerFactory.getLogger(RedisConfig.class);
+    /**
+     *  设置@cacheable 序列化方式
+     */
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration(){
         FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
@@ -45,14 +48,11 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 选择redis作为默认缓存工具
-     * @param redisTemplate
-     * @return
      */
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager rcm = new RedisCacheManager(RedisCacheWriter.lockingRedisCacheWriter(redisTemplate.getConnectionFactory())
+        return new RedisCacheManager(RedisCacheWriter.lockingRedisCacheWriter(Objects.requireNonNull(redisTemplate.getConnectionFactory()))
                 ,RedisCacheConfiguration.defaultCacheConfig());
-        return rcm;
     }
 
     /**
@@ -67,34 +67,30 @@ public class RedisConfig extends CachingConfigurerSupport {
         // 配置连接工厂
         template.setConnectionFactory(factory);
 
-        //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）
-        Jackson2JsonRedisSerializer jacksonSeial = new Jackson2JsonRedisSerializer(Object.class);
+        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
+        // 值采用FastJson序列化
+        template.setValueSerializer(fastJsonRedisSerializer);
+        //使用StringRedisSerializer来序列化和反序列化redis的key值
+        template.setKeySerializer(new StringRedisSerializer());
 
+
+        Jackson2JsonRedisSerializer jacksonSeial = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
         // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jacksonSeial.setObjectMapper(om);
-
-        // 值采用json序列化
-        template.setValueSerializer(jacksonSeial);
-        //使用StringRedisSerializer来序列化和反序列化redis的key值
-        template.setKeySerializer(new StringRedisSerializer());
-
         // 设置hash key 和value序列化模式
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(jacksonSeial);
-        template.afterPropertiesSet();
 
+        template.afterPropertiesSet();
         return template;
     }
 
     /**
      * 对hash类型的数据操作
-     *
-     * @param redisTemplate
-     * @return
      */
     @Bean
     public HashOperations<String, String, Object> hashOperations(RedisTemplate<String, Object> redisTemplate) {
@@ -103,9 +99,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 对redis字符串类型数据操作
-     *
-     * @param redisTemplate
-     * @return
      */
     @Bean
     public ValueOperations<String, Object> valueOperations(RedisTemplate<String, Object> redisTemplate) {
@@ -114,9 +107,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 对链表类型的数据操作
-     *
-     * @param redisTemplate
-     * @return
      */
     @Bean
     public ListOperations<String, Object> listOperations(RedisTemplate<String, Object> redisTemplate) {
@@ -125,9 +115,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 对无序集合类型的数据操作
-     *
-     * @param redisTemplate
-     * @return
      */
     @Bean
     public SetOperations<String, Object> setOperations(RedisTemplate<String, Object> redisTemplate) {
@@ -136,9 +123,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 对有序集合类型的数据操作
-     *
-     * @param redisTemplate
-     * @return
      */
     @Bean
     public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
@@ -168,6 +152,34 @@ public class RedisConfig extends CachingConfigurerSupport {
             String jsonString = JSON.toJSONString(container);
             // 做SHA256 Hash计算，得到一个SHA256摘要作为Key
             return DigestUtils.sha256Hex(jsonString);
+        };
+    }
+
+    @Bean
+    @Override
+    public CacheErrorHandler errorHandler() {
+        // 异常处理，当Redis发生异常时，打印日志，但是程序正常走
+        log.info("初始化 -> [{}]", "Redis CacheErrorHandler");
+        return new CacheErrorHandler() {
+            @Override
+            public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
+                log.error("Redis occur handleCacheGetError：key -> [{}]", key, e);
+            }
+
+            @Override
+            public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
+                log.error("Redis occur handleCachePutError：key -> [{}]；value -> [{}]", key, value, e);
+            }
+
+            @Override
+            public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
+                log.error("Redis occur handleCacheEvictError：key -> [{}]", key, e);
+            }
+
+            @Override
+            public void handleCacheClearError(RuntimeException e, Cache cache) {
+                log.error("Redis occur handleCacheClearError：", e);
+            }
         };
     }
 }

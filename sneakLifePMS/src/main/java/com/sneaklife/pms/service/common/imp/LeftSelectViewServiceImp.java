@@ -8,7 +8,6 @@ import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import com.sneaklife.ut.iws.IwsContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,7 +31,7 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
     private Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> nodes;
 
     @Override
-    public ResponseEntity<String> leftSelectsView(Map<String, Object> map) {
+    public List<Map<String,Object>> leftSelectsView(Map<String, Object> map) {
         List<Map<String,Object>> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
         String menuId = String.valueOf(map.get("menuId"));
@@ -46,7 +45,7 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
             i--;
             data.add(parentMenu);
         }
-        return IwsContext.respResultBodyToSC(data);
+        return data;
     }
 
     @ChildNode

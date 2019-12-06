@@ -45,6 +45,7 @@ mybatis:
 
 rsa:
   key_algorithm: RSA
+  cipher_algorithm: RSA/ECB/PKCS1Padding
   signature_algorithm: SHA1withRSA
   public_key: puk
   private_key: prk

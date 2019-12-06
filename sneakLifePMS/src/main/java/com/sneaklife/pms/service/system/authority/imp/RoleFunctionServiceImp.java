@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
+import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.roleFunction.RoleFunctionMapper;
 import com.sneaklife.pms.entity.RoleFunction;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -7,10 +8,13 @@ import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
 import com.sneaklife.pms.service.system.authority.RoleFunctionService;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.exception.SneakLifeFailureException;
+import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +25,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  */
 @Service
-@SuppressWarnings("unchecked")
+@CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Autowired
@@ -35,22 +39,23 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> roleFunctionTreeView(Map<String, Object> map) {
+    @Cacheable
+    public TableOpera roleFunctionTreeView(Map<String, Object> map) {
         map.put("isShow",0);
-        TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return IwsContext.respResultBodyToSC(tableOpera);
+        return operaService.buildOperaBody(map,false);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> roleFunction(Map<String, Object> map) {
-        List<Map<String,Object>> data = roleConfigService.buildRoleTreeView();
-        return IwsContext.respResultBodyToSC(data);
+    @Cacheable
+    public List<Map<String,Object>> roleFunction(Map<String, Object> map) {
+        return roleConfigService.buildRoleTreeView();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getRoleFunction(Map<String, Object> map) {
+    @Cacheable
+    public List<Map<String,Object>> getRoleFunction(Map<String, Object> map) {
         List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
         RoleFunction roleFunction = new RoleFunction();
         StringBuilder stringBuilder = new StringBuilder();
@@ -60,17 +65,19 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
         roleFunction.setMenuId(stringBuilder.toString());
         List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunction, map);
         operaService.clean();
-        return IwsContext.respResultBodyToSC(data);
+        return data;
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void insertRoleFunction(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultTJCG());
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void updateRoleFunction(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
         Map<String,Object> root = findRootPid(upList);
@@ -78,7 +85,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
         String roleId = String.valueOf(root.get("treeViewId"));
         roleFunctionMapper.deleteByRoleId(roleId);
         roleFunctionMapper.insertBatch(upList, roleId);
-        throw new SneakLifeException(IwsContext.respResultXGCG());
+        throw new SneakLifeSuccessfulException(IwsContext.respResultXGCG());
     }
 
     private Map<String,Object> findRootPid(List<Map<String,Object>> upList) throws SneakLifeException{
@@ -87,12 +94,13 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
                 return map;
             }
         }
-        throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PARAM_ILLEGAL_NOT_ROOT.toValue(),
+        throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_PARAM_ILLEGAL_NOT_ROOT.toValue(),
                 RespCode.MSG_PARAM_ILLEGAL_NOT_ROOT.toMsg()));
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void deleteRoleFunction(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultSCCG());
     }

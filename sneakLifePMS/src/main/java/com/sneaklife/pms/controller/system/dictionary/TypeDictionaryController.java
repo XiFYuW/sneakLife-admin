@@ -31,12 +31,12 @@ public class TypeDictionaryController {
 
     @RequestMapping(value = "/getTypeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getTypeDictionary() throws Exception{
-        return typeDictionaryService.getTypeDictionary(IwsContext.getData(), IwsContext.getPageInfo());
+        return IwsContext.respResultBodyToSC(typeDictionaryService.getTypeDictionary(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/typeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> typeDictionary() throws Exception{
-        return typeDictionaryService.typeDictionary(IwsContext.getData());
+    public ResponseEntity<String> typeDictionary(){
+        return IwsContext.respResultBodyToSC(typeDictionaryService.typeDictionary(IwsContext.getData()));
     }
 
 }

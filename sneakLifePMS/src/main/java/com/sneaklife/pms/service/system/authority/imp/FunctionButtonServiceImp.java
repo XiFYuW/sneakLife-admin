@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
+import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbJpa;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -7,15 +8,17 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionButtonService;
-import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +26,7 @@ import java.util.Map;
  * @date 2019/8/21 10:25
  */
 @Service
+@CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class FunctionButtonServiceImp extends CommonService implements FunctionButtonService {
 
     @Autowired
@@ -39,40 +43,45 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> functionButton(Map<String, Object> map) {
+    @Cacheable
+    public List<Map<String,Object>> functionButton(Map<String, Object> map) {
         return leftSelectViewService.leftSelectsView(map);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> functionButtonTableView(Map<String, Object> map) {
+    @Cacheable
+    public TableOpera functionButtonTableView(Map<String, Object> map) {
         map.put("isShow",0);
-        TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return IwsContext.respResultBodyToSC(tableOpera);
+        return operaService.buildOperaBody(map,false);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
+    @Cacheable
+    public Map<String,Object> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         String menuId = String.valueOf(map.get("menuId"));
         Page<Map<String,Object>> page = operaSbJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(pageToMap(page));
+        return pageToMap(page);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void insertFunctionButton(Map<String, Object> map) throws Exception {
         insert(operaSbMapper, map);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void updateFunctionButton(Map<String, Object> map) throws Exception {
         update(operaSbMapper, map);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void deleteFunctionButton(Map<String, Object> map) throws Exception {
         delete(operaSbMapper, map);
     }

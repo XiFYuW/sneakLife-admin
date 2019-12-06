@@ -1,8 +1,9 @@
 package com.sneaklife.pms.service.system.authority;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,27 +13,31 @@ import java.util.Map;
 public interface FunctionColumnsService {
     /**
      * Building content bodies
+     *
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return List<Map<String,Object>>
      */
-    ResponseEntity<String> functionColumns(Map<String, Object> map);
+    List<Map<String, Object>> functionColumns(Map<String, Object> map);
 
     /**
      * Gets the table list menu
+     *
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return TableOpera
      */
-    ResponseEntity<String> functionColumnsTableView(Map<String, Object> map);
+    TableOpera functionColumnsTableView(Map<String, Object> map);
 
     /**
      * Gets function input data
+     *
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return Map<String,Object>
      */
-    ResponseEntity<String> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String, Object> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Insert function columns
+     *
      * @param map parameter
      * @throws Exception
      */
@@ -40,6 +45,7 @@ public interface FunctionColumnsService {
 
     /**
      * Update function columns
+     *
      * @param map parameter
      * @throws Exception
      */
@@ -47,6 +53,7 @@ public interface FunctionColumnsService {
 
     /**
      * Delete function columns
+     *
      * @param map parameter
      * @throws Exception
      */

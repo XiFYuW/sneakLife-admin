@@ -15,13 +15,13 @@ public class UserRoleController {
     private UserRoleService userRoleService;
 
     @RequestMapping(value = "/userRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> userRole() throws Exception{
-        return userRoleService.userRole(IwsContext.getData());
+    public ResponseEntity<String> userRole() {
+        return IwsContext.respResultBodyToSC(userRoleService.userRole(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getUserRole() throws Exception{
-        return userRoleService.getUserRole(IwsContext.getData(), IwsContext.getPageInfo());
+        return IwsContext.respResultBodyToSC(userRoleService.getUserRole(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")

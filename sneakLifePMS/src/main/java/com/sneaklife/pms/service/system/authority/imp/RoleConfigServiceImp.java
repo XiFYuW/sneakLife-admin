@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
+import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigJpa;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.pms.entity.RoleConfig;
@@ -7,14 +8,15 @@ import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
-import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,7 @@ import java.util.Map;
  * @date 2019/8/4 10:01
  */
 @Service
+@CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class RoleConfigServiceImp extends CommonService implements RoleConfigService,
         ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> {
 
@@ -46,40 +49,45 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     private ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> ptf;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
+    @Cacheable
+    public Map<String, Object> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+        Page<Map<String, Object>> page = roleConfigJpa.findAllPage(getPageable(pageInfo));
+        return pageToMap(page);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable
+    public TableOpera roleConfig(Map<String, Object> map) {
+        map.put("isShow",0);
+        return operaService.buildOperaBody(map,false);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void insertRoleConfig(Map<String, Object> map) throws Exception {
         insert(roleConfigMapper,map);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<Map<String, Object>> page = roleConfigJpa.findAllPage(getPageable(pageInfo));
-        return IwsContext.respResultBodyToSC(pageToMap(page));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public ResponseEntity<String> roleConfig(Map<String, Object> map) throws Exception {
-        map.put("isShow",0);
-        TableOpera tableOpera = operaService.buildOperaBody(map,false);
-        return IwsContext.respResultBodyToSC(tableOpera);
-    }
-
-    @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void updateRoleConfig(Map<String, Object> map) throws Exception {
         update(roleConfigMapper,map);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
+    @SneakLifeAuthorityManagementCacheEvict
     public void deleteRoleConfig(Map<String, Object> map) throws Exception {
         delete(roleConfigMapper,map);
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable
     public List<Map<String, Object>> buildRoleTreeView(){
         List<Map<String,Object>> data = new ArrayList<>();
         List<RoleConfig> list = roleConfigMapper.getByIsDel(0);
@@ -89,7 +97,8 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<String> selectsList(Map<String,Object> map) {
+    @Cacheable
+    public Map<String,Object> selectsList(Map<String,Object> map) {
         List<RoleConfig> roleConfigList = roleConfigMapper.getByIsDel(0);
         List<Map<String,Object>> data = new ArrayList<>();
         roleConfigList.forEach(roleConfig -> {
@@ -100,7 +109,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
         });
         map.put("title","select role");
         map.put("data", data);
-        return IwsContext.respResultBodyToSC(map);
+        return map;
     }
 
     @Override

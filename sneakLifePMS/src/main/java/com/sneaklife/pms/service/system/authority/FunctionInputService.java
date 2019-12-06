@@ -1,8 +1,10 @@
 package com.sneaklife.pms.service.system.authority;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,23 +15,23 @@ public interface FunctionInputService {
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return  List<Map<String, Object>>
      */
-    ResponseEntity<String> functionInput(Map<String, Object> map);
+    List<Map<String, Object>> functionInput(Map<String, Object> map);
 
     /**
      * Gets the table list menu
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return TableOpera
      */
-    ResponseEntity<String> functionInputTableView(Map<String, Object> map);
+    TableOpera functionInputTableView(Map<String, Object> map);
 
     /**
      * Gets function input data
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return Map<String,Object>
      */
-    ResponseEntity<String> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String,Object> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Insert function input

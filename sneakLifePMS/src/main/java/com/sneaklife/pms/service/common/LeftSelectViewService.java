@@ -1,7 +1,6 @@
 package com.sneaklife.pms.service.common;
 
-import org.springframework.http.ResponseEntity;
-
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,5 +9,10 @@ import java.util.Map;
  */
 public interface LeftSelectViewService {
 
-    ResponseEntity<String> leftSelectsView(Map<String, Object> map);
+    /**
+     * Left drop-down list tree data
+     * @param map
+     * @return List<Map<String,Object>>
+     */
+    List<Map<String,Object>> leftSelectsView(Map<String, Object> map);
 }

@@ -40,11 +40,12 @@ public class ServiceController {
     public ModelAndView service(@RequestParam String data, HttpServletRequest request, HttpServletResponse response) throws Exception{
         SneakLifeServlet sneakLifeServlet = IwsContext.getSneakLifeServletObject(request,response);
         String sessionId = sneakLifeServlet.getSessionId();
-        log.debug("RSA加密data: 【{}】", data);
+        log.info("RSA加密data: 【{}】", data);
         data = KeyLessContext.getRsaData(sessionId, data, hashOperations);
         Map map = JSON.parseObject(data, Map.class);
         log.info("RSA解密data: 【{}】", map);
-        String token = KeyLessContext.getRsaData(sessionId, String.valueOf(map.get("token")), hashOperations);
+        String token = String.valueOf(map.get("token"));
+        token = KeyLessContext.getRsaData(sessionId, token, hashOperations);
         log.info("RSA解密token: 【{}】", token);
         if ("".equals(token)) {
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_SZQMJYBTG.toValue(), RespCode.MSG_SZQMJYBTG.toMsg()));
@@ -59,7 +60,7 @@ public class ServiceController {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             log.error(e.getLocalizedMessage());
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_JMSBZS.toValue(), RespCode.MSG_JMSBZS.toMsg()));
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_AES_JMSB.toValue(), RespCode.MSG_AES_JMSB.toMsg()));
         }
         ReqParam reqParam = Objects.requireNonNull(JSON.parseObject(data, ReqParam.class));
         String me = reqParam.getMe();

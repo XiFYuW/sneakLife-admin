@@ -65,6 +65,10 @@ public class IwsContext {
         return respResultBody(RespCode.MSG_SUCCEED.toValue(), data);
     }
 
+    private static ResponseEntity<String> buildIwsBody(RespResult1 respResult, SneakLifeServlet sneakLifeServlet){
+        return new ResponseEntity<>(JSON.toJSONString(respResult), sneakLifeServlet.getMvm(), HttpStatus.OK);
+    }
+
     public static Map<String, Object> getData() {
         try {
             String object = String.valueOf(sneakLifeServletLocal.get().getHttpServletRequest().getAttribute("data"));
@@ -101,10 +105,6 @@ public class IwsContext {
             log.error(e.getLocalizedMessage());
         }
         return null;
-    }
-
-    private static ResponseEntity<String> buildIwsBody(RespResult1 respResult,SneakLifeServlet sneakLifeServlet){
-        return new ResponseEntity<>(JSON.toJSONString(respResult), sneakLifeServlet.getMvm(), HttpStatus.OK);
     }
 
     public static SneakLifeServlet getSneakLifeServletObject(HttpServletRequest request, HttpServletResponse response){

@@ -19,32 +19,32 @@ public class FunctionButtonController {
     private FunctionButtonService functionButtonService;
 
     @RequestMapping(value = "/functionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionButton() throws Exception{
-        return functionButtonService.functionButton(IwsContext.getData());
+    public ResponseEntity<String> functionButton() {
+        return IwsContext.respResultBodyToSC(functionButtonService.functionButton(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/functionButtonTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionButtonTableView() throws Exception{
-        return functionButtonService.functionButtonTableView(IwsContext.getData());
+    public ResponseEntity<String> functionButtonTableView() {
+        return IwsContext.respResultBodyToSC(functionButtonService.functionButtonTableView(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getFunctionButton() throws Exception{
-        return functionButtonService.getFunctionButton(IwsContext.getData(), IwsContext.getPageInfo());
+    public ResponseEntity<String> getFunctionButton() throws Exception {
+        return IwsContext.respResultBodyToSC(functionButtonService.getFunctionButton(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertFunctionButton() throws Exception{
+    public void insertFunctionButton() throws Exception {
         functionButtonService.insertFunctionButton(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateFunctionButton() throws Exception{
+    public void updateFunctionButton() throws Exception {
         functionButtonService.updateFunctionButton(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteFunctionButton() throws Exception{
+    public void deleteFunctionButton() throws Exception {
         functionButtonService.deleteFunctionButton(IwsContext.getData());
     }
 }

@@ -1,12 +1,16 @@
 package com.sneaklife.pms.controller.system.dictionary;
 
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
+import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.servlet.SneakLifeResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Map;
 
 @Controller
 public class DataDictionaryController {
@@ -31,16 +35,16 @@ public class DataDictionaryController {
 
     @RequestMapping(value = "/getDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getDataDictionary() throws Exception{
-        return dataDictionaryService.getDataDictionary(IwsContext.getData(), IwsContext.getPageInfo());
+        return IwsContext.respResultBodyToSC(dataDictionaryService.getDataDictionary(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> dataDictionary() throws Exception{
-        return dataDictionaryService.dataDictionary(IwsContext.getData());
+    public ResponseEntity<String> dataDictionary(){
+        return IwsContext.respResultBodyToSC(dataDictionaryService.dataDictionary(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getByType", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getByType() throws Exception{
-        return dataDictionaryService.getByType(IwsContext.getData());
+    public ResponseEntity<String> getByType(){
+        return IwsContext.respResultBodyToSC(dataDictionaryService.getByType(IwsContext.getData()));
     }
 }

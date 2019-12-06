@@ -1,7 +1,5 @@
 package com.sneaklife.pms.service.common;
 
-import org.springframework.http.ResponseEntity;
-
 import java.util.Map;
 
 /**
@@ -10,5 +8,10 @@ import java.util.Map;
  */
 public interface SelectTreeViewService {
 
-    ResponseEntity<String> selectTreeView(Map<String, Object> map);
+    /**
+     * Gets the system function menu data to assemble the drop-down list tree data
+     * @param map parameter
+     * @return Map<String, Object>
+     */
+    Map<String, Object> selectTreeView(Map<String, Object> map);
 }

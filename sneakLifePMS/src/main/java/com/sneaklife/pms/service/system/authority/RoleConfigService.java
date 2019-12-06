@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.system.authority;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
@@ -22,18 +23,18 @@ public interface RoleConfigService {
      * Paging to get roleConfig data
      * @param map parameter
      * @param pageInfo Paging object
-     * @return ResponseEntity<String>
+     * @return Map<String, Object>
      * @throws Exception
      */
-    ResponseEntity<String> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String, Object> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return TableOpera
      * @throws Exception
      */
-    ResponseEntity<String> roleConfig(Map<String, Object> map) throws Exception;
+    TableOpera roleConfig(Map<String, Object> map) throws Exception;
 
     /**
      * Update roleConfig
@@ -49,7 +50,16 @@ public interface RoleConfigService {
      */
     void deleteRoleConfig(Map<String, Object> map) throws Exception;
 
+    /**
+     * Secondary page construction
+     * @return List<Map<String, Object>>
+     */
     List<Map<String, Object>> buildRoleTreeView();
 
-    ResponseEntity<String> selectsList(Map<String, Object> map);
+    /**
+     * Gets the role drop-down list data
+     * @param map parameter
+     * @return Map<String,Object>
+     */
+    Map<String,Object> selectsList(Map<String, Object> map);
 }

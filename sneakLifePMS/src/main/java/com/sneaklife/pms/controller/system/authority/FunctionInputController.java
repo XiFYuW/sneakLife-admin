@@ -19,17 +19,17 @@ public class FunctionInputController {
 
     @RequestMapping(value = "/functionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionInput() throws Exception{
-        return functionInputService.functionInput(IwsContext.getData());
+        return IwsContext.respResultBodyToSC(functionInputService.functionInput(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/functionInputTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionInputTableView() throws Exception{
-        return functionInputService.functionInputTableView(IwsContext.getData());
+        return IwsContext.respResultBodyToSC(functionInputService.functionInputTableView(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getFunctionInput() throws Exception{
-        return functionInputService.getFunctionInput(IwsContext.getData(), IwsContext.getPageInfo());
+        return IwsContext.respResultBodyToSC(functionInputService.getFunctionInput(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")

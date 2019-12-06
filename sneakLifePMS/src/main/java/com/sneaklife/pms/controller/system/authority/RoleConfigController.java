@@ -31,16 +31,16 @@ public class RoleConfigController {
 
     @RequestMapping(value = "/getRoleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getRoleConfig() throws Exception{
-        return roleConfigService.getRoleConfig(IwsContext.getData(), IwsContext.getPageInfo());
+        return IwsContext.respResultBodyToSC(roleConfigService.getRoleConfig(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/roleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> roleConfig() throws Exception{
-        return roleConfigService.roleConfig(IwsContext.getData());
+        return IwsContext.respResultBodyToSC(roleConfigService.roleConfig(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/selectsList", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> selectsList() throws Exception{
-        return roleConfigService.selectsList(IwsContext.getData());
+        return IwsContext.respResultBodyToSC(roleConfigService.selectsList(IwsContext.getData()));
     }
 }

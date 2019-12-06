@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.system.authority;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
@@ -13,17 +14,17 @@ public interface UserRoleService {
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return TableOpera
      */
-    ResponseEntity<String> userRole(Map<String, Object> map);
+    TableOpera userRole(Map<String, Object> map);
 
     /**
      * Gets userRole function data
      * @param map parameter
      * @param pageInfo Paging object
-     * @return ResponseEntity<String>
+     * @return Map<String,Object>
      */
-    ResponseEntity<String> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String,Object> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Insert userRole function configuration

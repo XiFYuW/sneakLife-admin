@@ -1,8 +1,10 @@
 package com.sneaklife.pms.service.system.authority;
 
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,23 +15,23 @@ public interface FunctionButtonService {
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return List<Map<String,Object>>
      */
-    ResponseEntity<String> functionButton(Map<String, Object> map);
+    List<Map<String,Object>> functionButton(Map<String, Object> map);
 
     /**
      * Gets the table list menu
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return TableOpera
      */
-    ResponseEntity<String> functionButtonTableView(Map<String, Object> map);
+    TableOpera functionButtonTableView(Map<String, Object> map);
 
     /**
      * Gets function button data
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return Map<String,Object>
      */
-    ResponseEntity<String> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String,Object> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Insert function button

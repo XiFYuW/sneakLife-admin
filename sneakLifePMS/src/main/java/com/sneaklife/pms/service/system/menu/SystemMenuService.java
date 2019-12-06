@@ -1,8 +1,10 @@
 package com.sneaklife.pms.service.system.menu;
 
+import com.sneaklife.pms.entity.SystemMenu;
+import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,26 +14,26 @@ public interface SystemMenuService {
 
     /**
      * Get mappers.mappers menu
-     * @return ResponseEntity<String>
+     * @return List
      */
-    ResponseEntity<String> getMenu();
+    List<SystemMenu> getMenu();
 
     /**
      * Paging to get data dictionary data
      * @param map parameter
      * @param pageInfo Paging object
-     * @return ResponseEntity<String>
+     * @return Map<String, Object>
      * @throws Exception
      */
-    ResponseEntity<String> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception;
+    Map<String, Object> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
      * Building content bodies
      * @param map parameter
-     * @return ResponseEntity<String>
+     * @return TableOpera
      * @throws Exception
      */
-    ResponseEntity<String> systemFunctionMenu(Map<String, Object> map) throws Exception;
+    TableOpera systemFunctionMenu(Map<String, Object> map) throws Exception;
 
     /**
      * Insert data system function menu
@@ -54,6 +56,11 @@ public interface SystemMenuService {
      */
     void deleteSystemFunctionMenu(Map<String, Object> map) throws Exception;
 
-    ResponseEntity<String> selectTreeView(Map<String, Object> map);
+    /**
+     * Gets the system function menu data to assemble the drop-down list tree data
+     * @param map parameter
+     * @return Map<String, Object>
+     */
+    Map<String, Object> selectTreeView(Map<String, Object> map);
 
 }

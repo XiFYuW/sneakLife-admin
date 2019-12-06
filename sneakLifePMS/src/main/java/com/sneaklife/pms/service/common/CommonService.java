@@ -2,6 +2,8 @@ package com.sneaklife.pms.service.common;
 
 import com.sneaklife.pms.dao.CommonDao;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.exception.SneakLifeFailureException;
+import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.iws.RespCode;
@@ -33,28 +35,28 @@ public abstract class CommonService {
         return PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), direction, "id");
     }
 
-    protected void insert(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
+    protected void insert(CommonDao commonDao, Map<String,Object> map) throws Exception{
         int t = commonDao.insert(map);
         if(t != 1){
-            throw new SneakLifeException(IwsContext.respResultTJSB());
+            throw new SneakLifeFailureException(IwsContext.respResultTJSB());
         }
-        throw new SneakLifeException(IwsContext.respResultTJCG());
+        throw new SneakLifeSuccessfulException(IwsContext.respResultTJCG());
     }
 
-    protected void update(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
+    protected void update(CommonDao commonDao, Map<String,Object> map) throws Exception{
         int t = commonDao.update(map);
         if(t != 1){
-            throw new SneakLifeException(IwsContext.respResultXGSB());
+            throw new SneakLifeFailureException(IwsContext.respResultXGSB());
         }
-        throw new SneakLifeException(IwsContext.respResultXGCG());
+        throw new SneakLifeSuccessfulException(IwsContext.respResultXGCG());
     }
 
-    protected void delete(CommonDao commonDao, Map<String,Object> map) throws SneakLifeException{
+    protected void delete(CommonDao commonDao, Map<String,Object> map) throws Exception{
         int t = commonDao.delete(map);
         if(t != 1){
-            throw new SneakLifeException(IwsContext.respResultSCSB());
+            throw new SneakLifeFailureException(IwsContext.respResultSCSB());
         }
-        throw new SneakLifeException(IwsContext.respResultSCCG());
+        throw new SneakLifeSuccessfulException(IwsContext.respResultSCCG());
     }
 
     protected Map<String,Object> pageToMap(Page<Map<String, Object>> page){

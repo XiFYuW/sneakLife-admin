@@ -19,32 +19,32 @@ public class FunctionColumnsController {
     private FunctionColumnsService functionColumnsService;
 
     @RequestMapping(value = "/functionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionColumns() throws Exception{
-        return functionColumnsService.functionColumns(IwsContext.getData());
+    public ResponseEntity<String> functionColumns() {
+        return IwsContext.respResultBodyToSC(functionColumnsService.functionColumns(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/functionColumnsTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionColumnsTableView() throws Exception{
-        return functionColumnsService.functionColumnsTableView(IwsContext.getData());
+    public ResponseEntity<String> functionColumnsTableView() {
+        return IwsContext.respResultBodyToSC(functionColumnsService.functionColumnsTableView(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getFunctionColumns() throws Exception{
-        return functionColumnsService.getFunctionColumns(IwsContext.getData(), IwsContext.getPageInfo());
+    public ResponseEntity<String> getFunctionColumns() throws Exception {
+        return IwsContext.respResultBodyToSC(functionColumnsService.getFunctionColumns(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertFunctionColumns() throws Exception{
+    public void insertFunctionColumns() throws Exception {
         functionColumnsService.insertFunctionColumns(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateFunctionColumns() throws Exception{
+    public void updateFunctionColumns() throws Exception {
         functionColumnsService.updateFunctionColumns(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteFunctionColumns() throws Exception{
+    public void deleteFunctionColumns() throws Exception {
         functionColumnsService.deleteFunctionColumns(IwsContext.getData());
     }
 }
