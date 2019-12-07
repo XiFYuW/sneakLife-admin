@@ -2,6 +2,14 @@ package com.sneaklife.ut.iws;
 
 public enum RespCode {
 	/**
+	 * 参数不为空！
+	 */
+	MSG_NOT_RULE(2589, "没有该规则配置"),
+	/**
+	 * 参数不为空！
+	 */
+	MSG_IS_NOT_NULL(3879, "--参数不为空！"),
+	/**
 	 * 获取秘钥对失败
 	 */
 	MSG_HQMYDSB(3258, "获取秘钥对失败"),

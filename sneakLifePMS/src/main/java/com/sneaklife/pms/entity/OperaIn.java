@@ -48,6 +48,9 @@ public class OperaIn extends CommonEntity {
     @Column(name = "menu_id")
     private String menuId;
 
+    @Column(name = "rule")
+    private String rule;
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -65,10 +68,12 @@ public class OperaIn extends CommonEntity {
                 .append(updateDate).append('\"');
         sb.append(",\"field\":\"")
                 .append(field).append('\"');
-        sb.append(",\"isShow\":\"")
-                .append(isShow).append('\"');
+        sb.append(",\"isShow\":")
+                .append(isShow);
         sb.append(",\"menuId\":\"")
                 .append(menuId).append('\"');
+        sb.append(",\"rule\":\"")
+                .append(rule).append('\"');
         sb.append('}');
         return sb.toString();
     }

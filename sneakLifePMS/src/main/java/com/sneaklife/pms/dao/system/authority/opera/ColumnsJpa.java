@@ -12,7 +12,7 @@ import java.util.Map;
 public interface ColumnsJpa extends JpaRepository<Columns, String>, JpaSpecificationExecutor<Columns> {
 
     @Query(value = "select new map" +
-            "(cl.id as id,cl.title as title,cl.field as field,cl.align as align,cl.isShow as isShow,dd.name as alignName) " +
+            "(cl.id as id,cl.title as title,cl.field as field,cl.align as align,dd.name as alignName) " +
             "from Columns cl inner join DataDictionary dd on cl.align = dd.value " +
             "where cl.isDel = 0 and cl.menuId=?1")
     Page<Map<String,Object>> findAllPageByMenuId(String menuId, Pageable pageable);

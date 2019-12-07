@@ -14,8 +14,10 @@ import java.util.Map;
 public interface OperaInJpa extends JpaRepository<OperaIn, String>, JpaSpecificationExecutor<OperaIn> {
 
     @Query(value = "select new map" +
-            "(oi.id as id,oi.field as field,oi.htmlType as htmlType,oi.textName as textName,dd.name as htmlTypeName) " +
+            "(oi.id as id,oi.field as field,oi.htmlType as htmlType,oi.textName as textName," +
+            "dd.name as htmlTypeName,oi.rule as rule,dd1.name as ruleName) " +
             "from OperaIn oi inner join DataDictionary dd on oi.htmlType = dd.value " +
+            "inner join DataDictionary dd1 on oi.rule = dd1.value " +
             "where oi.isDel = 0 and oi.menuId=?1")
     Page<Map<String,Object>> findAllPageByMenuId(String menuId, Pageable pageable);
 }

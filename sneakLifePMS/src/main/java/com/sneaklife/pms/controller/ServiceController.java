@@ -1,6 +1,7 @@
 package com.sneaklife.pms.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.sneaklife.pms.service.check.SneakLifeCheckService;
 import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.keyless.KeyLessContext;
@@ -34,6 +35,9 @@ public class ServiceController {
     @Autowired
     private HashOperations hashOperations;
 
+    @Autowired
+    private SneakLifeCheckService sneakLifeChcekService;
+
     private Logger log = LoggerFactory.getLogger(ServiceController.class);
 
     @RequestMapping(value = "/service", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
@@ -59,18 +63,22 @@ public class ServiceController {
             log.info("AES解密data: 【{}】", data);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            log.error(e.getLocalizedMessage());
+            e.printStackTrace();
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_AES_JMSB.toValue(), RespCode.MSG_AES_JMSB.toMsg()));
         }
         ReqParam reqParam = Objects.requireNonNull(JSON.parseObject(data, ReqParam.class));
         String me = reqParam.getMe();
         String cs = StringUtil.filterDangerString(reqParam.getData());
         String pag = reqParam.getPag();
+        String checkInId = reqParam.getCheckInId();
         Map<String, Object> pa = new HashMap<>();
         pa.put("data", cs);
         if (!StringUtils.isEmpty(pag)) {
             PageInfo pageInfo = JSON.parseObject(pag, PageInfo.class);
             pa.put("pag", pageInfo);
+        }
+        if (!StringUtils.isEmpty(checkInId)) {
+            sneakLifeChcekService.checkIn((Map<String,Object>)JSON.parse(cs), checkInId);
         }
         log.info("前台请求参数: 【{}】", pa);
         return new ModelAndView("forward:/" + me, pa);

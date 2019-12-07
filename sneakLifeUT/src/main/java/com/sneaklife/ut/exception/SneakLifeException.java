@@ -6,7 +6,7 @@ public class SneakLifeException extends Exception{
 
     private ResponseEntity<String> responseEntity;
 
-    SneakLifeException(){}
+    public SneakLifeException(){}
 
     public SneakLifeException(ResponseEntity<String> responseEntity){
         this.responseEntity = responseEntity;

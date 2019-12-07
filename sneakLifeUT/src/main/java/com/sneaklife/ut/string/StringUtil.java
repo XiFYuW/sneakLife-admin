@@ -2,6 +2,11 @@ package com.sneaklife.ut.string;
 
 public class StringUtil {
 
+	public static String valueOf(Object o){
+		String s = String.valueOf(o);
+		return "null".equals(s) ? "" : s;
+	}
+
 	public static String disposeStrArray(String[] str, String patten) {
 		String data = "";
 		int len = str.length;

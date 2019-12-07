@@ -23,6 +23,10 @@ public class ReqParam {
 	 * 分页参数
 	 */
 	private String pag;
+	/**
+	 * 字段输入检测id
+	 */
+	private String checkInId;
 
 	@Override
 	public String toString() {
@@ -33,6 +37,8 @@ public class ReqParam {
 				.append(data).append('\"');
 		sb.append(",\"pag\":\"")
 				.append(pag).append('\"');
+		sb.append(",\"checkInId\":\"")
+				.append(checkInId).append('\"');
 		sb.append('}');
 		return sb.toString();
 	}

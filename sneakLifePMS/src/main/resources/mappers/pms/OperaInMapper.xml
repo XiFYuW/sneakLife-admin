@@ -44,6 +44,16 @@
     where menu_id = #{menuId} and html_type = #{htmlType} and is_del = 0 and is_show = 0;
   </select>
 
+  <select id="findByCheckInId" parameterType="string" resultType="map">
+    SELECT
+      id as id,
+      rule as rule,
+      text_name as textName,
+      field as field
+    FROM opera_in
+    where menu_id = #{checkInId} and is_del = 0 and is_show = 0;
+  </select>
+
 
   <insert id="insert" parameterType="map">
     insert into opera_in
@@ -56,6 +66,7 @@
       update_date,
       is_del,
       menu_id,
+      rule,
       is_show
     )
     value
@@ -68,6 +79,7 @@
       NOW(),
       0,
       #{menuIdTemp,jdbcType=CHAR},
+      #{rule,jdbcType=VARCHAR},
       0
     )
   </insert>
@@ -83,6 +95,9 @@
       </if>
       <if test="field != null">
         field = #{field,jdbcType=INTEGER},
+      </if>
+      <if test="rule != null">
+        rule = #{rule,jdbcType=INTEGER},
       </if>
     </set>
     <where>

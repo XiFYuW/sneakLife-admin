@@ -60,7 +60,7 @@
       NOW(),
       #{align,jdbcType=VARCHAR},
       #{menuIdTemp,jdbcType=CHAR},
-      0
+      1
     )
   </insert>
 

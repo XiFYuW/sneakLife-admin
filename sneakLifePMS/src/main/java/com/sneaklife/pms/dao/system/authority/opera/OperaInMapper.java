@@ -23,4 +23,6 @@ public interface OperaInMapper extends CommonDao {
     Integer checkOperaInById(Map<String, Object> map);
 
     List<Map<String,Object>> getSelectsKyByMenuId(@Param("menuId") String menuId,@Param("htmlType") String htmlType);
+
+    List<Map<String,Object>> findByCheckInId(@Param("checkInId") String checkInId);
 }
