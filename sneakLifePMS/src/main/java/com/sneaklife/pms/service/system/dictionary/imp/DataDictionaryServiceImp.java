@@ -9,6 +9,7 @@ import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.date.DateUtil;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(getPageable(pageInfo));
         return pageToMap(page);
@@ -54,6 +56,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Cacheable
+    @SneakLifeAnLog
     public TableOpera dataDictionary(Map<String, Object> map) {
         map.put("isShow", 0);
         return operaService.buildOperaBody(map, false);
@@ -62,6 +65,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void insertDataDictionary(Map<String, Object> map) throws Exception {
         map.put("value", DateUtil.getMilli());
         insert(dataDictionaryMapper, map);
@@ -70,6 +74,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void updateDataDictionary(Map<String, Object> map) throws Exception {
         update(dataDictionaryMapper, map);
     }
@@ -77,6 +82,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void deleteDataDictionary(Map<String, Object> map) throws Exception {
         delete(dataDictionaryMapper, map);
     }
@@ -84,6 +90,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String, Object> getByType(Map<String, Object> map) {
         String express = String.valueOf(map.get("express"));
         String menuId = String.valueOf(map.get("menuId"));

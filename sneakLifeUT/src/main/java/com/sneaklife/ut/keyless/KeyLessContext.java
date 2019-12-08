@@ -59,9 +59,9 @@ public class KeyLessContext {
     public static String getRsaData(String localKey, String rsaData, HashOperations hashOperations) throws Exception {
         Map<String, Object> kMap = getKey(localKey, hashOperations);
         String prk = String.valueOf(kMap.get("prk"));
-        log.info("私钥：{}", prk);
+        log.debug("私钥：{}", prk);
         String puk = String.valueOf(kMap.get("puk"));
-        log.info("公钥：{}", puk);
+        log.debug("公钥：{}", puk);
         byte[] ba = Base64Util.base64Decode(rsaData);
         String sign = RSAUtil.sign(ba, prk);
             boolean boo = RSAUtil.verify(ba, puk, sign);

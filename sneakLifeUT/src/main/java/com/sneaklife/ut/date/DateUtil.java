@@ -59,6 +59,10 @@ public class DateUtil {
 		return DateTimeFormatter.ofPattern(format).format(date);
 	}
 
+	public static String localDateTimeToStr(LocalDateTime localDateTime, String format) {
+		return DateTimeFormatter.ofPattern(format).format(localDateTime);
+	}
+
 	public static long until(LocalDate startDate, LocalDate endDate, TemporalUnit unit) {
 		return startDate.until(endDate, unit);
 	}
