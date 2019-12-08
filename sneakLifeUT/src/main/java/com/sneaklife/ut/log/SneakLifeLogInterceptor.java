@@ -1,8 +1,5 @@
 package com.sneaklife.ut.log;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.sneaklife.ut.date.DateUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
