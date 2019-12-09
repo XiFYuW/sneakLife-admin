@@ -5,13 +5,13 @@ import com.sneaklife.pms.dao.system.SystemMenuJpa;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.SelectTreeViewService;
 import com.sneaklife.pms.service.system.menu.SystemMenuService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +55,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public List<SystemMenu> getMenu() {
         List<SystemMenu> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
@@ -71,6 +72,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String, Object> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = systemMenuJpa.findAllPage(getPageable(pageInfo));
         return pageToMap(page);
@@ -79,6 +81,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public TableOpera systemFunctionMenu(Map<String, Object> map) {
         map.put("isShow", 0);
         return operaService.buildOperaBody(map, false);
@@ -124,6 +127,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void insertSystemFunctionMenu(Map<String, Object> map) throws Exception {
         insert(systemMenuMapper,map);
     }
@@ -131,6 +135,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void updateSystemFunctionMenu(Map<String, Object> map) throws Exception {
         update(systemMenuMapper,map);
     }
@@ -138,6 +143,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void deleteSystemFunctionMenu(Map<String, Object> map) throws Exception {
         delete(systemMenuMapper,map);
     }

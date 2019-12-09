@@ -3,6 +3,7 @@ package com.sneaklife.pms.service.common.imp;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.SelectTreeViewService;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class SelectTreeViewServiceImp extends LeftSelectViewServiceImp implement
     private OperaService operaService;
 
     @Override
+    @SneakLifeAnLog
     public Map<String, Object> selectTreeView(Map<String, Object> map) {
         String express = String.valueOf(map.get("express"));
         String menuId = String.valueOf(map.get("menuId"));

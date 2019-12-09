@@ -87,7 +87,7 @@ public final class SneakLifeServlet {
 
     public String getSessionId() {
         String id = httpServletRequest.getSession().getId();
-        log.debug("Session id {}", id);
+        log.debug("Session id: {}", id);
         return id;
     }
 

@@ -5,10 +5,10 @@ import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigJpa;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.pms.entity.RoleConfig;
 import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import org.slf4j.Logger;
@@ -51,6 +51,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String, Object> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = roleConfigJpa.findAllPage(getPageable(pageInfo));
         return pageToMap(page);
@@ -59,6 +60,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public TableOpera roleConfig(Map<String, Object> map) {
         map.put("isShow",0);
         return operaService.buildOperaBody(map,false);
@@ -67,6 +69,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void insertRoleConfig(Map<String, Object> map) throws Exception {
         insert(roleConfigMapper,map);
     }
@@ -74,6 +77,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void updateRoleConfig(Map<String, Object> map) throws Exception {
         update(roleConfigMapper,map);
     }
@@ -81,6 +85,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void deleteRoleConfig(Map<String, Object> map) throws Exception {
         delete(roleConfigMapper,map);
     }
@@ -88,6 +93,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public List<Map<String, Object>> buildRoleTreeView(){
         List<Map<String,Object>> data = new ArrayList<>();
         List<RoleConfig> list = roleConfigMapper.getByIsDel(0);
@@ -98,6 +104,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String,Object> selectsList(Map<String,Object> map) {
         List<RoleConfig> roleConfigList = roleConfigMapper.getByIsDel(0);
         List<Map<String,Object>> data = new ArrayList<>();

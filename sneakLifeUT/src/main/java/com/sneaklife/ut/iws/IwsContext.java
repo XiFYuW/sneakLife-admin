@@ -98,8 +98,7 @@ public class IwsContext {
     public static List<Map<String, Object>> getListData() {
         try {
             String object = String.valueOf(sneakLifeServletLocal.get().getHttpServletRequest().getAttribute("data"));
-            List<Map<String, Object>> data = (List<Map<String, Object>>) JSON.parse(object);
-            return data;
+            return (List<Map<String, Object>>) JSON.parse(object);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             log.error(e.getLocalizedMessage());
@@ -111,6 +110,10 @@ public class IwsContext {
         SneakLifeServlet sneakLifeServlet = SneakLifeServletFactory.getSneakLifeServletObject(request,response);
         sneakLifeServletLocal.set(sneakLifeServlet);
         return sneakLifeServlet;
+    }
+
+    public static SneakLifeServlet getSneakLifeServletObject(){
+        return sneakLifeServletLocal.get();
     }
 
     public static ResponseEntity<String> respResultXGCG() {

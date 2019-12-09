@@ -4,10 +4,10 @@ import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryJpa;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.TypeDictionaryService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +41,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String,Object> getTypeDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         Page<Map<String, Object>> page = typeDictionaryJpa.findAllPage(getPageable(pageInfo));
         return pageToMap(page);
@@ -49,6 +50,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Override
     @Transactional
     @Cacheable
+    @SneakLifeAnLog
     public TableOpera typeDictionary(Map<String, Object> map) {
         map.put("isShow", 0);
         return operaService.buildOperaBody(map, false);
@@ -57,6 +59,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void insertTypeDictionary(Map<String, Object> map) throws Exception {
         insert(typeDictionaryMapper, map);
     }
@@ -64,6 +67,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void updateTypeDictionary(Map<String, Object> map) throws Exception {
         update(typeDictionaryMapper, map);
     }
@@ -71,6 +75,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void deleteTypeDictionary(Map<String, Object> map) throws Exception {
         delete(typeDictionaryMapper, map);
     }

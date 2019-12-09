@@ -4,11 +4,11 @@ import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInJpa;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionInputService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -44,6 +44,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public List<Map<String, Object>> functionInput(Map<String, Object> map) {
         return leftSelectViewService.leftSelectsView(map);
     }
@@ -51,6 +52,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public TableOpera functionInputTableView(Map<String, Object> map) {
         map.put("isShow",0);
         return operaService.buildOperaBody(map,false);
@@ -59,6 +61,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String,Object> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         String menuId = String.valueOf(map.get("menuId"));
         Page<Map<String,Object>> page = operaInJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
@@ -68,6 +71,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void insertFunctionInput(Map<String, Object> map) throws Exception {
         insert(operaInMapper, map);
     }
@@ -75,6 +79,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void updateFunctionInput(Map<String, Object> map) throws Exception {
         update(operaInMapper, map);
     }
@@ -82,6 +87,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void deleteFunctionInput(Map<String, Object> map) throws Exception {
         delete(operaInMapper, map);
     }

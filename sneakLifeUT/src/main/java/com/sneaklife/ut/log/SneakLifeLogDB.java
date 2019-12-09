@@ -24,6 +24,8 @@ import java.util.Date;
 @Document(collection="sneakLifeLogDB")
 public class SneakLifeLogDB {
 
+    private String sessionId;
+
     private Integer isDel = 0;
 
     private Date createDate;

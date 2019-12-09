@@ -11,6 +11,7 @@ import com.sneaklife.pms.entity.modal.Table;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class OperaServiceImp implements OperaService {
     private volatile List<Map<String, Object>> data = new ArrayList<>();
 
     @Override
+    @SneakLifeAnLog
     public TableOpera buildOperaBody(Map<String, Object> map, boolean is) {
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
         Table table = new Table(columnsList);
@@ -65,6 +67,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
+    @SneakLifeAnLog
     public List<Map<String, Object>> buildOperaTreeGrid(Map<String, Object> map) {
         int numColumns = columnsMapper.checkColumnsByShow(map);
         int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
@@ -79,6 +82,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
+    @SneakLifeAnLog
     public List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map) {
         RoleConfig roleConfig = roleConfigMapper.getById(String.valueOf(map.get("menuId")));
         data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
@@ -101,6 +105,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
+    @SneakLifeAnLog
     public void clean(){
         size = 1;
         data = new LinkedList<>();
@@ -291,6 +296,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
+    @SneakLifeAnLog
     public List<Map<String, Object>> getSelectsKyByMenuId(String menuId, String htmlType) {
         return operaInMapper.getSelectsKyByMenuId(menuId, htmlType);
     }

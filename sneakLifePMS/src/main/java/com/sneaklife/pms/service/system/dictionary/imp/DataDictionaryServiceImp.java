@@ -5,7 +5,6 @@ import com.sneaklife.pms.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;

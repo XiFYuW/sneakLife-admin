@@ -1,5 +1,7 @@
 package com.sneaklife.ut.log;
 
+import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.servlet.SneakLifeServlet;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,7 +24,6 @@ import java.util.Map;
 @Component
 @Aspect
 @Order(1)
-@SuppressWarnings("unchecked")
 public class SneakLifeLogInterceptor {
 
     @Autowired
@@ -30,7 +31,13 @@ public class SneakLifeLogInterceptor {
 
     @Around("@annotation(com.sneaklife.ut.log.SneakLifeAnLog) && @annotation(sneakLifeAnLog)")
     public Object sneakLifeLogAround(ProceedingJoinPoint point, SneakLifeAnLog sneakLifeAnLog) throws Throwable{
+        SneakLifeServlet sneakLifeServlet = IwsContext.getSneakLifeServletObject();
+        String sessionId = "";
+        if (null != sneakLifeServlet) {
+            sessionId = sneakLifeServlet.getSessionId();
+        }
         SneakLifeLogDB log = new SneakLifeLogDB();
+        log.setSessionId(sessionId);
         log.setCreateDate(new Date());
         Object[] objects = point.getArgs();
         buildLog(objects, point, log);
@@ -54,7 +61,7 @@ public class SneakLifeLogInterceptor {
     }
 
     private void setLogEx(Throwable throwable,  SneakLifeLogDB log){
-        log.setLogEx("异常信息：【" + throwable.getMessage() + "】");
+        log.setLogEx("异常信息：【" + throwable.toString() + "】");
     }
 
     private void setLogOut(Object object,  SneakLifeLogDB log){
@@ -62,7 +69,7 @@ public class SneakLifeLogInterceptor {
     }
 
     private void setLogIn(Object[] objects,  SneakLifeLogDB log){
-        StringBuffer sb = new StringBuffer("入参数据：【");
+        StringBuilder sb = new StringBuilder("入参数据：【");
         Map<String,Object> map = new HashMap<>();
         for (int i = 0; i < objects.length; i++) {
             map.put(String.valueOf(i), String.valueOf(objects[i]));

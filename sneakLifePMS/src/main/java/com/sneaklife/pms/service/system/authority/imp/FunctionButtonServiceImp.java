@@ -4,11 +4,11 @@ import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbJpa;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionButtonService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -44,6 +44,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public List<Map<String,Object>> functionButton(Map<String, Object> map) {
         return leftSelectViewService.leftSelectsView(map);
     }
@@ -51,6 +52,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public TableOpera functionButtonTableView(Map<String, Object> map) {
         map.put("isShow",0);
         return operaService.buildOperaBody(map,false);
@@ -59,6 +61,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Override
     @Transactional(readOnly = true)
     @Cacheable
+    @SneakLifeAnLog
     public Map<String,Object> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         String menuId = String.valueOf(map.get("menuId"));
         Page<Map<String,Object>> page = operaSbJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
@@ -68,6 +71,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void insertFunctionButton(Map<String, Object> map) throws Exception {
         insert(operaSbMapper, map);
     }
@@ -75,6 +79,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void updateFunctionButton(Map<String, Object> map) throws Exception {
         update(operaSbMapper, map);
     }
@@ -82,6 +87,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
+    @SneakLifeAnLog
     public void deleteFunctionButton(Map<String, Object> map) throws Exception {
         delete(operaSbMapper, map);
     }
