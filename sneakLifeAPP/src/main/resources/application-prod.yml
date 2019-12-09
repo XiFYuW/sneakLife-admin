@@ -1,7 +1,8 @@
 logging:
   file: sneakLifeLog.log
   level:
-    root: info
+    root: error
+    com.sneaklife: info
 
 spring:
   datasource:
