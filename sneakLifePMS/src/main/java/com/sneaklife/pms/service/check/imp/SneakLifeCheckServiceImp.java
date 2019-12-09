@@ -8,6 +8,7 @@ import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
+import com.sneaklife.ut.log.SneakLifeAnLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
     private OperaInMapper operaInMapper;
 
     @Override
+    @SneakLifeAnLog
     public void checkIn(Map<String,Object> map, String checkInId) throws SneakLifeException {
         List<Map<String,Object>> ruleList = operaInMapper.findByCheckInId(checkInId);
         for (Map<String,Object> rule : ruleList) {
