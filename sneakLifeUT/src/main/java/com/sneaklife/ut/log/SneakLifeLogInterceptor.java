@@ -85,12 +85,12 @@ public class SneakLifeLogInterceptor {
     private String setLogMe(ProceedingJoinPoint point, SneakLifeLogDB log){
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Method method = methodSignature.getMethod();
-        log.setMeModifier(Modifier.toString(method.getModifiers()));
-        log.setMeReturnType(method.getReturnType().getTypeName());
-        log.setMeDeclaring(method.getDeclaringClass().getTypeName());
-        log.setMeName(method.getName());
-        log.setMeParameterType("(" + separateWithCommas(method.getParameterTypes()) + ")");
-        log.setMeExceptionType(separateWithCommas(method.getExceptionTypes()));
+//        log.setMeModifier(Modifier.toString(method.getModifiers()));
+//        log.setMeReturnType(method.getReturnType().getTypeName());
+//        log.setMeDeclaring(method.getDeclaringClass().getTypeName());
+//        log.setMeName(method.getName());
+//        log.setMeParameterType("(" + separateWithCommas(method.getParameterTypes()) + ")");
+//        log.setMeExceptionType(separateWithCommas(method.getExceptionTypes()));
         return method.toString();
     }
 

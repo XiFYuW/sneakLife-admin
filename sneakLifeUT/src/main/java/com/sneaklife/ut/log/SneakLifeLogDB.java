@@ -38,15 +38,15 @@ public class SneakLifeLogDB {
 
     private String logOut;
 
-    private String meModifier;
-
-    private String meReturnType;
-
-    private String meDeclaring;
-
-    private String meName;
-
-    private String meParameterType;
-
-    private String meExceptionType;
+//    private String meModifier;
+//
+//    private String meReturnType;
+//
+//    private String meDeclaring;
+//
+//    private String meName;
+//
+//    private String meParameterType;
+//
+//    private String meExceptionType;
 }
