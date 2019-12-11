@@ -5,6 +5,7 @@ import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigJpa;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.pms.entity.RoleConfig;
 import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
