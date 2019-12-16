@@ -23,12 +23,7 @@ public class StringUtil {
 
 	/**
 	 * 过滤字符串处理
-	 *
-	 * @author yuanwei
-	 * @date 2018年10月29日
-	 * @version 1.0
-	 * @param value
-	 *            待过滤字符串
+	 * @param value 待过滤字符串
 	 * @return String
 	 */
 	public static String filterDangerString(String value) {
@@ -57,11 +52,7 @@ public class StringUtil {
 	/**
 	 * 过滤多个字符串处理
 	 *
-	 * @author yuanwei
-	 * @date 2018年10月29日
-	 * @version 1.0
-	 * @param value
-	 *            待过滤字符串
+	 * @param value 待过滤字符串
 	 * @return String[]
 	 */
 	public static String[] filterDangerString(String[] value) {
@@ -73,5 +64,14 @@ public class StringUtil {
 			value[i] = val;
 		}
 		return value;
+	}
+
+	/**
+	 * 此方法适用String.valueOf()之后使用
+	 * @param s 字符串
+	 * @return boolean
+	 */
+	public static boolean isEmpty(String s){
+		return "".equals(s) || "null".equals(s);
 	}
 }

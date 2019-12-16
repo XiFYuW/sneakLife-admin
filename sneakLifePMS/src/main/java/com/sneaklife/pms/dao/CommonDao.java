@@ -1,5 +1,7 @@
 package com.sneaklife.pms.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.Map;
 
 /**
@@ -8,9 +10,24 @@ import java.util.Map;
  */
 public interface CommonDao {
 
-    int delete(Map<String, Object> map);
+    /**
+     * 通用逻辑删除
+     * @param map 参数
+     * @return int
+     */
+    int delete(@Param("map") Map<String, Object> map);
 
+    /**
+     * 通用修改
+     * @param map 参数
+     * @return int
+     */
     int update(Map<String, Object> map);
 
+    /**
+     * 通用插入
+     * @param map 参数
+     * @return int
+     */
     int insert(Map<String, Object> map);
 }

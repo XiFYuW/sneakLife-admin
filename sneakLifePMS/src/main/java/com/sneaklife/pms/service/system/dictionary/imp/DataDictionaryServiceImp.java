@@ -12,6 +12,7 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.date.DateUtil;
+import com.sneaklife.ut.string.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,10 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
     public void insertDataDictionary(Map<String, Object> map) throws Exception {
-        map.put("value", DateUtil.getMilli());
+        String value = String.valueOf(map.get("value"));
+        if (StringUtil.isEmpty(value)) {
+            map.put("value", DateUtil.getMilli());
+        }
         insert(dataDictionaryMapper, map);
     }
 

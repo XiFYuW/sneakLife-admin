@@ -106,6 +106,12 @@
   </update>
 
   <update id="delete" parameterType="map">
-    update opera_in set is_del = 1 where id = #{id}
+    update opera_in set is_del = 1
+    <where>
+      id in
+      <foreach collection="map.ids" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
   </update>
 </mapper>

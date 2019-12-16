@@ -53,8 +53,10 @@ public abstract class CommonService {
     }
 
     protected void delete(CommonDao commonDao, Map<String, Object> map) throws Exception {
+        String[] ids = String.valueOf(map.get("ids")).split(",");
+        map.put("ids", ids);
         int t = commonDao.delete(map);
-        if (t != 1) {
+        if (t <= 0) {
             throw new SneakLifeFailureException(IwsContext.respResultSCSB());
         } else {
             throw new SneakLifeSuccessfulException(IwsContext.respResultSCCG());

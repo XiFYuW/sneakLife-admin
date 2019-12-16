@@ -65,7 +65,11 @@ public class SneakLifeLogInterceptor {
     }
 
     private void setLogOut(Object object,  SneakLifeLogDB log){
-        log.setLogOut("出参数据：【" + object.toString() + "】");
+        if (IwsContext.isNotNull(object)) {
+            log.setLogOut("出参数据：【" + object.toString() + "】");
+        } else {
+            log.setLogOut("出参数据：【void】");
+        }
     }
 
     private void setLogIn(Object[] objects,  SneakLifeLogDB log){
