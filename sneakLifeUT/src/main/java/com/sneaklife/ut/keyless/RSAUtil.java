@@ -145,11 +145,11 @@ public class RSAUtil {
                     for (int n = 0; n < letTemp; n++) {
                         dataTemp[offSet + n] = 0x00;
                     }
-                    for (int j = offSet; j < len; j++) {
-                        dataTemp[j + letTemp] = data[j];
+                    if (len - offSet >= 0) {
+                        System.arraycopy(data, offSet, dataTemp, offSet + letTemp, len - offSet);
                     }
-                    for (int z = 0; z < offSet; z++) {
-                        dataTemp[z] = data[z];
+                    if (offSet >= 0) {
+                        System.arraycopy(data, 0, dataTemp, 0, offSet);
                     }
                     data = dataTemp;
                     len = dataTemp.length;
@@ -163,8 +163,8 @@ public class RSAUtil {
                     for (int n = 0; n < letTemp; n++) {
                         dataTemp[n] = 0x00;
                     }
-                    for (int j = letTemp; j <= len; j++) {
-                        dataTemp[j] = data[j - 1];
+                    if (len + 1 - letTemp >= 0){
+                        System.arraycopy(data, letTemp - 1, dataTemp, letTemp, len + 1 - letTemp);
                     }
                     data = dataTemp;
                     len = dataTemp.length;
