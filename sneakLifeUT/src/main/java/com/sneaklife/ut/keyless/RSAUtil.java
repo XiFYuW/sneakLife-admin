@@ -128,8 +128,11 @@ public class RSAUtil {
         int i = 0;
         int ms = len % maxDE;
         // 缺少了几位
-        int letTemp = maxDE - ms;
+        int letTemp = 0;
         if (ms != 0) {
+            letTemp = maxDE - ms;
+        }
+        if(letTemp > 1){
             System.out.println(1);
         }
         // 对数据分段解密  目前只能确定data缺少了几位,还无法确定data分段缺少了几位
@@ -197,8 +200,8 @@ public class RSAUtil {
      *
      * @param data
      * @param key  (BASE64)
-     * @return
-     * @throws Exception
+     * @return byte[]
+     * @throws Exception s
      */
     public static byte[] decryptByPublicKey(byte[] data, String key) throws Exception {
         PublicKey publicKey = getPublicKeyObject(key);
