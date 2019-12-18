@@ -64,6 +64,7 @@ ail-sms:
 
 common:
   token_cache_times: 30
+  token_cache_over_times: 120
   token_key: TOKEN_KEY
   server_url: http://127.0.0.1:8080/sneakLife-admin/service
   serverPathYzm: http://192.168.6.134:9090/sneakLife-admin/yzm/

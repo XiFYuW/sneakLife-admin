@@ -10,10 +10,12 @@ import com.sneaklife.ut.spring.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author https://github.com/XiFYuW
@@ -50,6 +52,8 @@ public class KeyLessContext {
         rsaKey.put("ptk", token);
         rsaKey.put("time", DateUtil.getSecond() + commonPKV.getTokenCacheTimes());
         hashOperations.put(localKey, commonPKV.getTokenKey(), rsaKey);
+        RedisTemplate redisTemplate = SpringContextUtil.getBean("redisTemplate", RedisTemplate.class);
+        redisTemplate.expire(localKey, commonPKV.getTokenCacheOverTimes(), TimeUnit.SECONDS);
         rsaKey.remove("prk");
         rsaKey.put("ptk", Base64Util.base64Encode(token.getBytes()));
         rsaKey.put("link",Base64Util.base64Encode(commonPKV.getServerUrl().getBytes()));
