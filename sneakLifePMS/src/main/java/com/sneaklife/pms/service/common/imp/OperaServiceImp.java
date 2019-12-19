@@ -23,7 +23,6 @@ import java.util.*;
  * @author https://github.com/XiFYuW
  */
 @Service
-@SuppressWarnings("unchecked")
 public class OperaServiceImp implements OperaService {
 
     @Autowired
@@ -43,11 +42,11 @@ public class OperaServiceImp implements OperaService {
 
     private static Logger log = LoggerFactory.getLogger(OperaServiceImp.class);
 
-    private static final String OPERA_COLUMNS = "opera-columns";
+    private static final String OPERA_COLUMNS = "opera_co";
 
-    private static final String OPERA_IN = "opera-in";
+    private static final String OPERA_IN = "opera_in";
 
-    private static final String OPERA_SB = "opera-sb";
+    private static final String OPERA_SB = "opera_sb";
 
     private static final String OPERA = "opera";
 
@@ -66,20 +65,20 @@ public class OperaServiceImp implements OperaService {
         return new TableOpera(table,opera);
     }
 
-    @Override
-    @SneakLifeAnLog
-    public List<Map<String, Object>> buildOperaTreeGrid(Map<String, Object> map) {
-        int numColumns = columnsMapper.checkColumnsByShow(map);
-        int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
-        int numOperaIn = operaInMapper.checkOperaInByShow(map);
-        int sun = numColumns + numOperaSb + numOperaIn;
-        data.add(buildOperaItem(String.valueOf(map.get("menuId")),String.valueOf(map.get("name")), size,size - 1, sun > 0 ? 0 : 1,sun > 0));
-        int p = size;
-        buildOperaColumnsTree(map, p, numColumns);
-        buildOperaSbTree(map, p, numOperaSb);
-        buildOperaInTree(map, p, numOperaIn);
-        return data;
-    }
+//    @Override
+//    @SneakLifeAnLog
+//    public List<Map<String, Object>> buildOperaTreeGrid(Map<String, Object> map) {
+//        int numColumns = columnsMapper.checkColumnsByShow(map);
+//        int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
+//        int numOperaIn = operaInMapper.checkOperaInByShow(map);
+//        int sun = numColumns + numOperaSb + numOperaIn;
+//        data.add(buildOperaItem(String.valueOf(map.get("menuId")),String.valueOf(map.get("name")), size,size - 1, sun > 0 ? 0 : 1,sun > 0));
+//        int p = size;
+//        buildOperaColumnsTree(map, p, numColumns);
+//        buildOperaSbTree(map, p, numOperaSb);
+//        buildOperaInTree(map, p, numOperaIn);
+//        return data;
+//    }
 
     @Override
     @SneakLifeAnLog
@@ -139,7 +138,7 @@ public class OperaServiceImp implements OperaService {
      * @param num Number of function fields
      */
     private void buildOperaColumnsTree(Map<String, Object> map, int pid, int num){
-        data.add(buildOperaItem(OPERA_COLUMNS, "OperaColumns", ++size, pid, num > 0 ? 0 : 1, num > 0));
+        data.add(buildOperaItem(OPERA_COLUMNS, "功能字段", ++size, pid, num > 0 ? 0 : 1, num > 0));
         int p = size;
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
         columnsList.forEach(columns -> data.add(buildOperaItem(columns.getId(), columns.getTitle(),++size, p, columns.getIsShow(),columns.getIsShow() == 0)));
@@ -152,7 +151,7 @@ public class OperaServiceImp implements OperaService {
      * @param num Number of function button
      */
     private void buildOperaSbTree(Map<String, Object> map, int pid, int num){
-        data.add(buildOperaItem(OPERA_SB,"OperaSb", ++size, pid, num > 0 ? 0 : 1,num > 0));
+        data.add(buildOperaItem(OPERA_SB,"功能操作", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
         List<Map<String,Object>> operaSbList = operaSbMapper.findOperaSbByShow(map);
         operaSbList.forEach(operaSb -> {
@@ -170,7 +169,7 @@ public class OperaServiceImp implements OperaService {
      * @param num Number of function input
      */
     private void buildOperaInTree(Map<String, Object> map, int pid, int num){
-        data.add(buildOperaItem(OPERA_IN,"OperaIn", ++size, pid, num > 0 ? 0 : 1,num > 0));
+        data.add(buildOperaItem(OPERA_IN,"功能输入", ++size, pid, num > 0 ? 0 : 1,num > 0));
         int p = size;
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
         operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getId(),operaIn.getTextName(), ++size, p, operaIn.getIsShow(),operaIn.getIsShow() == 0)));

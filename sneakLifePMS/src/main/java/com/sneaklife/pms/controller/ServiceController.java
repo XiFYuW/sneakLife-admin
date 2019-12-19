@@ -2,13 +2,11 @@ package com.sneaklife.pms.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.sneaklife.pms.service.check.SneakLifeCheckService;
-import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.keyless.KeyLessContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.iws.ReqParam;
 import com.sneaklife.ut.iws.RespCode;
-import com.sneaklife.ut.keyless.AESUtil;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.string.StringUtil;
 import org.slf4j.Logger;
@@ -36,36 +34,13 @@ public class ServiceController {
     private HashOperations hashOperations;
 
     @Autowired
-    private SneakLifeCheckService sneakLifeChcekService;
+    private SneakLifeCheckService sneakLifeCheckService;
 
     private Logger log = LoggerFactory.getLogger(ServiceController.class);
 
     @RequestMapping(value = "/service", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ModelAndView service(@RequestParam String data, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        SneakLifeServlet sneakLifeServlet = IwsContext.getSneakLifeServletObject(request,response);
-        String sessionId = sneakLifeServlet.getSessionId();
-        log.info("RSA加密data: 【{}】", data);
-        data = KeyLessContext.getRsaData(sessionId, data, hashOperations);
-        Map map = JSON.parseObject(data, Map.class);
-        log.info("RSA解密data: 【{}】", map);
-        String token = String.valueOf(map.get("token"));
-        token = KeyLessContext.getRsaData(sessionId, token, hashOperations);
-        log.info("RSA解密token: 【{}】", token);
-        if ("".equals(token)) {
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_SZQMJYBTG.toValue(), RespCode.MSG_SZQMJYBTG.toMsg()));
-        }
-        if (!KeyLessContext.checkToken(sessionId, token, hashOperations)) {
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_GQTOKEN.toValue(), RespCode.MSG_GQTOKEN.toMsg(),
-                    KeyLessContext.setKey(sessionId ,hashOperations)));
-        }
-        try {
-            data = AESUtil.aesDecrypt((String) map.get("data"), token);
-            log.info("AES解密data: 【{}】", data);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_AES_JMSB.toValue(), RespCode.MSG_AES_JMSB.toMsg()));
-        }
+        data = IwsContext.getRequestData(request, response, hashOperations, data);
         ReqParam reqParam = Objects.requireNonNull(JSON.parseObject(data, ReqParam.class));
         String me = reqParam.getMe();
         String cs = StringUtil.filterDangerString(reqParam.getData());
@@ -78,7 +53,7 @@ public class ServiceController {
             pa.put("pag", pageInfo);
         }
         if (!StringUtils.isEmpty(checkInId)) {
-            sneakLifeChcekService.checkIn((Map<String,Object>)JSON.parse(cs), checkInId);
+            sneakLifeCheckService.checkIn((Map<String,Object>)JSON.parse(cs), checkInId);
         }
         log.info("前台请求参数: 【{}】", pa);
         return new ModelAndView("forward:/" + me, pa);

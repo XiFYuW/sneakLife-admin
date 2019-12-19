@@ -20,12 +20,12 @@ public interface OperaService {
      */
     TableOpera buildOperaBody(Map<String, Object> map, boolean is);
 
-    /**
-     * Build functional tree data
-     * @param map parameter
-     * @return tree data，Id as the current node and pid as the parent node
-     */
-    List<Map<String,Object>> buildOperaTreeGrid(Map<String, Object> map);
+//    /**
+//     * Build functional tree data
+//     * @param map parameter
+//     * @return tree data，Id as the current node and pid as the parent node
+//     */
+//    List<Map<String,Object>> buildOperaTreeGrid(Map<String, Object> map);
 
     /**
      *  Clear global variables，Size, data for OperaServiceIml
@@ -40,7 +40,20 @@ public interface OperaService {
      */
     List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map);
 
+    /**
+     * The following drop-down list displays the data specified as HTML type
+     * @param menuId Function menu id
+     * @param htmlType HTML type
+     * @return List<Map<String, Object>>
+     */
     List<Map<String, Object>> getSelectsKyByMenuId(String menuId, String htmlType);
 
+    /**
+     * Remove duplicate nodes from all nodes （There are no child nodes）
+     * @param parentMenu 节点
+     * @param list All the nodes
+     * @param size The size of all nodes, can change the list length, do not need to pass 0
+     * @return int
+     */
     int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size);
 }

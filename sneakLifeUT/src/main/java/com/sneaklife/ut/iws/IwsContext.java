@@ -1,11 +1,15 @@
 package com.sneaklife.ut.iws;
 
 import com.alibaba.fastjson.JSON;
+import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.keyless.AESUtil;
+import com.sneaklife.ut.keyless.KeyLessContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.servlet.SneakLifeServletFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import javax.servlet.http.HttpServletRequest;
@@ -148,5 +152,33 @@ public class IwsContext {
         String body = responseEntity.getBody();
         Map<String, Object> map = (Map<String, Object>) JSON.parse(body);
         return Objects.requireNonNull(map).get("respData");
+    }
+
+    public static String getRequestData(HttpServletRequest request, HttpServletResponse response, HashOperations hashOperations, String data) throws Exception {
+        SneakLifeServlet sneakLifeServlet = getSneakLifeServletObject(request,response);
+        String sessionId = sneakLifeServlet.getSessionId();
+        log.info("RSA加密data: 【{}】", data);
+        data = KeyLessContext.getRsaData(sessionId, data, hashOperations);
+        Map map = JSON.parseObject(data, Map.class);
+        log.info("RSA解密data: 【{}】", map);
+        String token = String.valueOf(map.get("token"));
+        token = KeyLessContext.getRsaData(sessionId, token, hashOperations);
+        log.info("RSA解密token: 【{}】", token);
+        if ("".equals(token)) {
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_SZQMJYBTG.toValue(), RespCode.MSG_SZQMJYBTG.toMsg()));
+        }
+        if (!KeyLessContext.checkToken(sessionId, token, hashOperations)) {
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_GQTOKEN.toValue(), RespCode.MSG_GQTOKEN.toMsg(),
+                    KeyLessContext.setKey(sessionId ,hashOperations)));
+        }
+        try {
+            data = AESUtil.aesDecrypt((String) map.get("data"), token);
+            log.info("AES解密data: 【{}】", data);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_AES_JMSB.toValue(), RespCode.MSG_AES_JMSB.toMsg()));
+        }
+        return data;
     }
 }

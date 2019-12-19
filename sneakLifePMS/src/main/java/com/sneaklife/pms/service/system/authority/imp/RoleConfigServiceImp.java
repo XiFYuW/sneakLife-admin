@@ -132,7 +132,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Override
     public List<Map<String, Object>> fixedParamTrans(List<Map<String, Object>> list, Map<String, Object> map) {
         List<Map<String,Object>> data = new ArrayList<>();
-        map.put("text", "RoleConfig");
+        map.put("text", "系统角色管理");
         map.put("url", "#");
         map.put("nodes", list);
         data.add(map);
