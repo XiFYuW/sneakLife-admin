@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sneaklife.pms.dao.system.authority.opera.OperaBoMapper">
+  <select id="findOperaBoByShow" resultType="com.sneaklife.pms.entity.OperaBo" parameterType="map">
+    select
+      id as id,
+      text_name as textName,
+      html_type as htmlType,
+      field as field,
+      is_show as isShow,
+      menu_id as menuId
+    from opera_bo
+    <where>
+      is_del = 0
+      <if test="isShow != null">
+        AND is_show = #{isShow}
+      </if>
+      <if test="menuId != null and menuId != ''">
+        AND menu_id = #{menuId}
+      </if>
+    </where>
+  </select>
+
+  <insert id="insert" parameterType="map">
+    insert into opera_bo
+    (
+      id,
+      text_name,
+      html_type,
+      field,
+      create_date,
+      update_date,
+      is_del,
+      menu_id,
+      is_show
+    )
+    value
+    (
+      REPLACE(UUID(), '-', ''),
+      #{textName,jdbcType=VARCHAR},
+      #{htmlType,jdbcType=VARCHAR},
+      #{field,jdbcType=VARCHAR},
+      NOW(),
+      NOW(),
+      0,
+      #{menuIdTemp,jdbcType=CHAR},
+      0
+    )
+  </insert>
+
+  <update id="update" parameterType="map">
+    update opera_bo
+    <set>
+      <if test="textName != null">
+        text_name = #{textName,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlType != null">
+        html_type = #{htmlType,jdbcType=INTEGER},
+      </if>
+      <if test="field != null">
+        field = #{field,jdbcType=INTEGER},
+      </if>
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <update id="delete" parameterType="map">
+    update opera_bo set is_del = 1
+    <where>
+      id in
+      <foreach collection="map.ids" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
+  </update>
+</mapper>

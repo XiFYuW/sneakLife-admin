@@ -20,13 +20,6 @@ public interface OperaService {
      */
     TableOpera buildOperaBody(Map<String, Object> map, boolean is);
 
-//    /**
-//     * Build functional tree data
-//     * @param map parameter
-//     * @return tree data，Id as the current node and pid as the parent node
-//     */
-//    List<Map<String,Object>> buildOperaTreeGrid(Map<String, Object> map);
-
     /**
      *  Clear global variables，Size, data for OperaServiceIml
      */

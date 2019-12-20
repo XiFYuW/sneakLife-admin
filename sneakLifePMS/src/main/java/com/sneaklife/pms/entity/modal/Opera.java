@@ -1,7 +1,6 @@
 package com.sneaklife.pms.entity.modal;
 
 import com.sneaklife.pms.entity.OperaIn;
-import com.sneaklife.pms.entity.OperaSb;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

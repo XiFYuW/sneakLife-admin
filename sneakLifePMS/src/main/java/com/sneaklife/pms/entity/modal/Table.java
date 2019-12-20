@@ -14,8 +14,6 @@ import java.util.List;
 @Data
 public class Table extends CommonEntity {
 
-//    private String dataUrl;
-
     private List<Columns> columns;
 
 }

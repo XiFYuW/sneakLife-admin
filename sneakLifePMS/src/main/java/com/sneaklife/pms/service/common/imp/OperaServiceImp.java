@@ -65,21 +65,6 @@ public class OperaServiceImp implements OperaService {
         return new TableOpera(table,opera);
     }
 
-//    @Override
-//    @SneakLifeAnLog
-//    public List<Map<String, Object>> buildOperaTreeGrid(Map<String, Object> map) {
-//        int numColumns = columnsMapper.checkColumnsByShow(map);
-//        int numOperaSb = operaSbMapper.checkOperaSbByShow(map);
-//        int numOperaIn = operaInMapper.checkOperaInByShow(map);
-//        int sun = numColumns + numOperaSb + numOperaIn;
-//        data.add(buildOperaItem(String.valueOf(map.get("menuId")),String.valueOf(map.get("name")), size,size - 1, sun > 0 ? 0 : 1,sun > 0));
-//        int p = size;
-//        buildOperaColumnsTree(map, p, numColumns);
-//        buildOperaSbTree(map, p, numOperaSb);
-//        buildOperaInTree(map, p, numOperaIn);
-//        return data;
-//    }
-
     @Override
     @SneakLifeAnLog
     public List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map) {
@@ -135,44 +120,80 @@ public class OperaServiceImp implements OperaService {
      * Build function fields
      * @param map Option data
      * @param pid View display pid
-     * @param num Number of function fields
+     * @param roleFunctionMenuId Roles already have function menus
      */
-    private void buildOperaColumnsTree(Map<String, Object> map, int pid, int num){
-        data.add(buildOperaItem(OPERA_COLUMNS, "功能字段", ++size, pid, num > 0 ? 0 : 1, num > 0));
+    private void buildOperaColumnsTree(Map<String, Object> map, int pid, List<String> roleFunctionMenuId){
+        int z = ++size;
         int p = size;
+        boolean one = false;
         List<Columns> columnsList = columnsMapper.findColumnsByShow(map);
-        columnsList.forEach(columns -> data.add(buildOperaItem(columns.getId(), columns.getTitle(),++size, p, columns.getIsShow(),columns.getIsShow() == 0)));
+        for (Columns columns : columnsList) {
+            if(roleFunctionMenuId.contains(columns.getId())){
+                data.add(buildOperaItem(columns.getId(), columns.getTitle(),++size, p, 0,true));
+                one = true;
+            }else {
+                data.add(buildOperaItem(columns.getId(), columns.getTitle(),++size, p, 1,false));
+            }
+        }
+        if(one){
+            data.add(buildOperaItem(OPERA_COLUMNS, "功能字段", z, pid, 0, true));
+        }else {
+            data.add(buildOperaItem(OPERA_COLUMNS, "功能字段", z, pid, 1, false));
+        }
     }
 
     /**
      * Build function button
      * @param map Option data
      * @param pid View display pid
-     * @param num Number of function button
+     * @param roleFunctionMenuId Roles already have function menus
      */
-    private void buildOperaSbTree(Map<String, Object> map, int pid, int num){
-        data.add(buildOperaItem(OPERA_SB,"功能操作", ++size, pid, num > 0 ? 0 : 1,num > 0));
+    private void buildOperaSbTree(Map<String, Object> map, int pid, List<String> roleFunctionMenuId){
+        int z = ++size;
         int p = size;
+        boolean one = false;
         List<Map<String,Object>> operaSbList = operaSbMapper.findOperaSbByShow(map);
-        operaSbList.forEach(operaSb -> {
+        for (Map<String,Object> operaSb : operaSbList) {
             String id = String.valueOf(operaSb.get("id"));
             String codeName = String.valueOf(operaSb.get("codeName"));
-            int isShow = Integer.valueOf(String.valueOf(operaSb.get("isShow")));
-            data.add(buildOperaItem(id, codeName, ++size, p, isShow,isShow == 0));
-        });
+            if(roleFunctionMenuId.contains(id)){
+                data.add(buildOperaItem(id, codeName, ++size, p, 0,true));
+                one = true;
+            }else {
+                data.add(buildOperaItem(id, codeName, ++size, p, 1,false));
+            }
+        }
+        if(one){
+            data.add(buildOperaItem(OPERA_SB,"功能操作", z, pid, 0,true));
+        }else {
+            data.add(buildOperaItem(OPERA_SB,"功能操作", z, pid, 1,false));
+        }
     }
 
     /**
      * Build function input
      * @param map Option data
      * @param pid View display pid
-     * @param num Number of function input
+     * @param roleFunctionMenuId Roles already have function menus
      */
-    private void buildOperaInTree(Map<String, Object> map, int pid, int num){
-        data.add(buildOperaItem(OPERA_IN,"功能输入", ++size, pid, num > 0 ? 0 : 1,num > 0));
+    private void buildOperaInTree(Map<String, Object> map, int pid, List<String> roleFunctionMenuId){
+        int z = ++size;
         int p = size;
+        boolean one = false;
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
-        operaInList.forEach(operaIn -> data.add(buildOperaItem(operaIn.getId(),operaIn.getTextName(), ++size, p, operaIn.getIsShow(),operaIn.getIsShow() == 0)));
+        for (OperaIn operaIn : operaInList) {
+            if(roleFunctionMenuId.contains(operaIn.getId())){
+                data.add(buildOperaItem(operaIn.getId(), operaIn.getTextName(), ++size, p, 0,true));
+                one = true;
+            }else {
+                data.add(buildOperaItem(operaIn.getId(), operaIn.getTextName(), ++size, p, 1,false));
+            }
+        }
+        if(one){
+            data.add(buildOperaItem(OPERA_IN,"功能输入", z, pid, 0,true));
+        }else {
+            data.add(buildOperaItem(OPERA_IN,"功能输入", z, pid, 1,false));
+        }
     }
 
     /**
@@ -288,9 +309,9 @@ public class OperaServiceImp implements OperaService {
         Map<String, Object> map = new HashMap<>();
         map.put("menuId", node.getId());
         int s = size;
-        buildOperaColumnsTree(map, s, 1);
-        buildOperaSbTree(map, s, 1);
-        buildOperaInTree(map, s, 1);
+        buildOperaColumnsTree(map, s, roleFunctionMenuId);
+        buildOperaSbTree(map, s, roleFunctionMenuId);
+        buildOperaInTree(map, s, roleFunctionMenuId);
         return node;
     }
 
