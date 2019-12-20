@@ -15,8 +15,8 @@ public interface OperaBoJpa extends JpaRepository<OperaBo, String>, JpaSpecifica
 
     @Query(value = "select new map" +
             "(ob.id as id,ob.field as field,ob.htmlType as htmlType,ob.textName as textName," +
-            "ob.name as htmlTypeName) " +
-            "from OperaBo ob inner join DataDictionary dd on oi.htmlType = dd.value " +
-            "where oi.isDel = 0 and oi.menuId=?1")
+            "dd.name as htmlTypeName) " +
+            "from OperaBo ob inner join DataDictionary dd on ob.htmlType = dd.value " +
+            "where ob.isDel = 0 and ob.menuId=?1")
     Page<Map<String,Object>> findAllPageByMenuId(String menuId, Pageable pageable);
 }
