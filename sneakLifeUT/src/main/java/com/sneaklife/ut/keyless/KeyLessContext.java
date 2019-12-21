@@ -27,21 +27,33 @@ public class KeyLessContext {
 
     private static final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
 
-    @SuppressWarnings("unchecked")
     private static Map<String, Object> getKey(String localKey, HashOperations hashOperations) throws SneakLifeException {
-        if(hashOperations.hasKey(localKey, commonPKV.getTokenKey())){
-            Map<String, Object> rsaKey = (Map<String, Object>) hashOperations.get(localKey, commonPKV.getTokenKey());
-            rsaKey.put("ptk", Base64Util.base64Encode(String.valueOf(Objects.requireNonNull(rsaKey).get("ptk")).getBytes()));
-            rsaKey.put("link",Base64Util.base64Encode(commonPKV.getServerUrl().getBytes()));
-            return rsaKey;
+        Map<String, Object> map = hasKey(localKey, hashOperations);
+        if(IwsContext.isNotNull(map)){
+            return map;
         }
         throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_GQTOKEN.toValue(), RespCode.MSG_GQTOKEN.toMsg(),
                 setKey(localKey ,hashOperations)));
     }
 
     @SuppressWarnings("unchecked")
+    private static Map<String, Object> hasKey(String localKey, HashOperations hashOperations){
+        if(hashOperations.hasKey(localKey, commonPKV.getTokenKey())){
+            Map<String, Object> rsaKey = (Map<String, Object>) hashOperations.get(localKey, commonPKV.getTokenKey());
+            rsaKey.put("ptk", Base64Util.base64Encode(String.valueOf(Objects.requireNonNull(rsaKey).get("ptk")).getBytes()));
+            rsaKey.put("link",Base64Util.base64Encode(commonPKV.getServerUrl().getBytes()));
+            return rsaKey;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
     public static Map<String, Object> setKey(String localKey, HashOperations hashOperations) throws SneakLifeException {
-        Map<String, Object> rsaKey;
+        Map<String, Object> rsaKey = hasKey(localKey, hashOperations);
+        if(rsaKey != null){
+            rsaKey.remove("prk");
+            return rsaKey;
+        }
         String token = UUID.randomUUID().toString().substring(0, 16);
         try {
             rsaKey = RSAUtil.initRsaKey();

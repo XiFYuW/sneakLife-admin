@@ -2,6 +2,14 @@ package com.sneaklife.ut.iws;
 
 public enum RespCode {
 	/**
+	 * 获取私钥失败，请重试
+	 */
+	MSG_RSA_PRK(3256, "获取私钥失败，请重试"),
+	/**
+	 * 获取公钥失败，请重试
+	 */
+	MSG_RSA_PUK(3257, "获取公钥失败，请重试"),
+	/**
 	 * 参数不为空！
 	 */
 	MSG_NOT_RULE(2589, "没有该规则配置"),

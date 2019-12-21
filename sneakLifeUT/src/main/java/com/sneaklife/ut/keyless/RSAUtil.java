@@ -1,6 +1,9 @@
 package com.sneaklife.ut.keyless;
 
 import com.sneaklife.pkv.RsaPKV;
+import com.sneaklife.ut.exception.SneakLifeFailureException;
+import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.spring.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,7 +215,13 @@ public class RSAUtil {
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         Map<String, Object> keyMap = new HashMap<>(2);
         String prk = Base64Util.base64Encode(privateKey.getEncoded());
+        if(!IwsContext.isNotNull(prk)){
+            throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_RSA_PRK.toValue(),RespCode.MSG_RSA_PRK.toMsg()));
+        }
         String puk = Base64Util.base64Encode(publicKey.getEncoded());
+        if(!IwsContext.isNotNull(puk)){
+            throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_RSA_PUK.toValue(),RespCode.MSG_RSA_PUK.toMsg()));
+        }
         keyMap.put(rsaPKV.getPublicKey(), puk);
         keyMap.put(rsaPKV.getPrivateKey(), prk);
         return keyMap;

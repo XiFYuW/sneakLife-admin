@@ -50,7 +50,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Cacheable
     @SneakLifeAnLog
     public Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(getPageable(pageInfo));
+        Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(map, getPageable(pageInfo));
         return pageToMap(page);
     }
 
