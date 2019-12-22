@@ -30,15 +30,20 @@ import java.util.Objects;
 @Controller
 public class ServiceController {
 
-    @Autowired
-    private HashOperations hashOperations;
+    private final HashOperations hashOperations;
 
-    @Autowired
-    private SneakLifeCheckService sneakLifeCheckService;
+    private final SneakLifeCheckService sneakLifeCheckService;
 
     private Logger log = LoggerFactory.getLogger(ServiceController.class);
 
+    @Autowired
+    public ServiceController(HashOperations hashOperations, SneakLifeCheckService sneakLifeCheckService) {
+        this.hashOperations = hashOperations;
+        this.sneakLifeCheckService = sneakLifeCheckService;
+    }
+
     @RequestMapping(value = "/service", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @SuppressWarnings("unchecked")
     public ModelAndView service(@RequestParam String data, HttpServletRequest request, HttpServletResponse response) throws Exception{
         data = IwsContext.getRequestData(request, response, hashOperations, data);
         ReqParam reqParam = Objects.requireNonNull(JSON.parseObject(data, ReqParam.class));

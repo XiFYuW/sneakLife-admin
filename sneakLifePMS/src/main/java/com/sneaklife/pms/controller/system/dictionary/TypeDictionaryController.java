@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class TypeDictionaryController {
 
+    private final TypeDictionaryService typeDictionaryService;
+
     @Autowired
-    private TypeDictionaryService typeDictionaryService;
+    public TypeDictionaryController(TypeDictionaryService typeDictionaryService) {
+        this.typeDictionaryService = typeDictionaryService;
+    }
 
     @RequestMapping(value = "/insertTypeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertTypeDictionary() throws Exception{

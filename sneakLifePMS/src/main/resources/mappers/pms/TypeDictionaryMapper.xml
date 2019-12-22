@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper">
+  <select id="findAllPage" resultType="map" parameterType="map">
+    select
+      td.id as id,
+      td.name as name
+    from type_dictionary td
+    <where>
+      td.is_del = 0
+      <if test="name != null">
+        and td.name = #{name}
+      </if>
+    </where>
+  </select>
+
   <select id="getIdName" resultType="map">
     select
       id as value,

@@ -25,11 +25,19 @@ public class JoinPointUtil {
         return getMethod(joinPoint).getAnnotation(annotationClass);
     }
 
+    public static <T extends Annotation> T getDeclaredAnnotations(JoinPoint joinPoint, Class<T> annotationClass){
+        return getMethod(joinPoint).getDeclaredAnnotation(annotationClass);
+    }
+
     @SuppressWarnings("unchecked")
     public static Map<String,Object> proxyFieldByAn(Annotation annotation) throws NoSuchFieldException, IllegalAccessException {
         InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
         Field field = invocationHandler.getClass().getDeclaredField("memberValues");
         field.setAccessible(true);
         return (Map<String,Object>) field.get(invocationHandler);
+    }
+
+    public static Object[] getArgs(JoinPoint joinPoint){
+        return joinPoint.getArgs();
     }
 }

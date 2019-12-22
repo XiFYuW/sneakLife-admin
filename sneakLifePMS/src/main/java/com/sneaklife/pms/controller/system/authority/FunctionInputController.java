@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class FunctionInputController {
 
+    private final FunctionInputService functionInputService;
+
     @Autowired
-    private FunctionInputService functionInputService;
+    public FunctionInputController(FunctionInputService functionInputService) {
+        this.functionInputService = functionInputService;
+    }
 
     @RequestMapping(value = "/functionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionInput() throws Exception{

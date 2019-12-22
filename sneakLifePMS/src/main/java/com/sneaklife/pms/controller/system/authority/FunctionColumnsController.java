@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class FunctionColumnsController {
 
+    private final FunctionColumnsService functionColumnsService;
+
     @Autowired
-    private FunctionColumnsService functionColumnsService;
+    public FunctionColumnsController(FunctionColumnsService functionColumnsService) {
+        this.functionColumnsService = functionColumnsService;
+    }
 
     @RequestMapping(value = "/functionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionColumns() {

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper">
+  <select id="findAllPage"  parameterType="map" resultType="map">
+    select
+      rc.name as name,
+      rc.id as id,
+      rc.type as type,
+      dd.name as typeName
+    from role_config rc inner join data_dictionary dd on rc.type = dd.value
+    <where>
+      rc.is_del = 0
+    </where>
+  </select>
   <!-- 数据插入 -->
   <insert id="insert" parameterType="map">
     insert into role_config(

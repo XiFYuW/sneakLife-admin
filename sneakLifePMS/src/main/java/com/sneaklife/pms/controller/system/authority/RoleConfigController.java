@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class RoleConfigController {
 
+    private final RoleConfigService roleConfigService;
+
     @Autowired
-    private RoleConfigService roleConfigService;
+    public RoleConfigController(RoleConfigService roleConfigService) {
+        this.roleConfigService = roleConfigService;
+    }
 
     @RequestMapping(value = "/insertRoleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertRoleConfig() throws Exception{

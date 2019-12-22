@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.opera.ColumnsMapper">
+  <select id="findAllPage"  parameterType="map" resultType="map">
+    select
+      cl.id as id,
+      cl.title as title,
+      cl.field as field,
+      cl.align as align,
+      dd.name as alignName
+    from columns cl inner join data_dictionary dd on cl.align = dd.value
+    <where>
+      cl.is_del = 0
+      <if test="menuId != null">
+        and cl.menu_id = #{menuId}
+      </if>
+    </where>
+  </select>
   <select id="findColumnsByShow" resultType="com.sneaklife.pms.entity.Columns" parameterType="map">
     select
       id as id,

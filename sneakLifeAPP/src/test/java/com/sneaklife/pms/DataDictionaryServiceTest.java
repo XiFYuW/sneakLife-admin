@@ -39,7 +39,9 @@ public class DataDictionaryServiceTest {
         pageInfo.setSortOrder("");
         Map<String,Object> map = new HashMap<>();
         map.put("isShow", 0);
-        dataDictionaryService.getDataDictionary(map, pageInfo);
+        map.put("menuId", "99a6c4b38b4711e99d7380fa5b3a283a");
+        map.put("typeId", 1);
+        Map<String,Object> data = dataDictionaryService.getDataDictionary(map, pageInfo);
     }
 
     @Test

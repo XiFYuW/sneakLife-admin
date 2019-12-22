@@ -1,7 +1,6 @@
 package com.sneaklife.pms.service.system.menu.imp;
 
 import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
-import com.sneaklife.pms.dao.system.SystemMenuJpa;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -19,10 +18,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,22 +35,23 @@ import java.util.Map;
 public class SystemMenuServiceImp extends CommonService implements SystemMenuService,
         Nodes<SystemMenu, SystemMenu, List<SystemMenu>> {
 
-    @Autowired
-    private SystemMenuJpa systemMenuJpa;
+    private final SystemMenuMapper systemMenuMapper;
 
-    @Autowired
-    private SystemMenuMapper systemMenuMapper;
+    private final OperaService operaService;
 
-    @Autowired
-    private OperaService operaService;
-
-    @Autowired
+    @Resource
     private Nodes<SystemMenu, SystemMenu, List<SystemMenu>> nodes;
 
-    @Autowired
-    private SelectTreeViewService selectTreeViewService;
+    private final SelectTreeViewService selectTreeViewService;
 
     private static Logger log = LoggerFactory.getLogger(SystemMenuServiceImp.class);
+
+    @Autowired
+    public SystemMenuServiceImp(SystemMenuMapper systemMenuMapper, OperaService operaService, SelectTreeViewService selectTreeViewService) {
+        this.systemMenuMapper = systemMenuMapper;
+        this.operaService = operaService;
+        this.selectTreeViewService = selectTreeViewService;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -75,8 +75,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Cacheable
     @SneakLifeAnLog
     public Map<String, Object> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<Map<String, Object>> page = systemMenuJpa.findAllPage(getPageable(pageInfo));
-        return pageToMap(page);
+        return super.findAllPage(systemMenuMapper, map, pageInfo);
     }
 
     @Override

@@ -23,6 +23,21 @@
     </where>
   </select>
 
+  <select id="findAllPage"  parameterType="map" resultType="map">
+    select
+      sm.id as id,
+      sm.name as name,
+      sm.data_url as dataUrl,
+      sm.item_url as itemUrl,
+      sm.page_url as pageUrl,
+      sm.tab as tab,
+      sm.pid as pid,
+      coalesce(sm1.tab,'') as pidName
+      from system_menu sm left join system_menu sm1 on sm.pid = sm1.id
+      <where>
+        sm.is_del = 0
+      </where>
+  </select>
   <select id="getByBatchId" parameterType="java.util.ArrayList" resultMap="SystemMenuMap">
     select <include refid="SystemMenuBody"/> from system_menu
     <where>

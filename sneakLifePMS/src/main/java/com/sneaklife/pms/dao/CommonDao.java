@@ -1,5 +1,6 @@
 package com.sneaklife.pms.dao;
 
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
@@ -9,6 +10,13 @@ import java.util.Map;
  * @date 2019/8/24 9:53
  */
 public interface CommonDao {
+
+    /**
+     * 分页查询所有
+     * @param map 参数
+     * @return Page<Map<String,Object>>
+     */
+    Page<Map<String,Object>> findAllPage(Map<String, Object> map);
 
     /**
      * 通用逻辑删除

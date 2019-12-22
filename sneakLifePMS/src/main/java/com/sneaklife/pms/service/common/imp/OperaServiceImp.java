@@ -25,20 +25,15 @@ import java.util.*;
 @Service
 public class OperaServiceImp implements OperaService {
 
-    @Autowired
-    private ColumnsMapper columnsMapper;
+    private final ColumnsMapper columnsMapper;
 
-    @Autowired
-    private OperaInMapper operaInMapper;
+    private final OperaInMapper operaInMapper;
 
-    @Autowired
-    private OperaSbMapper operaSbMapper;
+    private final OperaSbMapper operaSbMapper;
 
-    @Autowired
-    private SystemMenuMapper systemMenuMapper;
+    private final SystemMenuMapper systemMenuMapper;
 
-    @Autowired
-    private RoleConfigMapper roleConfigMapper;
+    private final RoleConfigMapper roleConfigMapper;
 
     private static Logger log = LoggerFactory.getLogger(OperaServiceImp.class);
 
@@ -53,6 +48,15 @@ public class OperaServiceImp implements OperaService {
     private volatile int size = 1;
 
     private volatile List<Map<String, Object>> data = new ArrayList<>();
+
+    @Autowired
+    public OperaServiceImp(ColumnsMapper columnsMapper, OperaInMapper operaInMapper, OperaSbMapper operaSbMapper, SystemMenuMapper systemMenuMapper, RoleConfigMapper roleConfigMapper) {
+        this.columnsMapper = columnsMapper;
+        this.operaInMapper = operaInMapper;
+        this.operaSbMapper = operaSbMapper;
+        this.systemMenuMapper = systemMenuMapper;
+        this.roleConfigMapper = roleConfigMapper;
+    }
 
     @Override
     @SneakLifeAnLog

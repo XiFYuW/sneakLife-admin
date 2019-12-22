@@ -1,7 +1,6 @@
 package com.sneaklife.pms.service.system.dictionary.imp;
 
 import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
-import com.sneaklife.pms.dao.system.dictionary.DataDictionaryJpa;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -18,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,25 +31,25 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     private static final Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
 
-    @Autowired
-    private DataDictionaryMapper dataDictionaryMapper;
+    private final DataDictionaryMapper dataDictionaryMapper;
+
+    private final TypeDictionaryMapper typeDictionaryMapper;
+
+    private final OperaService operaService;
 
     @Autowired
-    private TypeDictionaryMapper typeDictionaryMapper;
-
-    @Autowired
-    private DataDictionaryJpa dataDictionaryJpa;
-
-    @Autowired
-    private OperaService operaService;
+    public DataDictionaryServiceImp(DataDictionaryMapper dataDictionaryMapper, TypeDictionaryMapper typeDictionaryMapper, OperaService operaService) {
+        this.dataDictionaryMapper = dataDictionaryMapper;
+        this.typeDictionaryMapper = typeDictionaryMapper;
+        this.operaService = operaService;
+    }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
     public Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<Map<String, Object>> page = dataDictionaryJpa.findAllPage(map, getPageable(pageInfo));
-        return pageToMap(page);
+        return super.findAllPage(dataDictionaryMapper, map, pageInfo);
     }
 
     @Override

@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class RoleFunctionController {
 
+    private final RoleFunctionService roleFunctionService;
+
     @Autowired
-    private RoleFunctionService roleFunctionService;
+    public RoleFunctionController(RoleFunctionService roleFunctionService) {
+        this.roleFunctionService = roleFunctionService;
+    }
 
     @RequestMapping(value = "/roleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> roleFunction() {

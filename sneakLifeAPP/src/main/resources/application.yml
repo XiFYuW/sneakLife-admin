@@ -21,16 +21,6 @@ spring:
       filters: stat,wall,log4j2
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    properties:
-      hibernate:
-        session_factory:
-          statement_inspector: com.sneaklife.pms.config.dao.SneakLifeJpaInterceptor
-
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
 #  type-aliases-package: com.sneaklife.pms.entity

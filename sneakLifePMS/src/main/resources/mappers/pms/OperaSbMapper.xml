@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper">
+  <select id="findAllPage" parameterType="map" resultType="map">
+    select
+      os.id as id,
+      os.icon as icon,
+      os.code as code,
+      os.url as url,
+      os.type as type,
+      dd2.name as typeName,
+      dd1.name as iconName,
+      dd.name as codeName
+    from opera_sb os inner join data_dictionary dd on os.code = dd.value
+    inner join data_dictionary dd1 on os.icon = dd1.value
+    inner join data_dictionary dd2 on os.type = dd2.value
+    <where>
+      os.is_del = 0
+      <if test="menuId != null">
+        and os.menu_id = #{menuId}
+      </if>
+    </where>
+  </select>
+
   <select id="findOperaSbByShow" resultType="map" parameterType="map">
     select
       os.id as id,

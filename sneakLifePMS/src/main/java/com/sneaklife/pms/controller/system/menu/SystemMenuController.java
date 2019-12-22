@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SystemMenuController {
 
+    private final SystemMenuService systemMenuService;
+
     @Autowired
-    private SystemMenuService systemMenuService;
+    public SystemMenuController(SystemMenuService systemMenuService) {
+        this.systemMenuService = systemMenuService;
+    }
 
     @RequestMapping(value = "/getMenu", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getMenu(){

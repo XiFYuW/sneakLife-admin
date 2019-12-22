@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.authority.opera.OperaInMapper">
+  <select id="findAllPage"  parameterType="map" resultType="map">
+    select
+      oi.id as id,
+      oi.field as field,
+      oi.html_type as htmlType,
+      oi.text_name as textName,
+      oi.rule as rule,
+      dd.name as htmlTypeName,
+      dd1.name as ruleName
+    from opera_in oi inner join data_dictionary dd on oi.html_type = dd.value
+    inner join data_dictionary dd1 on oi.rule = dd1.value
+    <where>
+      oi.is_del = 0
+      <if test="menuId != null">
+        and oi.menu_id = #{menuId}
+      </if>
+    </where>
+  </select>
+
   <select id="findOperaInByShow" resultType="com.sneaklife.pms.entity.OperaIn" parameterType="map">
     select
       id as id,

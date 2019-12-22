@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class FunctionButtonController {
 
+    private final FunctionButtonService functionButtonService;
+
     @Autowired
-    private FunctionButtonService functionButtonService;
+    public FunctionButtonController(FunctionButtonService functionButtonService) {
+        this.functionButtonService = functionButtonService;
+    }
 
     @RequestMapping(value = "/functionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionButton() {

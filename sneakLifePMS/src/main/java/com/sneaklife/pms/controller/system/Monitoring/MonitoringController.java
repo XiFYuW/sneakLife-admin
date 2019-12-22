@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MonitoringController {
 
+    private final MonitoringService monitoringService;
+
     @Autowired
-    private MonitoringService monitoringService;
+    public MonitoringController(MonitoringService monitoringService) {
+        this.monitoringService = monitoringService;
+    }
 
     @RequestMapping(value = "/cpuListen", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> cpuListen() throws Exception{

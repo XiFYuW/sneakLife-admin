@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper">
+  <select id="findAllPage" parameterType="map" resultType="java.util.Map">
+    select
+      dd.id as id,
+      dd.name as name,
+      dd.type_id as typeId,
+      dd.value as value,
+      td.name as typeName
+    from data_dictionary dd inner join type_dictionary td on td.id = dd.type_id
+    <where>
+      dd.is_del = 0
+      <if test="name != null">
+        and dd.name = #{name}
+      </if>
+      <if test="typeId != null">
+        and dd.type_id = #{typeId}
+      </if>
+      <if test="value != null">
+        and dd.value = #{value}
+      </if>
+    </where>
+  </select>
+
   <!-- 数据插入 -->
   <insert id="insert" parameterType="map">
     insert into data_dictionary(

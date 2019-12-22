@@ -1,7 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
-import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigJpa;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.pms.entity.RoleConfig;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -17,10 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,25 +36,25 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
 
     private static Logger log = LoggerFactory.getLogger(RoleConfigServiceImp.class);
 
-    @Autowired
-    private RoleConfigMapper roleConfigMapper;
+    private final RoleConfigMapper roleConfigMapper;
 
-    @Autowired
-    private RoleConfigJpa roleConfigJpa;
+    private final OperaService operaService;
 
-    @Autowired
-    private OperaService operaService;
-
-    @Autowired
+    @Resource
     private ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> ptf;
+
+    @Autowired
+    public RoleConfigServiceImp(RoleConfigMapper roleConfigMapper, OperaService operaService) {
+        this.roleConfigMapper = roleConfigMapper;
+        this.operaService = operaService;
+    }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
     public Map<String, Object> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        Page<Map<String, Object>> page = roleConfigJpa.findAllPage(getPageable(pageInfo));
-        return pageToMap(page);
+        return super.findAllPage(roleConfigMapper, map, pageInfo);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
-import com.sneaklife.pms.dao.system.authority.opera.OperaBoJpa;
 import com.sneaklife.pms.dao.system.authority.opera.OperaBoMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
@@ -14,11 +13,9 @@ import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -30,17 +27,18 @@ import java.util.Map;
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class FunctionBoServiceImp extends CommonService implements FunctionBoService {
 
-    @Resource(name = "leftSelectViewServiceImp")
-    private LeftSelectViewService leftSelectViewService;
+    private final LeftSelectViewService leftSelectViewService;
+
+    private final OperaService operaService;
+
+    private final OperaBoMapper operaBoMapper;
 
     @Autowired
-    private OperaService operaService;
-
-    @Autowired
-    private OperaBoJpa operaBoJpa;
-
-    @Autowired
-    private OperaBoMapper operaBoMapper;
+    public FunctionBoServiceImp(LeftSelectViewService leftSelectViewServiceImp, OperaService operaService, OperaBoMapper operaBoMapper) {
+        this.leftSelectViewService = leftSelectViewServiceImp;
+        this.operaService = operaService;
+        this.operaBoMapper = operaBoMapper;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -64,9 +62,7 @@ public class FunctionBoServiceImp extends CommonService implements FunctionBoSer
     @Cacheable
     @SneakLifeAnLog
     public Map<String, Object> getFunctionBo(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        String menuId = String.valueOf(map.get("menuId"));
-        Page<Map<String,Object>> page = operaBoJpa.findAllPageByMenuId(menuId,getPageable(pageInfo));
-        return pageToMap(page);
+        return super.findAllPage(operaBoMapper, map, pageInfo);
     }
 
     @Override

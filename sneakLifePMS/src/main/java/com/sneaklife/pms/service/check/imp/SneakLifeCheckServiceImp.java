@@ -22,8 +22,12 @@ import java.util.Map;
 @Service
 public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
 
+    private final OperaInMapper operaInMapper;
+
     @Autowired
-    private OperaInMapper operaInMapper;
+    public SneakLifeCheckServiceImp(OperaInMapper operaInMapper) {
+        this.operaInMapper = operaInMapper;
+    }
 
     @Override
     @SneakLifeAnLog

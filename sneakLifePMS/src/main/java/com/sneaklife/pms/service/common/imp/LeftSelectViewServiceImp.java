@@ -11,6 +11,7 @@ import com.sneaklife.ut.log.SneakLifeAnLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -22,13 +23,13 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
         ParameterTransformation<SystemMenu, Map<String,Object>, List<Map<String,Object>>>,
         Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> {
 
-    @Autowired
+    @Resource
     private SystemMenuMapper systemMenuMapper;
 
-    @Autowired
+    @Resource
     private ParameterTransformation<SystemMenu, Map<String,Object>, List<Map<String,Object>>> ptf;
 
-    @Autowired
+    @Resource
     private Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> nodes;
 
     @Override

@@ -1,12 +1,16 @@
 package com.sneaklife.pms.service.common.imp;
 
+import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.SelectTreeViewService;
+import com.sneaklife.ut.interfaces.Nodes;
+import com.sneaklife.ut.interfaces.ParameterTransformation;
 import com.sneaklife.ut.log.SneakLifeAnLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +21,7 @@ import java.util.Map;
 @Service
 public class SelectTreeViewServiceImp extends LeftSelectViewServiceImp implements SelectTreeViewService {
 
-    @Autowired
+    @Resource
     private OperaService operaService;
 
     @Override

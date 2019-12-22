@@ -1,7 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
-import com.sneaklife.pms.dao.system.authority.userRole.UserRoleJpa;
 import com.sneaklife.pms.dao.system.authority.userRole.UserRoleMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
@@ -15,7 +14,6 @@ import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,14 +28,15 @@ import java.util.Map;
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class UserRoleServiceImp extends CommonService implements UserRoleService {
 
-    @Autowired
-    private UserRoleJpa userRoleJpa;
+    private final UserRoleMapper userRoleMapper;
+
+    private final OperaService operaService;
 
     @Autowired
-    private UserRoleMapper userRoleMapper;
-
-    @Autowired
-    private OperaService operaService;
+    public UserRoleServiceImp(UserRoleMapper userRoleMapper, OperaService operaService) {
+        this.userRoleMapper = userRoleMapper;
+        this.operaService = operaService;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -53,8 +52,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Cacheable
     @SneakLifeAnLog
     public Map<String,Object> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        Page<Map<String,Object>> page = userRoleJpa.findAllPage(getPageable(pageInfo));
-        return pageToMap(page);
+        return super.findAllPage(userRoleMapper, map, pageInfo);
     }
 
     @Override

@@ -29,14 +29,18 @@ import java.util.Map;
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class RoleFunctionServiceImp implements RoleFunctionService {
 
-    @Autowired
-    private RoleFunctionMapper roleFunctionMapper;
+    private final RoleFunctionMapper roleFunctionMapper;
+
+    private final OperaService operaService;
+
+    private final RoleConfigService roleConfigService;
 
     @Autowired
-    private OperaService operaService;
-
-    @Autowired
-    private RoleConfigService roleConfigService;
+    public RoleFunctionServiceImp(RoleFunctionMapper roleFunctionMapper, OperaService operaService, RoleConfigService roleConfigService) {
+        this.roleFunctionMapper = roleFunctionMapper;
+        this.operaService = operaService;
+        this.roleConfigService = roleConfigService;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -63,9 +67,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
         List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
         RoleFunction roleFunction = new RoleFunction();
         StringBuilder stringBuilder = new StringBuilder();
-        roleFunctionList.forEach(map1 -> {
-            stringBuilder.append(map1.get("menuId")).append(",");
-        });
+        roleFunctionList.forEach(map1 -> stringBuilder.append(map1.get("menuId")).append(","));
         roleFunction.setMenuId(stringBuilder.toString());
         List<Map<String,Object>> data = operaService.buildRoleFunction(roleFunction, map);
         operaService.clean();

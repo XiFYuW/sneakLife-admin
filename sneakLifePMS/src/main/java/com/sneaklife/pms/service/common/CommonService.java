@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.common;
 
+import com.github.pagehelper.PageHelper;
 import com.sneaklife.pms.dao.CommonDao;
 import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.exception.SneakLifeFailureException;
@@ -7,10 +8,7 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,17 +19,10 @@ import java.util.Map;
  */
 public abstract class CommonService {
 
-    protected Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
-        if (!IwsContext.isNotNull(pageInfo)) {
-            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
-        } else {
-            Sort.Direction direction = Sort.Direction.ASC;
-            if ("desc".equals(pageInfo.getSortOrder().toLowerCase())) {
-                direction = Sort.Direction.DESC;
-            }
-
-            return IwsContext.isNotNull(pageInfo.getPage()) && IwsContext.isNotNull(pageInfo.getRows()) ? PageRequest.of(pageInfo.getPage(), pageInfo.getRows(), direction, new String[]{"id"}) : null;
-        }
+    protected Map<String, Object> findAllPage(CommonDao commonDao, Map<String, Object> map, PageInfo pageInfo) throws Exception{
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getRows(), getOrderBy(pageInfo));
+        com.github.pagehelper.Page<Map<String,Object>> page = commonDao.findAllPage(map);
+        return pageToMap(page);
     }
 
     protected void insert(CommonDao commonDao, Map<String, Object> map) throws Exception {
@@ -63,11 +54,25 @@ public abstract class CommonService {
         }
     }
 
-    protected Map<String, Object> pageToMap(Page<Map<String, Object>> page) {
-        Map<String, Object> map = new HashMap();
-        map.put("content", page.getContent());
-        map.put("totalElements", page.getTotalElements());
+    protected Map<String, Object> pageToMap(com.github.pagehelper.Page<Map<String,Object>> page) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("content", page);
+        map.put("totalElements", page.getTotal());
         return map;
+    }
+
+    private String getOrderBy(PageInfo pageInfo) throws SneakLifeException{
+        if (!IwsContext.isNotNull(pageInfo)) {
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
+        } else {
+            // id asc,id desc
+            StringBuilder sb = new StringBuilder(pageInfo.getSort());
+            String sortOrder = pageInfo.getSortOrder();
+            if(!StringUtils.isEmpty(sortOrder)){
+                sb.append(" ").append(sortOrder);
+            }
+            return sb.toString();
+        }
     }
 }
 

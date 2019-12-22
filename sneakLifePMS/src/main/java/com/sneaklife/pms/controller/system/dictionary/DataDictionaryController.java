@@ -1,22 +1,22 @@
 package com.sneaklife.pms.controller.system.dictionary;
 
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
-import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.iws.IwsContext;
-import com.sneaklife.ut.servlet.SneakLifeResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Map;
-
 @Controller
 public class DataDictionaryController {
 
+    private final DataDictionaryService dataDictionaryService;
+
     @Autowired
-    private DataDictionaryService dataDictionaryService;
+    public DataDictionaryController(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 
     @RequestMapping(value = "/insertDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertDataDictionary() throws Exception{

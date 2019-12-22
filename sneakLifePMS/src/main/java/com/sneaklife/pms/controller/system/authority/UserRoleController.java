@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserRoleController {
 
+    private final UserRoleService userRoleService;
+
     @Autowired
-    private UserRoleService userRoleService;
+    public UserRoleController(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
+    }
 
     @RequestMapping(value = "/userRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> userRole() {
