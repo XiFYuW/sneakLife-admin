@@ -1,5 +1,6 @@
 package com.sneaklife.pms.service.common;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sneaklife.pms.dao.CommonDao;
 import com.sneaklife.ut.exception.SneakLifeException;
@@ -8,6 +9,7 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.ut.string.StringUtil;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -20,8 +22,12 @@ import java.util.Map;
 public abstract class CommonService {
 
     protected Map<String, Object> findAllPage(CommonDao commonDao, Map<String, Object> map, PageInfo pageInfo) throws Exception{
-        PageHelper.startPage(pageInfo.getPage(), pageInfo.getRows(), getOrderBy(pageInfo));
-        com.github.pagehelper.Page<Map<String,Object>> page = commonDao.findAllPage(map);
+        if (IwsContext.isNotNull(pageInfo.getPage()) && IwsContext.isNotNull(pageInfo.getRows())) {
+            PageHelper.startPage(pageInfo.getPage(), pageInfo.getRows(), getOrderBy(pageInfo));
+        } else {
+            PageHelper.startPage(0, 10, getOrderBy(pageInfo));
+        }
+        Page<Map<String,Object>> page = commonDao.findAllPage(map);
         return pageToMap(page);
     }
 

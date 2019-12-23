@@ -1,7 +1,9 @@
 package com.sneaklife.pms.service.common.imp;
 
+import com.sneaklife.pms.config.SneakLifeSystemEnum;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.dao.system.authority.opera.ColumnsMapper;
+import com.sneaklife.pms.dao.system.authority.opera.OperaBoMapper;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
@@ -31,29 +33,24 @@ public class OperaServiceImp implements OperaService {
 
     private final OperaSbMapper operaSbMapper;
 
+    private final OperaBoMapper operaBoMapper;
+
     private final SystemMenuMapper systemMenuMapper;
 
     private final RoleConfigMapper roleConfigMapper;
 
     private static Logger log = LoggerFactory.getLogger(OperaServiceImp.class);
 
-    private static final String OPERA_COLUMNS = "opera_co";
-
-    private static final String OPERA_IN = "opera_in";
-
-    private static final String OPERA_SB = "opera_sb";
-
-    private static final String OPERA = "opera";
-
     private volatile int size = 1;
 
     private volatile List<Map<String, Object>> data = new ArrayList<>();
 
     @Autowired
-    public OperaServiceImp(ColumnsMapper columnsMapper, OperaInMapper operaInMapper, OperaSbMapper operaSbMapper, SystemMenuMapper systemMenuMapper, RoleConfigMapper roleConfigMapper) {
+    public OperaServiceImp(ColumnsMapper columnsMapper, OperaInMapper operaInMapper, OperaSbMapper operaSbMapper, OperaBoMapper operaBoMapper, SystemMenuMapper systemMenuMapper, RoleConfigMapper roleConfigMapper) {
         this.columnsMapper = columnsMapper;
         this.operaInMapper = operaInMapper;
         this.operaSbMapper = operaSbMapper;
+        this.operaBoMapper = operaBoMapper;
         this.systemMenuMapper = systemMenuMapper;
         this.roleConfigMapper = roleConfigMapper;
     }
@@ -65,7 +62,8 @@ public class OperaServiceImp implements OperaService {
         Table table = new Table(columnsList);
         List<Map<String,Object>> operaSbList = operaSbMapper.findOperaSbByShow(map);
         List<OperaIn> operaInList = operaInMapper.findOperaInByShow(map);
-        Opera opera = new Opera(operaSbList,dispOperaIn(operaInList,is));
+        List<OperaBo> operaBoList = operaBoMapper.findOperaBoByShow(map);
+        Opera opera = new Opera(operaSbList, displayOpera(operaInList, 2, is), displayOpera(operaBoList, 3, is));
         return new TableOpera(table,opera);
     }
 
@@ -140,9 +138,9 @@ public class OperaServiceImp implements OperaService {
             }
         }
         if(one){
-            data.add(buildOperaItem(OPERA_COLUMNS, "功能字段", z, pid, 0, true));
+            data.add(buildOperaItem(SneakLifeSystemEnum.OPERA_COLUMNS.toName(), SneakLifeSystemEnum.OPERA_COLUMNS_VALUE.toName(), z, pid, 0, true));
         }else {
-            data.add(buildOperaItem(OPERA_COLUMNS, "功能字段", z, pid, 1, false));
+            data.add(buildOperaItem(SneakLifeSystemEnum.OPERA_COLUMNS.toName(), SneakLifeSystemEnum.OPERA_COLUMNS_VALUE.toName(), z, pid, 1, false));
         }
     }
 
@@ -168,9 +166,9 @@ public class OperaServiceImp implements OperaService {
             }
         }
         if(one){
-            data.add(buildOperaItem(OPERA_SB,"功能操作", z, pid, 0,true));
+            data.add(buildOperaItem(SneakLifeSystemEnum.OPERA_SB.toName(), SneakLifeSystemEnum.OPERA_SB_VALUE.toName(), z, pid, 0,true));
         }else {
-            data.add(buildOperaItem(OPERA_SB,"功能操作", z, pid, 1,false));
+            data.add(buildOperaItem(SneakLifeSystemEnum.OPERA_SB.toName(), SneakLifeSystemEnum.OPERA_SB_VALUE.toName(), z, pid, 1,false));
         }
     }
 
@@ -194,30 +192,31 @@ public class OperaServiceImp implements OperaService {
             }
         }
         if(one){
-            data.add(buildOperaItem(OPERA_IN,"功能输入", z, pid, 0,true));
+            data.add(buildOperaItem(SneakLifeSystemEnum.OPERA_IN.toName(), SneakLifeSystemEnum.OPERA_IN_VALUE.toName(), z, pid, 0,true));
         }else {
-            data.add(buildOperaItem(OPERA_IN,"功能输入", z, pid, 1,false));
+            data.add(buildOperaItem(SneakLifeSystemEnum.OPERA_IN.toName(), SneakLifeSystemEnum.OPERA_IN_VALUE.toName(), z, pid, 1,false));
         }
     }
 
     /**
      * Process the display of function input at the front end
      * @param list List to display
+     * @param gn Group number
      * @param t Whether to return directly
      * @return Function input options displayed on the front end
      */
-    private List<List<OperaIn>> dispOperaIn(List<OperaIn> list, boolean t){
-        List<List<OperaIn>> data = new LinkedList<>();
+    private <E> List<List<E>> displayOpera(List<E> list, int gn, boolean t){
+        List<List<E>> data = new LinkedList<>();
         if(t){
             data.add(list);
             return data;
         }
         // The processing measure is 2
-        List<OperaIn> temp = new ArrayList<>();
-        boolean odd = list.size() % 2 != 0;
+        List<E> temp = new ArrayList<>();
+        boolean odd = list.size() % gn != 0;
         for (int i = 1; i <= list.size(); i++) {
-            OperaIn operaIn = list.get(i - 1);
-            if(i % 2 != 0){
+            E operaIn = list.get(i - 1);
+            if(i % gn != 0){
                 temp.add(operaIn);
             }else {
                 temp.add(operaIn);
@@ -295,7 +294,7 @@ public class OperaServiceImp implements OperaService {
 
             // 为子节点
             if(parent && node.getPid().equals(menu.getId())){
-                synchronized (OPERA){
+                synchronized (SneakLifeSystemEnum.OPERA.toName()){
                     Iterator<Map<String,Object>> iterator = data.iterator();
                     while (iterator.hasNext()){
                         Map<String,Object> m = iterator.next();

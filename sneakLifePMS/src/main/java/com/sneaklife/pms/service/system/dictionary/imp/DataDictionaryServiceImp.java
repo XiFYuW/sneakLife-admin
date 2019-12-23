@@ -46,7 +46,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable
+//    @Cacheable
     @SneakLifeAnLog
     public Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(dataDictionaryMapper, map, pageInfo);
