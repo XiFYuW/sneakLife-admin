@@ -36,6 +36,12 @@
       from system_menu sm left join system_menu sm1 on sm.pid = sm1.id
       <where>
         sm.is_del = 0
+        <if test="pid != null and pid != ''">
+          and sm.pid = #{pid}
+        </if>
+        <if test="name != null and name != ''">
+          and sm.name like CONCAT(#{name},'%')
+        </if>
       </where>
   </select>
   <select id="getByBatchId" parameterType="java.util.ArrayList" resultMap="SystemMenuMap">

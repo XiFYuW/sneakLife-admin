@@ -9,7 +9,7 @@
     <where>
       td.is_del = 0
       <if test="name != null">
-        and td.name = #{name}
+        and td.name like CONCAT(#{name},'%')
       </if>
     </where>
   </select>

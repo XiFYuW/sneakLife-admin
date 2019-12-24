@@ -17,6 +17,15 @@
       <if test="menuId != null">
         and oi.menu_id = #{menuId}
       </if>
+      <if test="htmlType != null">
+        and oi.html_type = #{htmlType}
+      </if>
+      <if test="rule != null">
+        and oi.rule = #{rule}
+      </if>
+      <if test="field != null">
+        and oi.field like CONCAT(#{field},'%')
+      </if>
     </where>
   </select>
 

@@ -14,6 +14,12 @@
     inner join role_config rc on ur.role_id = rc.id
     <where>
       ur.is_del = 0
+      <if test="userName != null and userName != ''">
+        and u.name like CONCAT(#{userName},'%')
+      </if>
+      <if test="roleName != null and roleName != ''">
+        and rc.name like CONCAT(#{roleName},'%')
+      </if>
     </where>
   </select>
 

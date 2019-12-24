@@ -14,6 +14,12 @@
       <if test="menuId != null">
         and cl.menu_id = #{menuId}
       </if>
+      <if test="align != null">
+        and cl.align = #{align}
+      </if>
+      <if test="field != null">
+        and cl.field like CONCAT(#{field},'%')
+      </if>
     </where>
   </select>
   <select id="findColumnsByShow" resultType="com.sneaklife.pms.entity.Columns" parameterType="map">

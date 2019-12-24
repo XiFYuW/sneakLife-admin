@@ -19,6 +19,15 @@
       <if test="menuId != null">
         and os.menu_id = #{menuId}
       </if>
+      <if test="icon != null">
+        and os.icon = #{icon}
+      </if>
+      <if test="code != null">
+        and os.code = #{code}
+      </if>
+      <if test="type != null">
+        and os.type = #{type}
+      </if>
     </where>
   </select>
 
