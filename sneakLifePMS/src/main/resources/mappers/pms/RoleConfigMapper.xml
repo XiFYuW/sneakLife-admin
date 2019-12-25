@@ -10,7 +10,7 @@
     from role_config rc inner join data_dictionary dd on rc.type = dd.value
     <where>
       rc.is_del = 0
-      <if test="type != null">
+      <if test="type != null and type != ''">
         and rc.type = #{type}
       </if>
     </where>

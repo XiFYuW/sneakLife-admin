@@ -14,16 +14,16 @@
     inner join data_dictionary dd1 on oi.rule = dd1.value
     <where>
       oi.is_del = 0
-      <if test="menuId != null">
+      <if test="menuId != null and menuId != ''">
         and oi.menu_id = #{menuId}
       </if>
-      <if test="htmlType != null">
+      <if test="htmlType != null and htmlType != ''">
         and oi.html_type = #{htmlType}
       </if>
-      <if test="rule != null">
+      <if test="rule != null and rule != ''">
         and oi.rule = #{rule}
       </if>
-      <if test="field != null">
+      <if test="field != null and field != ''">
         and oi.field like CONCAT(#{field},'%')
       </if>
     </where>

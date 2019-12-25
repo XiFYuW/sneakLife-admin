@@ -8,7 +8,7 @@
     from type_dictionary td
     <where>
       td.is_del = 0
-      <if test="name != null">
+      <if test="name != null and name != ''">
         and td.name like CONCAT(#{name},'%')
       </if>
     </where>

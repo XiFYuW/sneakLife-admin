@@ -11,13 +11,13 @@
     from columns cl inner join data_dictionary dd on cl.align = dd.value
     <where>
       cl.is_del = 0
-      <if test="menuId != null">
+      <if test="menuId != null and menuId != ''">
         and cl.menu_id = #{menuId}
       </if>
-      <if test="align != null">
+      <if test="align != null and align != ''">
         and cl.align = #{align}
       </if>
-      <if test="field != null">
+      <if test="field != null and field != ''">
         and cl.field like CONCAT(#{field},'%')
       </if>
     </where>

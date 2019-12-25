@@ -16,16 +16,16 @@
     inner join data_dictionary dd2 on os.type = dd2.value
     <where>
       os.is_del = 0
-      <if test="menuId != null">
+      <if test="menuId != null and menuId != ''">
         and os.menu_id = #{menuId}
       </if>
-      <if test="icon != null">
+      <if test="icon != null and icon != ''">
         and os.icon = #{icon}
       </if>
-      <if test="code != null">
+      <if test="code != null and code != ''">
         and os.code = #{code}
       </if>
-      <if test="type != null">
+      <if test="type != null and type != ''">
         and os.type = #{type}
       </if>
     </where>

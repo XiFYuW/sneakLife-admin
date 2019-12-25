@@ -11,10 +11,10 @@
     from opera_bo ob inner join data_dictionary dd on ob.html_type = dd.value
     <where>
       ob.is_del = 0
-      <if test="menuId != null">
+      <if test="menuId != null and menuId != ''">
         and ob.menu_id = #{menuId}
       </if>
-      <if test="htmlType != null">
+      <if test="htmlType != null and htmlType != ''">
         and ob.html_type = #{htmlType}
       </if>
     </where>
