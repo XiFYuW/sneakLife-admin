@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sneaklife.pms.dao.system.authority.user.UserMapper">
+  <select id="findAllPage"  parameterType="map" resultType="map"></select>
+  <insert id="insert" parameterType="map"></insert>
+  <update id="update" parameterType="map"></update>
+  <delete id="delete" parameterType="map"></delete>
+
+  <select id="checkExist" parameterType="map" resultType="int">
+    SELECT
+      ur.user_id AS userId,
+      ur.role_id AS roleId,
+      u. NAME AS userName,
+      rc. NAME AS roleName
+    FROM USER u INNER JOIN user_role ur ON ur.user_id = u.uuid
+    INNER JOIN role_config rc ON ur.role_id = rc.id
+    <where>
+      u.is_del = 0 and u.pw = #{pw} and u.name = #{un}
+    </where>
+    <!--select-->
+      <!--count(id) as co-->
+    <!--from user u-->
+    <!--<where>-->
+      <!--u.is_del != 0 and u.pw = #{pw} and u.name = #{un}-->
+    <!--</where>-->
+  </select>
+</mapper>

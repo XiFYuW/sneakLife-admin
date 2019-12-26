@@ -11,7 +11,7 @@ public interface LeftSelectViewService {
 
     /**
      * Left drop-down list tree data
-     * @param map
+     * @param map parameter
      * @return List<Map<String,Object>>
      */
     List<Map<String,Object>> leftSelectsView(Map<String, Object> map);

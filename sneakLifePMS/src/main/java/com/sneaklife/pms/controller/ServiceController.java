@@ -65,10 +65,14 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/heartBeat", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity<String> common(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @SuppressWarnings("unchecked")
+    public ResponseEntity<String> common(@RequestParam(required = false) String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SneakLifeServlet sneakLifeServlet = IwsContext.getSneakLifeServletObject(request,response);
-        Map<String, Object> map = KeyLessContext.setKey(sneakLifeServlet.getSessionId() ,hashOperations);
+        Map<String,Object> param = (Map<String,Object>)JSON.parse(data);
+        param.put("id", sneakLifeServlet.getSessionId());
+        sneakLifeCheckService.checkLogin(param);
+        Map<String, Object> map = KeyLessContext.setKey(sneakLifeServlet.getSessionId(), hashOperations);
         log.info("common接口返回数据: 【{}】", map);
-        return IwsContext.respResultBody(RespCode.MSG_SUCCEED.toValue(), map);
+        return IwsContext.respResultBody(RespCode.MSG_LOGIN_SUCCEED.toValue(), map);
     }
 }

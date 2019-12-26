@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -104,5 +108,19 @@ public class KeyLessContext {
             return false;
         }
         return true;
+    }
+
+    public static String digest(String data, String type) throws NoSuchAlgorithmException {
+        StringBuilder result = new StringBuilder();
+        MessageDigest sha = MessageDigest.getInstance(type);
+        byte[] bytes = sha.digest(data.getBytes(StandardCharsets.UTF_8));
+        for (byte b : bytes) {
+            String temp = Integer.toHexString(b & 0xff);
+            if (temp.length() == 1) {
+                temp = "0" + temp;
+            }
+            result.append(temp);
+        }
+        return result.toString();
     }
 }

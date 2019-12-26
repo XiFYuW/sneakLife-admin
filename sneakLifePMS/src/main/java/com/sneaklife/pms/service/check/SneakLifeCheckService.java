@@ -11,10 +11,17 @@ import java.util.Map;
 public interface SneakLifeCheckService {
 
     /**
-     * 检测输入参数
-     * @param map 输入参数
-     * @param checkInId 检测id
+     * Test input parameters
+     * @param map parameter
+     * @param checkInId Detection of id
      * @throws SneakLifeException
      */
     void checkIn(Map<String,Object> map, String checkInId) throws SneakLifeException;
+
+    /**
+     * Detect login information
+     * @param map parameter
+     * @throws SneakLifeException
+     */
+    void checkLogin(Map<String,Object> map) throws SneakLifeException;
 }

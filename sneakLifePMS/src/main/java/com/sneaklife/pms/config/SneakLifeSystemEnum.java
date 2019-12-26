@@ -6,6 +6,8 @@ package com.sneaklife.pms.config;
  */
 public enum SneakLifeSystemEnum {
 
+    SNEAK_LIFE_NAME("SNEAK_LIFE_NAME"),
+
     OPERA_COLUMNS("opera_co"),
 
     OPERA_COLUMNS_VALUE("功能字段"),

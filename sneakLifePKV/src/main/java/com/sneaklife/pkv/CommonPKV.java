@@ -27,4 +27,6 @@ public class CommonPKV {
      private String serverPathYzm;
      private String filePathYzm;
      private Long tokenCacheOverTimes;
+     private String userKey;
+     private Long userKeyOverTimes;
 }

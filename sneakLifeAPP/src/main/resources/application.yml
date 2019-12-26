@@ -59,3 +59,5 @@ common:
   server_url: http://127.0.0.1:8080/sneakLife-admin/service
   serverPathYzm: http://192.168.6.134:9090/sneakLife-admin/yzm/
   filePathYzm: D:\\Compressed\\JCV\\Tomcat\\webapps\\test\\yzm\\
+  user_key: userKey
+  user_key_over_times: 3600

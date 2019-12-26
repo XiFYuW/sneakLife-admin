@@ -2,6 +2,30 @@ package com.sneaklife.ut.iws;
 
 public enum RespCode {
 	/**
+	 * 登录成功
+	 */
+	MSG_LOGIN_SUCCEED(3346, "登录成功"),
+	/**
+	 * 用户不存在
+	 */
+	MSG_USER_EXIST(3347, "用户不存在"),
+	/**
+	 * 字符串加密失败
+	 */
+	MSG_LOGIN_EN_FAIL(3354, "字符串加密失败"),
+	/**
+	 * 登录参数缺失
+	 */
+	MSG_LOGIN_USERNAME_NULL(1893, "登录用户名不能为空"),
+	/**
+	 * 登录参数缺失
+	 */
+	MSG_LOGIN_PASSWORD_NULL(1894, "登录密码不能为空"),
+	/**
+	 * 登录参数缺失
+	 */
+	MSG_LOGIN_MISS(1895, "登录参数缺失"),
+	/**
 	 * 获取私钥失败，请重试
 	 */
 	MSG_RSA_PRK(3256, "获取私钥失败，请重试"),
