@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
+import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
 import com.sneaklife.pms.entity.RoleConfig;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -61,8 +61,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera roleConfig(Map<String, Object> map) {
-        map.put("isShow",0);
+    public TableOpera roleConfig(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 

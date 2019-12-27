@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 public interface ColumnsMapper extends CommonDao {
 
-    List<Columns> findColumnsByShow(Map<String, Object> map);
+    List<Columns> findColumns(Map<String, Object> map);
 
     Integer updateColumnsShow(Map<String, Object> map);
 

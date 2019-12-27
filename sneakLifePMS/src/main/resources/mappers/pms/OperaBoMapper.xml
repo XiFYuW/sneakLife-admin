@@ -20,7 +20,7 @@
     </where>
   </select>
 
-  <select id="findOperaBoByShow" resultType="com.sneaklife.pms.entity.OperaBo" parameterType="map">
+  <select id="findOperaBo" resultType="com.sneaklife.pms.entity.OperaBo" parameterType="map">
     select
       id as id,
       text_name as textName,

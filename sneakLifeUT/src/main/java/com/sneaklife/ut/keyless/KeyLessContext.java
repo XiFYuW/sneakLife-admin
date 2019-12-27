@@ -1,6 +1,6 @@
 package com.sneaklife.ut.keyless;
 
-import com.sneaklife.pkv.CommonPKV;
+import com.sneaklife.config.pkv.CommonPKV;
 import com.sneaklife.ut.date.DateUtil;
 import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.exception.SneakLifeFailureException;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -68,8 +67,6 @@ public class KeyLessContext {
         rsaKey.put("ptk", token);
         rsaKey.put("time", DateUtil.getSecond() + commonPKV.getTokenCacheTimes());
         hashOperations.put(localKey, commonPKV.getTokenKey(), rsaKey);
-        RedisTemplate redisTemplate = SpringContextUtil.getBean("redisTemplate", RedisTemplate.class);
-        redisTemplate.expire(localKey, commonPKV.getTokenCacheOverTimes(), TimeUnit.SECONDS);
         rsaKey.remove("prk");
         rsaKey.put("ptk", Base64Util.base64Encode(token.getBytes()));
         rsaKey.put("link",Base64Util.base64Encode(commonPKV.getServerUrl().getBytes()));

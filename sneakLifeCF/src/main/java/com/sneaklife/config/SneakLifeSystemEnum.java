@@ -1,10 +1,12 @@
-package com.sneaklife.pms.config;
+package com.sneaklife.config;
 
 /**
  * @author https://github.com/XiFYuW
  * @date 2019/12/22 20:40
  */
 public enum SneakLifeSystemEnum {
+
+    SNEAK_LIFE_CACHE_DIR_CUT(":"),
 
     SNEAK_LIFE_NAME("SNEAK_LIFE_NAME"),
 
@@ -19,6 +21,10 @@ public enum SneakLifeSystemEnum {
     OPERA_SB("opera_sb"),
 
     OPERA_SB_VALUE("功能操作"),
+
+    OPERA_BO("opera_sb"),
+
+    OPERA_BO_VALUE("功能查询"),
 
     OPERA("opera");
 

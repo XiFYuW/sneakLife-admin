@@ -19,7 +19,7 @@ public class SystemMenuController {
     }
 
     @RequestMapping(value = "/getMenu", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getMenu(){
+    public ResponseEntity<String> getMenu() throws Exception {
         return IwsContext.respResultBodyToSC(systemMenuService.getMenu());
     }
 

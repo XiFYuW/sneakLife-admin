@@ -28,7 +28,7 @@ public class FunctionColumnsController {
     }
 
     @RequestMapping(value = "/functionColumnsTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionColumnsTableView() {
+    public ResponseEntity<String> functionColumnsTableView() throws Exception{
         return IwsContext.respResultBodyToSC(functionColumnsService.functionColumnsTableView(IwsContext.getData()));
     }
 

@@ -1,4 +1,4 @@
-package com.sneaklife.pkv;
+package com.sneaklife.config.pkv;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class CommonPKV {
      private String serverUrl;
      private String serverPathYzm;
      private String filePathYzm;
-     private Long tokenCacheOverTimes;
      private String userKey;
-     private Long userKeyOverTimes;
+     private Long userKeySessionTimes;
+     private String userCacheDir;
 }

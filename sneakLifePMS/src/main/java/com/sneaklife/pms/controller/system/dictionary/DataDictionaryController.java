@@ -39,7 +39,7 @@ public class DataDictionaryController {
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> dataDictionary(){
+    public ResponseEntity<String> dataDictionary() throws Exception{
         return IwsContext.respResultBodyToSC(dataDictionaryService.dataDictionary(IwsContext.getData()));
     }
 

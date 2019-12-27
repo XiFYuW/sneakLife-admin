@@ -1,11 +1,12 @@
 package com.sneaklife.pms.service.system.menu.imp;
 
-import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
+import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
 import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
+import com.sneaklife.pms.service.common.RedisService;
 import com.sneaklife.pms.service.common.SelectTreeViewService;
 import com.sneaklife.pms.service.system.menu.SystemMenuService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
@@ -13,8 +14,6 @@ import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.log.SneakLifeAnLog;
 import com.sneaklife.ut.page.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author https://github.com/XiFYuW
@@ -39,27 +39,30 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
 
     private final OperaService operaService;
 
+    private final SelectTreeViewService selectTreeViewService;
+
+    private final RedisService redisService;
+
     @Resource
     private Nodes<SystemMenu, SystemMenu, List<SystemMenu>> nodes;
 
-    private final SelectTreeViewService selectTreeViewService;
-
-    private static Logger log = LoggerFactory.getLogger(SystemMenuServiceImp.class);
-
     @Autowired
-    public SystemMenuServiceImp(SystemMenuMapper systemMenuMapper, OperaService operaService, SelectTreeViewService selectTreeViewService) {
+    public SystemMenuServiceImp(SystemMenuMapper systemMenuMapper, OperaService operaService, SelectTreeViewService selectTreeViewService, RedisService redisService) {
         this.systemMenuMapper = systemMenuMapper;
         this.operaService = operaService;
         this.selectTreeViewService = selectTreeViewService;
+        this.redisService = redisService;
     }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public List<SystemMenu> getMenu() {
+    public List<SystemMenu> getMenu() throws Exception{
         List<SystemMenu> data = new ArrayList<>();
+        List<String> userInfoList = redisService.getLoginUserOpera();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
+        list = list.stream().filter(menu -> userInfoList.contains(menu.getId())).collect(Collectors.toList());
         int size = list.size();
         for(int i = 0; i < size; i++){
             SystemMenu systemMenu = list.get(i);
@@ -82,8 +85,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera systemFunctionMenu(Map<String, Object> map) {
-        map.put("isShow", 0);
+    public TableOpera systemFunctionMenu(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 

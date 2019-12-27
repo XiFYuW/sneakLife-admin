@@ -16,7 +16,7 @@ public interface RoleFunctionService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera roleFunctionTreeView(Map<String, Object> map);
+    TableOpera roleFunctionTreeView(Map<String, Object> map) throws Exception;
 
     /**
      * Building content bodies

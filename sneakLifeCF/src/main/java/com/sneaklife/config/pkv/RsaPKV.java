@@ -1,4 +1,4 @@
-package com.sneaklife.pkv;
+package com.sneaklife.config.pkv;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,19 +10,22 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/11/18 12:51
+ * @date 2019/11/17 11:14
  */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Component("ailSmsPKV")
+@Component("rsaPKV")
 @Configuration
-@ConfigurationProperties(prefix = "ail-sms")
-public class AilSmsPKV {
-    private long defaultConnectTimeout;
-    private long defaultReadTimeout;
-    private String accessKeyId;
-    private String accessKeySecret;
-    private String templateCode;
+@ConfigurationProperties(prefix = "rsa")
+public class RsaPKV {
+    private String keyAlgorithm;
+    private String signatureAlgorithm;
+    private String signatureName;
+    private int maxDecryptBlock;
+    private int maxEncryptBlock;
+    private String privateKey;
+    private String publicKey;
+    private String cipherAlgorithm;
 }

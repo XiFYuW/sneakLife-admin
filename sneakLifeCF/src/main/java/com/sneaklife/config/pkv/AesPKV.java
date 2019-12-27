@@ -1,4 +1,4 @@
-package com.sneaklife.pkv;
+package com.sneaklife.config.pkv;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,22 +10,17 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author https://github.com/XiFYuW
- * @date 2019/11/17 11:14
+ * @date 2019/11/17 19:29
  */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Component("rsaPKV")
+@Component("aesPKV")
 @Configuration
-@ConfigurationProperties(prefix = "rsa")
-public class RsaPKV {
+@ConfigurationProperties(prefix = "aes")
+public class AesPKV {
     private String keyAlgorithm;
-    private String signatureAlgorithm;
     private String signatureName;
-    private int maxDecryptBlock;
-    private int maxEncryptBlock;
-    private String privateKey;
-    private String publicKey;
-    private String cipherAlgorithm;
+    private String charset;
 }

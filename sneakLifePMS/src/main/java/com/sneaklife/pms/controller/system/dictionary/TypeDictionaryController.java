@@ -39,7 +39,7 @@ public class TypeDictionaryController {
     }
 
     @RequestMapping(value = "/typeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> typeDictionary(){
+    public ResponseEntity<String> typeDictionary() throws Exception{
         return IwsContext.respResultBodyToSC(typeDictionaryService.typeDictionary(IwsContext.getData()));
     }
 

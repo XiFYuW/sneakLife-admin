@@ -1,10 +1,10 @@
 package com.sneaklife.pms.service.check.imp;
 
-import com.sneaklife.pkv.CommonPKV;
-import com.sneaklife.pms.config.SneakLifeSystemEnum;
+import com.sneaklife.config.SneakLifeSystemEnum;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.pms.dao.system.authority.user.UserMapper;
 import com.sneaklife.pms.service.check.SneakLifeCheckService;
+import com.sneaklife.pms.service.common.RedisService;
 import com.sneaklife.ut.check.CheckState;
 import com.sneaklife.ut.check.SneakLifeCheckStateContext;
 import com.sneaklife.ut.exception.SneakLifeException;
@@ -13,16 +13,13 @@ import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.keyless.KeyLessContext;
 import com.sneaklife.ut.log.SneakLifeAnLog;
-import com.sneaklife.ut.spring.SpringContextUtil;
 import com.sneaklife.ut.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author https://github.com/XiFYuW
@@ -35,13 +32,13 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
 
     private final UserMapper userMapper;
 
-    private final RedisTemplate redisTemplate;
+    private final RedisService redisService;
 
     @Autowired
-    public SneakLifeCheckServiceImp(OperaInMapper operaInMapper, UserMapper userMapper, RedisTemplate redisTemplate) {
+    public SneakLifeCheckServiceImp(OperaInMapper operaInMapper, UserMapper userMapper, RedisService redisService) {
         this.operaInMapper = operaInMapper;
         this.userMapper = userMapper;
-        this.redisTemplate = redisTemplate;
+        this.redisService = redisService;
     }
 
     @Override
@@ -66,9 +63,8 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     @SneakLifeAnLog
-    public void checkLogin(Map<String, Object> map) throws SneakLifeException {
+    public void checkLogin(Map<String, Object> map) throws Exception {
         if(!IwsContext.isNotNull(map)){
             throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_LOGIN_MISS.toValue(),RespCode.MSG_LOGIN_MISS.toMsg()));
         }
@@ -92,9 +88,7 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
         if(!IwsContext.isNotNull(ex)){
             throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_USER_EXIST.toValue(),RespCode.MSG_USER_EXIST.toMsg()));
         }
-        final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
-        String id = String.valueOf(map.get("id"));
-        redisTemplate.opsForHash().put(id, commonPKV.getUserKey(), ex);
-        redisTemplate.expire(id, commonPKV.getUserKeyOverTimes(), TimeUnit.SECONDS);
+        ex.put("id", redisService.getCacheId());
+        redisService.setLoginUserInfo(ex);
     }
 }

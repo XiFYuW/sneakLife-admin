@@ -14,7 +14,7 @@ import java.util.Map;
 @Mapper
 public interface OperaInMapper extends CommonDao {
 
-    List<OperaIn> findOperaInByShow(Map<String, Object> map);
+    List<OperaIn> findOperaIn(Map<String, Object> map);
 
     Integer updateOperaInShow(Map<String, Object> map);
 

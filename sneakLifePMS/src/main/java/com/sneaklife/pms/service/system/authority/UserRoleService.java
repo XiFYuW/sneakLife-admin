@@ -16,7 +16,7 @@ public interface UserRoleService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera userRole(Map<String, Object> map);
+    TableOpera userRole(Map<String, Object> map) throws Exception;
 
     /**
      * Gets userRole function data

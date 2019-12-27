@@ -29,7 +29,7 @@
     </where>
   </select>
 
-  <select id="findOperaInByShow" resultType="com.sneaklife.pms.entity.OperaIn" parameterType="map">
+  <select id="findOperaIn" resultType="com.sneaklife.pms.entity.OperaIn" parameterType="map">
     select
       id as id,
       text_name as textName,

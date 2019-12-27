@@ -11,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SneakLifeAdminApplication.class)
 @ContextConfiguration
@@ -19,7 +22,12 @@ public class SystemMenuServiceTest {
     @Autowired
     private SystemMenuService systemMenuService;
     @Test
-    public void getMenu(){
+    public void getMenu() throws Exception {
         systemMenuService.getMenu();
+    }
+
+    @Test
+    public void sa() {
+
     }
 }

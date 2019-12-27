@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Controller
+@SuppressWarnings("unchecked")
 public class ServiceController {
 
     private final HashOperations hashOperations;
@@ -43,7 +44,6 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/service", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    @SuppressWarnings("unchecked")
     public ModelAndView service(@RequestParam String data, HttpServletRequest request, HttpServletResponse response) throws Exception{
         data = IwsContext.getRequestData(request, response, hashOperations, data);
         ReqParam reqParam = Objects.requireNonNull(JSON.parseObject(data, ReqParam.class));
@@ -65,13 +65,11 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/heartBeat", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    @SuppressWarnings("unchecked")
     public ResponseEntity<String> common(@RequestParam(required = false) String data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SneakLifeServlet sneakLifeServlet = IwsContext.getSneakLifeServletObject(request,response);
         Map<String,Object> param = (Map<String,Object>)JSON.parse(data);
-        param.put("id", sneakLifeServlet.getSessionId());
         sneakLifeCheckService.checkLogin(param);
-        Map<String, Object> map = KeyLessContext.setKey(sneakLifeServlet.getSessionId(), hashOperations);
+        Map<String, Object> map = KeyLessContext.setKey(sneakLifeServlet.getCacheSessionId(), hashOperations);
         log.info("common接口返回数据: 【{}】", map);
         return IwsContext.respResultBody(RespCode.MSG_LOGIN_SUCCEED.toValue(), map);
     }

@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.dictionary.imp;
 
-import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
+import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -46,7 +46,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
 
     @Override
     @Transactional(readOnly = true)
-//    @Cacheable
+    @Cacheable
     @SneakLifeAnLog
     public Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(dataDictionaryMapper, map, pageInfo);
@@ -56,8 +56,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(rollbackFor = Exception.class)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera dataDictionary(Map<String, Object> map) {
-        map.put("isShow", 0);
+    public TableOpera dataDictionary(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 

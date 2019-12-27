@@ -22,7 +22,7 @@
       </if>
     </where>
   </select>
-  <select id="findColumnsByShow" resultType="com.sneaklife.pms.entity.Columns" parameterType="map">
+  <select id="findColumns" resultType="com.sneaklife.pms.entity.Columns" parameterType="map">
     select
       id as id,
       field as field,

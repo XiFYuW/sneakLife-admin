@@ -1,7 +1,7 @@
 package com.sneaklife.ut.keyless;
 
 
-import com.sneaklife.pkv.AesPKV;
+import com.sneaklife.config.pkv.AesPKV;
 import com.sneaklife.ut.spring.SpringContextUtil;
 import org.springframework.util.StringUtils;
 

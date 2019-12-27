@@ -13,5 +13,5 @@ import java.util.Map;
 @Mapper
 public interface OperaBoMapper extends CommonDao {
 
-    List<OperaBo> findOperaBoByShow(Map<String, Object> map);
+    List<OperaBo> findOperaBo(Map<String, Object> map);
 }

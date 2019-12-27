@@ -20,6 +20,7 @@ import java.util.*;
  * @author https://github.com/XiFYuW
  * @date 2019/11/18 15:53
  */
+@SuppressWarnings("unchecked")
 public class IwsContext {
 
     private static final Logger log = LoggerFactory.getLogger(IwsContext.class);
@@ -81,7 +82,7 @@ public class IwsContext {
             return data;
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            log.error(e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -94,7 +95,7 @@ public class IwsContext {
             return data;
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            log.error(e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -105,7 +106,7 @@ public class IwsContext {
             return (List<Map<String, Object>>) JSON.parse(object);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            log.error(e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -156,7 +157,7 @@ public class IwsContext {
 
     public static String getRequestData(HttpServletRequest request, HttpServletResponse response, HashOperations hashOperations, String data) throws Exception {
         SneakLifeServlet sneakLifeServlet = getSneakLifeServletObject(request,response);
-        String sessionId = sneakLifeServlet.getSessionId();
+        String sessionId = sneakLifeServlet.getCacheSessionId();
         log.info("RSA加密data: 【{}】", data);
         data = KeyLessContext.getRsaData(sessionId, data, hashOperations);
         Map map = JSON.parseObject(data, Map.class);

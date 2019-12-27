@@ -1,6 +1,6 @@
 package com.sneaklife.ut.keyless;
 
-import com.sneaklife.pkv.RsaPKV;
+import com.sneaklife.config.pkv.RsaPKV;
 import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;

@@ -28,7 +28,7 @@ public class FunctionButtonController {
     }
 
     @RequestMapping(value = "/functionButtonTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionButtonTableView() {
+    public ResponseEntity<String> functionButtonTableView() throws Exception{
         return IwsContext.respResultBodyToSC(functionButtonService.functionButtonTableView(IwsContext.getData()));
     }
 

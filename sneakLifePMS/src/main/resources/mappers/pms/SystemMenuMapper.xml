@@ -42,6 +42,9 @@
         <if test="name != null and name != ''">
           and sm.name like CONCAT(#{name},'%')
         </if>
+        <if test="tab != null and tab != ''">
+          and sm.tab like CONCAT(#{tab},'%')
+        </if>
       </where>
   </select>
   <select id="getByBatchId" parameterType="java.util.ArrayList" resultMap="SystemMenuMap">

@@ -1,8 +1,7 @@
 package com.sneaklife.pms;
 
 import com.sneaklife.SneakLifeAdminApplication;
-import com.sneaklife.pms.config.SneakLifeSystemEnum;
-import com.sneaklife.ut.date.DateUtil;
+import com.sneaklife.config.SneakLifeSystemEnum;
 import com.sneaklife.ut.keyless.KeyLessContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;

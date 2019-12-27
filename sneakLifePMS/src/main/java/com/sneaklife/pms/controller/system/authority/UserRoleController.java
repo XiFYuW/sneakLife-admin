@@ -19,7 +19,7 @@ public class UserRoleController {
     }
 
     @RequestMapping(value = "/userRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> userRole() {
+    public ResponseEntity<String> userRole() throws Exception{
         return IwsContext.respResultBodyToSC(userRoleService.userRole(IwsContext.getData()));
     }
 

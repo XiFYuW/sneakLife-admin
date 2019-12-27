@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
+import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
@@ -52,8 +52,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera functionInputTableView(Map<String, Object> map) {
-        map.put("isShow",0);
+    public TableOpera functionInputTableView(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 

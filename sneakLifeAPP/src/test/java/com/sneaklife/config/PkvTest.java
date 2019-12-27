@@ -1,8 +1,9 @@
-package com.sneaklife.pkv;
+package com.sneaklife.config;
 
 import com.sneaklife.SneakLifeAdminApplication;
+import com.sneaklife.config.pkv.AesPKV;
+import com.sneaklife.config.pkv.RsaPKV;
 import com.sneaklife.ut.keyless.Base64Util;
-import com.sneaklife.ut.keyless.RSAUtil;
 import com.sneaklife.ut.spring.SpringContextUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,9 +27,6 @@ public class PkvTest {
     @Autowired
     private AesPKV aesPKV;
 
-    @Autowired
-    private AilSmsPKV ailSmsPKV;
-
     @Test
     public void getRsaPkv() {
         System.out.println(rsaPKV.getKeyAlgorithm());
@@ -37,11 +35,6 @@ public class PkvTest {
     @Test
     public void getAesPkv() {
         System.out.println(aesPKV.getKeyAlgorithm());
-    }
-
-    @Test
-    public void getAilSmsPkv() {
-        System.out.println(ailSmsPKV.getDefaultConnectTimeout());
     }
 
     @Test

@@ -24,7 +24,7 @@ public interface FunctionButtonService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera functionButtonTableView(Map<String, Object> map);
+    TableOpera functionButtonTableView(Map<String, Object> map) throws Exception;
 
     /**
      * Gets function button data

@@ -31,7 +31,7 @@ public interface DataDictionaryService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera dataDictionary(Map<String, Object> map);
+    TableOpera dataDictionary(Map<String, Object> map) throws Exception;
 
     /**
      * Update data dictionary

@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.dictionary.imp;
 
-import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
+import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
@@ -50,8 +50,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Transactional
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera typeDictionary(Map<String, Object> map) {
-        map.put("isShow", 0);
+    public TableOpera typeDictionary(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 

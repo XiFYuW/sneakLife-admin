@@ -18,7 +18,7 @@ public interface OperaService {
      * @param is Whether to cut with length 2 for the list
      * @return Functional authority subject
      */
-    TableOpera buildOperaBody(Map<String, Object> map, boolean is);
+    TableOpera buildOperaBody(Map<String, Object> map, boolean is) throws Exception;
 
     /**
      *  Clear global variables，Size, data for OperaServiceIml
@@ -49,4 +49,6 @@ public interface OperaService {
      * @return int
      */
     int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size);
+
+//    getByUserInfo();
 }

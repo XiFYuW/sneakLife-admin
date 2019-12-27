@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.authority.imp;
 
-import com.sneaklife.pms.cache.SneakLifeAuthorityManagementCacheEvict;
+import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.roleFunction.RoleFunctionMapper;
 import com.sneaklife.pms.entity.RoleFunction;
 import com.sneaklife.pms.entity.modal.TableOpera;
@@ -46,8 +46,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera roleFunctionTreeView(Map<String, Object> map) {
-        map.put("isShow",0);
+    public TableOpera roleFunctionTreeView(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -61,7 +60,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable
+//    @Cacheable
     @SneakLifeAnLog
     public List<Map<String,Object>> getRoleFunction(Map<String, Object> map) {
         List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));

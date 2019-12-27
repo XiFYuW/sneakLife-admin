@@ -20,7 +20,7 @@
         <module>sneakLifeAPP</module>
         <module>sneakLifeUT</module>
         <module>sneakLifePMS</module>
-        <module>sneakLifePKV</module>
+        <module>sneakLifeCF</module>
     </modules>
 
     <properties>

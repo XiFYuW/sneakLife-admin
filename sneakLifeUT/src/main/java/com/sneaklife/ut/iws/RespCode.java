@@ -2,6 +2,10 @@ package com.sneaklife.ut.iws;
 
 public enum RespCode {
 	/**
+	 * 用户身份过期
+	 */
+	MSG_LOGIN_OVERDUE(3345, "用户身份过期"),
+	/**
 	 * 登录成功
 	 */
 	MSG_LOGIN_SUCCEED(3346, "登录成功"),

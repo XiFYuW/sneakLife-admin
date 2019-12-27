@@ -23,7 +23,7 @@ public interface FunctionBoService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera functionBoTableView(Map<String, Object> map);
+    TableOpera functionBoTableView(Map<String, Object> map) throws Exception;
 
     /**
      * Gets function bo data

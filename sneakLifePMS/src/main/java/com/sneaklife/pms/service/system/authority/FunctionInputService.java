@@ -24,7 +24,7 @@ public interface FunctionInputService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera functionInputTableView(Map<String, Object> map);
+    TableOpera functionInputTableView(Map<String, Object> map) throws Exception;
 
     /**
      * Gets function input data

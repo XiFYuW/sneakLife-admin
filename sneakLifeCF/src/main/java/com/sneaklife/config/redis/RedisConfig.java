@@ -1,4 +1,4 @@
-package com.sneaklife.ut.redis;
+package com.sneaklife.config.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
@@ -35,6 +35,7 @@ import java.util.Objects;
 public class RedisConfig extends CachingConfigurerSupport {
 
     private static final Logger log = LoggerFactory.getLogger(RedisConfig.class);
+
     /**
      *  设置@cacheable 序列化方式
      */
@@ -61,6 +62,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return RedisTemplate
      */
     @Bean
+    @SuppressWarnings("unchecked")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
@@ -158,8 +160,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     @Override
     public CacheErrorHandler errorHandler() {
-        // 异常处理，当Redis发生异常时，打印日志，但是程序正常走
-        log.info("初始化 -> [{}]", "Redis CacheErrorHandler");
+        log.info("初始化 -> [{}]", "Redis init");
         return new CacheErrorHandler() {
             @Override
             public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {

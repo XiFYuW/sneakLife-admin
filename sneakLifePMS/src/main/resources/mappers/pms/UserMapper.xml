@@ -6,7 +6,7 @@
   <update id="update" parameterType="map"></update>
   <delete id="delete" parameterType="map"></delete>
 
-  <select id="checkExist" parameterType="map" resultType="int">
+  <select id="checkExist" parameterType="map" resultType="map">
     SELECT
       ur.user_id AS userId,
       ur.role_id AS roleId,

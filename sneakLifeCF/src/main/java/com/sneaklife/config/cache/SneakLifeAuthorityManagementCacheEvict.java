@@ -1,4 +1,4 @@
-package com.sneaklife.pms.cache;
+package com.sneaklife.config.cache;
 
 import org.springframework.cache.annotation.CacheEvict;
 

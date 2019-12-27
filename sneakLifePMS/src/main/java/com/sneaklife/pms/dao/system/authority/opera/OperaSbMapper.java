@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 public interface OperaSbMapper extends CommonDao {
 
-    List<Map<String,Object>> findOperaSbByShow(Map<String, Object> map);
+    List<Map<String,Object>> findOperaSb(Map<String, Object> map);
 
     Integer checkOperaSbByShow(Map<String, Object> map);
 

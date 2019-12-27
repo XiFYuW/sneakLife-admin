@@ -15,8 +15,9 @@ public interface SystemMenuService {
     /**
      * Get mappers.mappers menu
      * @return List
+     * @throws Exception
      */
-    List<SystemMenu> getMenu();
+    List<SystemMenu> getMenu() throws Exception;
 
     /**
      * Paging to get data dictionary data

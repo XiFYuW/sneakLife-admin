@@ -1,6 +1,6 @@
 package com.sneaklife.ut.images;
 
-import com.sneaklife.pkv.CommonPKV;
+import com.sneaklife.config.pkv.CommonPKV;
 import com.sneaklife.ut.file.FileCode;
 import com.sneaklife.ut.keyless.Base64Util;
 import com.sneaklife.ut.spring.SpringContextUtil;

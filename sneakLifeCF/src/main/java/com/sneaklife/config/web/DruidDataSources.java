@@ -1,4 +1,4 @@
-package com.sneaklife.pms.config;
+package com.sneaklife.config.web;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.slf4j.Logger;

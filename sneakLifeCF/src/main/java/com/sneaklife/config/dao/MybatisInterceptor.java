@@ -1,4 +1,4 @@
-package com.sneaklife.pms.config.dao;
+package com.sneaklife.config.dao;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;

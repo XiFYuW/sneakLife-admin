@@ -1,4 +1,4 @@
-package com.sneaklife.pms.config.web;
+package com.sneaklife.config.web;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

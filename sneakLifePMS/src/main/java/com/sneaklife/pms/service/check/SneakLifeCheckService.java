@@ -23,5 +23,5 @@ public interface SneakLifeCheckService {
      * @param map parameter
      * @throws SneakLifeException
      */
-    void checkLogin(Map<String,Object> map) throws SneakLifeException;
+    void checkLogin(Map<String,Object> map) throws Exception;
 }

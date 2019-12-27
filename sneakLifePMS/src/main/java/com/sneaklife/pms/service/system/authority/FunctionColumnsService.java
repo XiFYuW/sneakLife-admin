@@ -25,7 +25,7 @@ public interface FunctionColumnsService {
      * @param map parameter
      * @return TableOpera
      */
-    TableOpera functionColumnsTableView(Map<String, Object> map);
+    TableOpera functionColumnsTableView(Map<String, Object> map) throws Exception;
 
     /**
      * Gets function input data
