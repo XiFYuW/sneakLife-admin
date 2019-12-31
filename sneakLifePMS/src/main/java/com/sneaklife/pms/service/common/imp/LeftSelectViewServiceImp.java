@@ -8,7 +8,6 @@ import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.log.SneakLifeAnLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
