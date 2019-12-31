@@ -9,7 +9,6 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.page.PageInfo;
-import com.sneaklife.ut.string.StringUtil;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -60,7 +59,7 @@ public abstract class CommonService {
         }
     }
 
-    protected Map<String, Object> pageToMap(com.github.pagehelper.Page<Map<String,Object>> page) {
+    private Map<String, Object> pageToMap(com.github.pagehelper.Page<Map<String, Object>> page) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("content", page);
         map.put("totalElements", page.getTotal());
