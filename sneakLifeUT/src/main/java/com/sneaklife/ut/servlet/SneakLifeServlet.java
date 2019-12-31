@@ -1,5 +1,6 @@
 package com.sneaklife.ut.servlet;
 
+import com.sneaklife.config.SneakLifeSystemEnum;
 import com.sneaklife.config.pkv.CommonPKV;
 import com.sneaklife.ut.spring.SpringContextUtil;
 import org.slf4j.Logger;
@@ -97,7 +98,7 @@ public final class SneakLifeServlet {
         final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
         StringBuilder sb = new StringBuilder();
         String id = httpServletRequest.getSession().getId();
-        sb.append(commonPKV.getUserCacheDir()).append(":").append(id);
+        sb.append(commonPKV.getUserCacheDir()).append(SneakLifeSystemEnum.SNEAK_LIFE_CACHE_DIR_CUT.toName()).append(id);
         id = sb.toString();
         log.debug("Session id: {}", id);
         return id;
