@@ -1,12 +1,15 @@
 package com.sneaklife.ut.iws;
 
 import com.alibaba.fastjson.JSON;
+import com.sneaklife.config.pkv.CommonPKV;
 import com.sneaklife.ut.exception.SneakLifeException;
+import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.keyless.AESUtil;
 import com.sneaklife.ut.keyless.KeyLessContext;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.servlet.SneakLifeServletFactory;
+import com.sneaklife.ut.spring.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
@@ -26,6 +29,8 @@ public class IwsContext {
     private static final Logger log = LoggerFactory.getLogger(IwsContext.class);
 
     private static ThreadLocal<SneakLifeServlet> sneakLifeServletLocal = new ThreadLocal<>();
+
+    private static final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
 
     private static RespResult1 getRespResult(int code, String msg, Object data){
         boolean isMsg = "".equals(msg);
@@ -171,6 +176,9 @@ public class IwsContext {
         if (!KeyLessContext.checkToken(sessionId, token, hashOperations)) {
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_GQTOKEN.toValue(), RespCode.MSG_GQTOKEN.toMsg(),
                     KeyLessContext.setKey(sessionId ,hashOperations)));
+        }
+        if(!hashOperations.hasKey(sessionId, commonPKV.getUserKey())){
+            throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_LOGIN_OVERDUE.toValue(),RespCode.MSG_LOGIN_OVERDUE.toMsg()));
         }
         try {
             data = AESUtil.aesDecrypt((String) map.get("data"), token);

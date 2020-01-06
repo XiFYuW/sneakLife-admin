@@ -23,32 +23,32 @@ public class FunctionBoController {
     }
 
     @RequestMapping(value = "/functionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionInput() throws Exception{
+    public ResponseEntity<String> functionBo() throws Exception{
         return IwsContext.respResultBodyToSC(functionBoService.functionBo(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/functionBoTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> functionInputTableView() throws Exception{
+    public ResponseEntity<String> functionBoTableView() throws Exception{
         return IwsContext.respResultBodyToSC(functionBoService.functionBoTableView(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public ResponseEntity<String> getFunctionInput() throws Exception{
+    public ResponseEntity<String> getFunctionBo() throws Exception{
         return IwsContext.respResultBodyToSC(functionBoService.getFunctionBo(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void insertFunctionInput() throws Exception{
+    public void insertFunctionBo() throws Exception{
         functionBoService.insertFunctionBo(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void updateFunctionInput() throws Exception{
+    public void updateFunctionBo() throws Exception{
         functionBoService.updateFunctionBo(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
-    public void deleteFunctionInput() throws Exception{
+    public void deleteFunctionBo() throws Exception{
         functionBoService.deleteFunctionBo(IwsContext.getData());
     }
 }

@@ -34,6 +34,8 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
 
     private final RedisService redisService;
 
+    private final static String DIGEST = "md5";
+
     @Autowired
     public SneakLifeCheckServiceImp(OperaInMapper operaInMapper, UserMapper userMapper, RedisService redisService) {
         this.operaInMapper = operaInMapper;
@@ -65,9 +67,6 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
     @Override
     @SneakLifeAnLog
     public void checkLogin(Map<String, Object> map) throws Exception {
-        if(!IwsContext.isNotNull(map)){
-            throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_LOGIN_MISS.toValue(),RespCode.MSG_LOGIN_MISS.toMsg()));
-        }
         String un = String.valueOf(map.get("un"));
         String pw = String.valueOf(map.get("pw"));
         if(StringUtil.isEmpty(un)){
@@ -77,8 +76,8 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
             throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_LOGIN_PASSWORD_NULL.toValue(),RespCode.MSG_LOGIN_PASSWORD_NULL.toMsg()));
         }
         try {
-            pw = SneakLifeSystemEnum.SNEAK_LIFE_NAME.toName() + "123456";
-            String pwT = KeyLessContext.digest(pw, "md5");
+            pw = SneakLifeSystemEnum.SNEAK_LIFE_NAME.toName() + pw;
+            String pwT = KeyLessContext.digest(pw, DIGEST);
             map.put("pw", pwT);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
