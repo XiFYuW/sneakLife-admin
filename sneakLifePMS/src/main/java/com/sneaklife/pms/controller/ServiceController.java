@@ -2,7 +2,6 @@ package com.sneaklife.pms.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.sneaklife.pms.service.check.SneakLifeCheckService;
-import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.keyless.KeyLessContext;
 import com.sneaklife.ut.page.PageInfo;

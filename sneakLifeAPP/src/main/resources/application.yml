@@ -52,5 +52,5 @@ common:
   serverPathYzm: http://192.168.6.134:9090/sneakLife-admin/yzm/
   filePathYzm: D:\\Compressed\\JCV\\Tomcat\\webapps\\test\\yzm\\
   user_key: userKey
-  user_key_session_times: 60
+  user_key_session_times: 1800
   user_cache_dir: user
