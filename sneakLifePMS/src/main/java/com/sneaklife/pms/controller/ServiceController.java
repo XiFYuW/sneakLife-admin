@@ -70,7 +70,7 @@ public class ServiceController {
         Map<String,Object> param = (Map<String,Object>)JSON.parse(data);
         sneakLifeCheckService.checkLogin(param);
         Map<String, Object> map = KeyLessContext.setKey(sneakLifeServlet.getCacheSessionId(), hashOperations);
-        log.info("common接口返回数据: 【{}】", map);
+        log.info("heartBeat接口返回数据: 【{}】", map);
         return IwsContext.respResultBody(RespCode.MSG_LOGIN_SUCCEED.toValue(), map);
     }
 }
