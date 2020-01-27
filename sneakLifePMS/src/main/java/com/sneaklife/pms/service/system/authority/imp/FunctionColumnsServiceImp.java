@@ -52,7 +52,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera functionColumnsTableView(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 
@@ -60,7 +60,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String, Object> getFunctionColumns(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(columnsMapper, map, pageInfo);
     }
 
@@ -68,7 +68,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertFunctionColumns(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(columnsMapper, map);
     }
 
@@ -76,7 +76,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateFunctionColumns(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(columnsMapper, map);
     }
 
@@ -84,7 +84,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteFunctionColumns(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(columnsMapper, map);
     }
 }

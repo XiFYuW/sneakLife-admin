@@ -29,6 +29,6 @@ public class UserRoleServiceTest {
     public void updateUserRole() throws Exception{
         Map<String,Object> map = new HashMap<>();
         map.put("up", new ArrayList<>());
-        userRoleService.updateUserRole(map);
+        userRoleService.update(map);
     }
 }

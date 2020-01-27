@@ -52,7 +52,7 @@ public class FunctionBoServiceImp extends CommonService implements FunctionBoSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera functionBoTableView(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -60,7 +60,7 @@ public class FunctionBoServiceImp extends CommonService implements FunctionBoSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String, Object> getFunctionBo(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(operaBoMapper, map, pageInfo);
     }
 
@@ -68,7 +68,7 @@ public class FunctionBoServiceImp extends CommonService implements FunctionBoSer
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertFunctionBo(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(operaBoMapper, map);
     }
 
@@ -76,7 +76,7 @@ public class FunctionBoServiceImp extends CommonService implements FunctionBoSer
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateFunctionBo(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(operaBoMapper, map);
     }
 
@@ -84,7 +84,7 @@ public class FunctionBoServiceImp extends CommonService implements FunctionBoSer
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteFunctionBo(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(operaBoMapper, map);
     }
 }

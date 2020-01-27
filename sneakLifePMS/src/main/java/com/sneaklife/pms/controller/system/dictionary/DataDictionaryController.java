@@ -20,27 +20,27 @@ public class DataDictionaryController {
 
     @RequestMapping(value = "/insertDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertDataDictionary() throws Exception{
-        dataDictionaryService.insertDataDictionary(IwsContext.getData());
+        dataDictionaryService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateDataDictionary() throws Exception{
-        dataDictionaryService.updateDataDictionary(IwsContext.getData());
+        dataDictionaryService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteDataDictionary() throws Exception{
-        dataDictionaryService.deleteDataDictionary(IwsContext.getData());
+        dataDictionaryService.delete(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getDataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getDataDictionary() throws Exception{
-        return IwsContext.respResultBodyToSC(dataDictionaryService.getDataDictionary(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(dataDictionaryService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/dataDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> dataDictionary() throws Exception{
-        return IwsContext.respResultBodyToSC(dataDictionaryService.dataDictionary(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(dataDictionaryService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getByType", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")

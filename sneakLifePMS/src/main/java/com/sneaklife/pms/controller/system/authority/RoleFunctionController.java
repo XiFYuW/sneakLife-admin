@@ -30,22 +30,22 @@ public class RoleFunctionController {
 
     @RequestMapping(value = "/insertRoleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertRoleFunction() throws Exception{
-        roleFunctionService.insertRoleFunction(IwsContext.getData());
+        roleFunctionService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateRoleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateRoleFunction() throws Exception{
-        roleFunctionService.updateRoleFunction(IwsContext.getData());
+        roleFunctionService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteRoleFunction", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteRoleFunction() throws Exception{
-        roleFunctionService.deleteRoleFunction(IwsContext.getData());
+        roleFunctionService.delete(IwsContext.getData());
     }
 
     @RequestMapping(value = "/roleFunctionTreeView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> buildRoleTreeView() throws Exception{
-        return IwsContext.respResultBodyToSC(roleFunctionService.roleFunctionTreeView(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(roleFunctionService.buildData(IwsContext.getData()));
     }
 
 }

@@ -52,7 +52,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera functionInputTableView(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -60,7 +60,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String,Object> getFunctionInput(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String,Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(operaInMapper, map, pageInfo);
     }
 
@@ -68,7 +68,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertFunctionInput(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(operaInMapper, map);
     }
 
@@ -76,7 +76,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateFunctionInput(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(operaInMapper, map);
     }
 
@@ -84,7 +84,7 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteFunctionInput(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(operaInMapper, map);
     }
 }

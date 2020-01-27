@@ -1,7 +1,8 @@
 package com.sneaklife.pms;
 
-import com.sneaklife.pms.service.system.authority.FunctionButtonService;
 import com.sneaklife.SneakLifeAdminApplication;
+import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
+import com.sneaklife.pms.service.system.log.LogicalLogService;
 import com.sneaklife.ut.page.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,34 +14,24 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author https://github.com/XiFYuW
- * @date 2019/8/22 10:34
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SneakLifeAdminApplication.class)
 @ContextConfiguration
-public class FunctionButtonServiceTest {
+public class LogicalLogServiceTest {
 
     @Autowired
-    private FunctionButtonService functionButtonService;
+    private LogicalLogService logicalLogService;
 
     @Test
-    public void getFunctionButton() throws Exception {
+    public void getData() throws Exception{
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPage(1);
         pageInfo.setRows(10);
         pageInfo.setSort("id");
         pageInfo.setSortOrder("");
         Map<String,Object> map = new HashMap<>();
-        map.put("menuId","493b7b82c25211e98f5680fa5b3a283a");
-        functionButtonService.getData(map,pageInfo);
+        map.put("sessionId", "7cf3d743-2972-4316-b508-ec435051d8de");
+        Map<String,Object> data = logicalLogService.getLogicalLog(map, pageInfo);
     }
 
-    @Test
-    public void functionButton() throws Exception {
-        Map<String,Object> map = new HashMap<>();
-        map.put("menuId","493b7b82c25211e98f5680fa5b3a283a");
-        functionButtonService.functionButton(map);
-    }
 }

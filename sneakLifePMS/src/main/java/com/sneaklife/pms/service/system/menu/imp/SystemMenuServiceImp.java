@@ -77,7 +77,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String, Object> getSystemFunctionMenu(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(systemMenuMapper, map, pageInfo);
     }
 
@@ -85,7 +85,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera systemFunctionMenu(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 
@@ -130,7 +130,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertSystemFunctionMenu(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(systemMenuMapper,map);
     }
 
@@ -138,7 +138,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateSystemFunctionMenu(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(systemMenuMapper,map);
     }
 
@@ -146,7 +146,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteSystemFunctionMenu(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(systemMenuMapper,map);
     }
 

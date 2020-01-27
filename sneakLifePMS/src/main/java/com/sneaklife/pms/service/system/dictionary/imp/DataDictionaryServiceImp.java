@@ -48,7 +48,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String,Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(dataDictionaryMapper, map, pageInfo);
     }
 
@@ -56,7 +56,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(rollbackFor = Exception.class)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera dataDictionary(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 
@@ -64,7 +64,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertDataDictionary(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         String value = String.valueOf(map.get("value"));
         if (StringUtil.isEmpty(value)) {
             map.put("value", DateUtil.getMilli());
@@ -76,7 +76,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateDataDictionary(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(dataDictionaryMapper, map);
     }
 
@@ -84,7 +84,7 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteDataDictionary(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(dataDictionaryMapper, map);
     }
 

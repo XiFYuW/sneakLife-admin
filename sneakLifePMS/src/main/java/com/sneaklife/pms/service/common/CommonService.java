@@ -9,10 +9,19 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.ut.page.SneakLifeCriteria;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author https://github.com/XiFYuW
@@ -59,7 +68,7 @@ public abstract class CommonService {
         }
     }
 
-    private Map<String, Object> pageToMap(com.github.pagehelper.Page<Map<String, Object>> page) {
+    private Map<String, Object> pageToMap(Page<Map<String, Object>> page) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("content", page);
         map.put("totalElements", page.getTotal());
@@ -69,15 +78,43 @@ public abstract class CommonService {
     private String getOrderBy(PageInfo pageInfo) throws SneakLifeException{
         if (!IwsContext.isNotNull(pageInfo)) {
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
-        } else {
-            // id asc,id desc
-            StringBuilder sb = new StringBuilder(pageInfo.getSort());
-            String sortOrder = pageInfo.getSortOrder();
-            if(!StringUtils.isEmpty(sortOrder)){
-                sb.append(" ").append(sortOrder);
-            }
-            return sb.toString();
         }
+        // id asc,id desc
+        StringBuilder sb = new StringBuilder(pageInfo.getSort());
+        String sortOrder = pageInfo.getSortOrder();
+        if(!StringUtils.isEmpty(sortOrder)){
+            sb.append(" ").append(sortOrder);
+        }
+        return sb.toString();
+    }
+
+    private Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
+        if (!IwsContext.isNotNull(pageInfo)) {
+            throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
+        }
+        Sort.Direction direction = Sort.Direction.ASC;
+        if ("desc".equals(pageInfo.getSortOrder().toLowerCase())) {
+            direction = Sort.Direction.DESC;
+        }
+        return IwsContext.isNotNull(pageInfo.getPage()) && IwsContext.isNotNull(pageInfo.getRows()) ?
+                PageRequest.of(pageInfo.getPage() - 1, pageInfo.getRows(), direction, pageInfo.getSort().split(",")) : null;
+    }
+
+    private Map<String, Object> pageToMap(org.springframework.data.domain.Page page) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("content", page.getContent());
+        map.put("totalElements", page.getTotalElements());
+        return map;
+    }
+
+    protected <T> Map<String, Object> getMongoDBDataPage(Query query, MongoTemplate mongoTemplate, PageInfo pageInfo, Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws SneakLifeException {
+        query = sneakLifeCriteria.where(query);
+        Pageable pageable = getPageable(pageInfo);
+        List<T> list = mongoTemplate.find(query.with(Objects.requireNonNull(pageable)), entityClass);
+        Query finalQuery = query;
+        org.springframework.data.domain.Page page = PageableExecutionUtils.getPage(list, pageable,
+                () -> mongoTemplate.count(finalQuery, entityClass));
+        return pageToMap(page);
     }
 }
 

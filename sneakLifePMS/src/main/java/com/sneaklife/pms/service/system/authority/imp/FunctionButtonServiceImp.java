@@ -52,7 +52,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera functionButtonTableView(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -60,7 +60,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String,Object> getFunctionButton(Map<String, Object> map, PageInfo pageInfo) throws Exception{
+    public Map<String,Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         return super.findAllPage(operaSbMapper, map, pageInfo);
     }
 
@@ -68,7 +68,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertFunctionButton(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(operaSbMapper, map);
     }
 
@@ -76,7 +76,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateFunctionButton(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(operaSbMapper, map);
     }
 
@@ -84,7 +84,7 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteFunctionButton(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(operaSbMapper, map);
     }
 }

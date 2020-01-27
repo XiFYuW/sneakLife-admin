@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +25,12 @@ import java.util.Map;
 @Order(1)
 public class SneakLifeLogInterceptor {
 
+    private final MongoTemplate mongoTemplate;
+
     @Autowired
-    private MongoTemplate mongoTemplate;
+    public SneakLifeLogInterceptor(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     @Around("@annotation(com.sneaklife.ut.log.SneakLifeAnLog) && @annotation(sneakLifeAnLog)")
     public Object sneakLifeLogAround(ProceedingJoinPoint point, SneakLifeAnLog sneakLifeAnLog) throws Throwable{

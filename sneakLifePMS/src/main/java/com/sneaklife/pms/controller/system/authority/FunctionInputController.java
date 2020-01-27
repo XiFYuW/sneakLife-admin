@@ -28,26 +28,26 @@ public class FunctionInputController {
 
     @RequestMapping(value = "/functionInputTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionInputTableView() throws Exception{
-        return IwsContext.respResultBodyToSC(functionInputService.functionInputTableView(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(functionInputService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getFunctionInput() throws Exception{
-        return IwsContext.respResultBodyToSC(functionInputService.getFunctionInput(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(functionInputService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertFunctionInput() throws Exception{
-        functionInputService.insertFunctionInput(IwsContext.getData());
+        functionInputService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateFunctionInput() throws Exception{
-        functionInputService.updateFunctionInput(IwsContext.getData());
+        functionInputService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteFunctionInput() throws Exception{
-        functionInputService.deleteFunctionInput(IwsContext.getData());
+        functionInputService.delete(IwsContext.getData());
     }
 }

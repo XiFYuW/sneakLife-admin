@@ -20,26 +20,26 @@ public class UserRoleController {
 
     @RequestMapping(value = "/userRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> userRole() throws Exception{
-        return IwsContext.respResultBodyToSC(userRoleService.userRole(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(userRoleService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getUserRole() throws Exception{
-        return IwsContext.respResultBodyToSC(userRoleService.getUserRole(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(userRoleService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertUserRole() throws Exception{
-        userRoleService.insertUserRole(IwsContext.getData());
+        userRoleService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateUserRole() throws Exception{
-        userRoleService.updateUserRole(IwsContext.getData());
+        userRoleService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteUserRole", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteUserRole() throws Exception{
-        userRoleService.deleteUserRole(IwsContext.getData());
+        userRoleService.delete(IwsContext.getData());
     }
 }

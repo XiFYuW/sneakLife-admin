@@ -1,51 +1,13 @@
 package com.sneaklife.pms.service.system.dictionary;
 
-import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.pms.service.common.CommonInterfaceService;
 
 import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
  */
-public interface DataDictionaryService {
-
-    /**
-     * Insert data dictionary
-     * @param map parameter
-     * @throws Exception
-     */
-    void insertDataDictionary(Map<String, Object> map) throws Exception;
-
-    /**
-     * Paging to get data dictionary data
-     * @param map parameter
-     * @param pageInfo Paging object
-     * @return Map
-     * @throws Exception
-     */
-    Map<String,Object> getDataDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception;
-
-    /**
-     * Building content bodies
-     * @param map parameter
-     * @return TableOpera
-     */
-    TableOpera dataDictionary(Map<String, Object> map) throws Exception;
-
-    /**
-     * Update data dictionary
-     * @param map parameter
-     * @throws Exception
-     */
-    void updateDataDictionary(Map<String, Object> map) throws Exception;
-
-    /**
-     * Delete data dictionary
-     * @param map parameter
-     * @throws Exception
-     */
-    void deleteDataDictionary(Map<String, Object> map) throws Exception;
+public interface DataDictionaryService extends CommonInterfaceService {
 
     /**
      * Gets the data dictionary details to assemble the drop-down list data

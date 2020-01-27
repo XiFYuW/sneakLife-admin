@@ -20,27 +20,27 @@ public class TypeDictionaryController {
 
     @RequestMapping(value = "/insertTypeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertTypeDictionary() throws Exception{
-        typeDictionaryService.insertTypeDictionary(IwsContext.getData());
+        typeDictionaryService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateTypeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateTypeDictionary() throws Exception{
-        typeDictionaryService.updateTypeDictionary(IwsContext.getData());
+        typeDictionaryService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteTypeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteTypeDictionary() throws Exception{
-        typeDictionaryService.deleteTypeDictionary(IwsContext.getData());
+        typeDictionaryService.delete(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getTypeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getTypeDictionary() throws Exception{
-        return IwsContext.respResultBodyToSC(typeDictionaryService.getTypeDictionary(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(typeDictionaryService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/typeDictionary", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> typeDictionary() throws Exception{
-        return IwsContext.respResultBodyToSC(typeDictionaryService.typeDictionary(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(typeDictionaryService.buildData(IwsContext.getData()));
     }
 
 }

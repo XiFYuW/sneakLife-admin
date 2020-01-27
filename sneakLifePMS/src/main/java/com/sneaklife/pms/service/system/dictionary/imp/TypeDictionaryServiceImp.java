@@ -42,7 +42,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String,Object> getTypeDictionary(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String,Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(typeDictionaryMapper, map, pageInfo);
     }
 
@@ -50,7 +50,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Transactional
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera typeDictionary(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
 
@@ -58,7 +58,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertTypeDictionary(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(typeDictionaryMapper, map);
     }
 
@@ -66,7 +66,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateTypeDictionary(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(typeDictionaryMapper, map);
     }
 
@@ -74,7 +74,7 @@ public class TypeDictionaryServiceImp extends CommonService implements TypeDicti
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteTypeDictionary(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(typeDictionaryMapper, map);
     }
 }

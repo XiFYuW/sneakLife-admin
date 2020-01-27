@@ -10,6 +10,7 @@ import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.servlet.SneakLifeServletFactory;
 import com.sneaklife.ut.spring.SpringContextUtil;
+import com.sneaklife.ut.string.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
@@ -82,6 +83,9 @@ public class IwsContext {
     public static Map<String, Object> getData() {
         try {
             String object = String.valueOf(sneakLifeServletLocal.get().getHttpServletRequest().getAttribute("data"));
+            if(StringUtil.isEmpty(object)){
+                return new HashMap<>(0);
+            }
             Map<String, Object> data = (Map<String, Object>) JSON.parse(object);
             log.info("提取前台请求参数：【{}】", data);
             return data;
@@ -89,7 +93,7 @@ public class IwsContext {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return null;
+        return new HashMap<>(0);
     }
 
     public static PageInfo getPageInfo() {
@@ -113,7 +117,7 @@ public class IwsContext {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public static SneakLifeServlet getSneakLifeServletObject(HttpServletRequest request, HttpServletResponse response){

@@ -42,7 +42,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera userRole(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -50,7 +50,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String,Object> getUserRole(Map<String, Object> map, PageInfo pageInfo) throws Exception{
+    public Map<String,Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception{
         return super.findAllPage(userRoleMapper, map, pageInfo);
     }
 
@@ -58,7 +58,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertUserRole(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         throw new SneakLifeSuccessfulException(IwsContext.respResultTJCG());
     }
 
@@ -66,7 +66,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateUserRole(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String, Object>>) map.get("up");
         int t = userRoleMapper.updateBatch(upList);
         if(t <= 0){
@@ -79,7 +79,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteUserRole(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         throw new SneakLifeSuccessfulException(IwsContext.respResultSCCG());
     }
 }

@@ -29,26 +29,26 @@ public class FunctionBoController {
 
     @RequestMapping(value = "/functionBoTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionBoTableView() throws Exception{
-        return IwsContext.respResultBodyToSC(functionBoService.functionBoTableView(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(functionBoService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getFunctionBo() throws Exception{
-        return IwsContext.respResultBodyToSC(functionBoService.getFunctionBo(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(functionBoService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertFunctionBo() throws Exception{
-        functionBoService.insertFunctionBo(IwsContext.getData());
+        functionBoService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateFunctionBo() throws Exception{
-        functionBoService.updateFunctionBo(IwsContext.getData());
+        functionBoService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionBo", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteFunctionBo() throws Exception{
-        functionBoService.deleteFunctionBo(IwsContext.getData());
+        functionBoService.delete(IwsContext.getData());
     }
 }

@@ -13,6 +13,7 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.log.SneakLifeAnLog;
+import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -46,7 +47,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera roleFunctionTreeView(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -60,7 +61,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
 
     @Override
     @Transactional(readOnly = true)
-//    @Cacheable
+    @Cacheable
     @SneakLifeAnLog
     public List<Map<String,Object>> getRoleFunction(Map<String, Object> map) {
         List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getGroupByRoleId(String.valueOf(map.get("menuId")));
@@ -77,15 +78,20 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertRoleFunction(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultTJCG());
+    }
+
+    @Override
+    public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+        return null;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateRoleFunction(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String,Object>>) map.get("up");
         Map<String,Object> root = findRootPid(upList);
         upList.remove(root);
@@ -109,7 +115,7 @@ public class RoleFunctionServiceImp implements RoleFunctionService {
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteRoleFunction(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         throw new SneakLifeException(IwsContext.respResultSCCG());
     }
 

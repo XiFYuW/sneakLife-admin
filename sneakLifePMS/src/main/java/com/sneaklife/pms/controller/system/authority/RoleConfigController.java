@@ -20,27 +20,27 @@ public class RoleConfigController {
 
     @RequestMapping(value = "/insertRoleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertRoleConfig() throws Exception{
-        roleConfigService.insertRoleConfig(IwsContext.getData());
+        roleConfigService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateRoleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateRoleConfig() throws Exception{
-        roleConfigService.updateRoleConfig(IwsContext.getData());
+        roleConfigService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteRolConfig",method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteRoleConfig() throws Exception{
-        roleConfigService.deleteRoleConfig(IwsContext.getData());
+        roleConfigService.delete(IwsContext.getData());
     }
 
     @RequestMapping(value = "/getRoleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getRoleConfig() throws Exception{
-        return IwsContext.respResultBodyToSC(roleConfigService.getRoleConfig(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(roleConfigService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/roleConfig", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> roleConfig() throws Exception{
-        return IwsContext.respResultBodyToSC(roleConfigService.roleConfig(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(roleConfigService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/selectsList", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")

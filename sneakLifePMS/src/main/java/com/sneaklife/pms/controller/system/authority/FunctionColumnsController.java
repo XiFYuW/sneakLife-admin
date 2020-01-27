@@ -29,26 +29,26 @@ public class FunctionColumnsController {
 
     @RequestMapping(value = "/functionColumnsTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> functionColumnsTableView() throws Exception{
-        return IwsContext.respResultBodyToSC(functionColumnsService.functionColumnsTableView(IwsContext.getData()));
+        return IwsContext.respResultBodyToSC(functionColumnsService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public ResponseEntity<String> getFunctionColumns() throws Exception {
-        return IwsContext.respResultBodyToSC(functionColumnsService.getFunctionColumns(IwsContext.getData(), IwsContext.getPageInfo()));
+        return IwsContext.respResultBodyToSC(functionColumnsService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void insertFunctionColumns() throws Exception {
-        functionColumnsService.insertFunctionColumns(IwsContext.getData());
+        functionColumnsService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void updateFunctionColumns() throws Exception {
-        functionColumnsService.updateFunctionColumns(IwsContext.getData());
+        functionColumnsService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionColumns", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     public void deleteFunctionColumns() throws Exception {
-        functionColumnsService.deleteFunctionColumns(IwsContext.getData());
+        functionColumnsService.delete(IwsContext.getData());
     }
 }

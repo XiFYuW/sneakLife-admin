@@ -53,7 +53,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public Map<String, Object> getRoleConfig(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+    public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(roleConfigMapper, map, pageInfo);
     }
 
@@ -61,7 +61,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(readOnly = true)
     @Cacheable
     @SneakLifeAnLog
-    public TableOpera roleConfig(Map<String, Object> map) throws Exception{
+    public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map,false);
     }
 
@@ -69,7 +69,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void insertRoleConfig(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
         insert(roleConfigMapper,map);
     }
 
@@ -77,7 +77,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void updateRoleConfig(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
         update(roleConfigMapper,map);
     }
 
@@ -85,7 +85,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @SneakLifeAnLog
-    public void deleteRoleConfig(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
         delete(roleConfigMapper,map);
     }
 
