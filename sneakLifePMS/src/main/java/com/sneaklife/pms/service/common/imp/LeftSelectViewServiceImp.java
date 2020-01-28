@@ -7,7 +7,7 @@ import com.sneaklife.ut.interfaces.Interceptor.ChildNode;
 import com.sneaklife.ut.interfaces.Nodes;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
 import com.sneaklife.ut.iws.IwsContext;
-import com.sneaklife.ut.log.SneakLifeAnLog;
+import com.sneaklife.ut.log.LogicalLogAn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,7 +32,7 @@ public class LeftSelectViewServiceImp implements LeftSelectViewService,
     private Nodes<SystemMenu, Map<String,Object>, List<SystemMenu>> nodes;
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public List<Map<String,Object>> leftSelectsView(Map<String, Object> map) {
         List<Map<String,Object>> data = new ArrayList<>();
         List<SystemMenu> list = systemMenuMapper.getByIsDel(0);

@@ -8,7 +8,7 @@ import com.sneaklife.pms.service.common.LeftSelectViewService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionColumnsService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
-import com.sneaklife.ut.log.SneakLifeAnLog;
+import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -43,7 +43,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Override
     @Transactional(readOnly = true)
     @Cacheable
-    @SneakLifeAnLog
+    @LogicalLogAn
     public List<Map<String, Object>> functionColumns(Map<String, Object> map) {
         return leftSelectViewService.leftSelectsView(map);
     }
@@ -51,7 +51,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Override
     @Transactional(readOnly = true)
     @Cacheable
-    @SneakLifeAnLog
+    @LogicalLogAn
     public TableOpera buildData(Map<String, Object> map) throws Exception{
         return operaService.buildOperaBody(map, false);
     }
@@ -59,7 +59,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Override
     @Transactional(readOnly = true)
     @Cacheable
-    @SneakLifeAnLog
+    @LogicalLogAn
     public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
         return super.findAllPage(columnsMapper, map, pageInfo);
     }
@@ -67,7 +67,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void insert(Map<String, Object> map) throws Exception {
         insert(columnsMapper, map);
     }
@@ -75,7 +75,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void update(Map<String, Object> map) throws Exception {
         update(columnsMapper, map);
     }
@@ -83,7 +83,7 @@ public class FunctionColumnsServiceImp extends CommonService implements Function
     @Override
     @Transactional(rollbackFor = Exception.class, noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void delete(Map<String, Object> map) throws Exception {
         delete(columnsMapper, map);
     }

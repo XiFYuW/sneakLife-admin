@@ -4,7 +4,7 @@ import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.log.LogicalLogService;
-import com.sneaklife.ut.log.SneakLifeLogDB;
+import com.sneaklife.ut.log.LogicalLog;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +33,13 @@ public class LogicalLogServiceImp extends CommonService implements LogicalLogSer
     }
 
     @Override
-    public void insertLogicalLog(Map<String, Object> map) throws Exception {
+    public void insert(Map<String, Object> map) throws Exception {
 
     }
 
     @Override
-    public Map<String, Object> getLogicalLog(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        return getMongoDBDataPage(new Query(), mongoTemplate, pageInfo, SneakLifeLogDB.class, query -> {
+    public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
+        return getMongoDBDataPage(new Query(), mongoTemplate, pageInfo, LogicalLog.class, query -> {
             Criteria criteria = new Criteria();
             String sessionId = String.valueOf(map.get("sessionId"));
             criteria.and("isDel").is(0);
@@ -52,17 +52,17 @@ public class LogicalLogServiceImp extends CommonService implements LogicalLogSer
     }
 
     @Override
-    public TableOpera logicalLog(Map<String, Object> map) throws Exception {
+    public TableOpera buildData(Map<String, Object> map) throws Exception {
         return operaService.buildOperaBody(map, false);
     }
 
     @Override
-    public void updateLogicalLog(Map<String, Object> map) throws Exception {
+    public void update(Map<String, Object> map) throws Exception {
 
     }
 
     @Override
-    public void deleteLogicalLog(Map<String, Object> map) throws Exception {
+    public void delete(Map<String, Object> map) throws Exception {
 
     }
 }

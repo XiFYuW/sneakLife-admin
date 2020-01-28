@@ -2,6 +2,7 @@ package com.sneaklife.pms.controller.system.authority;
 
 import com.sneaklife.pms.service.system.authority.FunctionInputService;
 import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.log.AccessLogAn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,31 +23,37 @@ public class FunctionInputController {
     }
 
     @RequestMapping(value = "/functionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/functionInput")
     public ResponseEntity<String> functionInput() throws Exception{
         return IwsContext.respResultBodyToSC(functionInputService.functionInput(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/functionInputTableView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/functionInputTableView")
     public ResponseEntity<String> functionInputTableView() throws Exception{
         return IwsContext.respResultBodyToSC(functionInputService.buildData(IwsContext.getData()));
     }
 
     @RequestMapping(value = "/getFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/getFunctionInput")
     public ResponseEntity<String> getFunctionInput() throws Exception{
         return IwsContext.respResultBodyToSC(functionInputService.getData(IwsContext.getData(), IwsContext.getPageInfo()));
     }
 
     @RequestMapping(value = "/insertFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/insertFunctionInput")
     public void insertFunctionInput() throws Exception{
         functionInputService.insert(IwsContext.getData());
     }
 
     @RequestMapping(value = "/updateFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/updateFunctionInput")
     public void updateFunctionInput() throws Exception{
         functionInputService.update(IwsContext.getData());
     }
 
     @RequestMapping(value = "/deleteFunctionInput", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/deleteFunctionInput")
     public void deleteFunctionInput() throws Exception{
         functionInputService.delete(IwsContext.getData());
     }

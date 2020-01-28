@@ -6,7 +6,7 @@ import com.sneaklife.pms.service.common.RedisService;
 import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
-import com.sneaklife.ut.log.SneakLifeAnLog;
+import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class RedisServiceImp implements RedisService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void setLoginUserInfo(Map<String, Object> map) throws Exception{
         String id = String.valueOf(map.get("id"));
         if(!StringUtil.isEmpty(id)){
@@ -52,7 +52,7 @@ public class RedisServiceImp implements RedisService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public List<String> getLoginUserOpera() throws Exception {
         String key = getCacheId();
         HashOperations hashOperations = redisTemplate.opsForHash();

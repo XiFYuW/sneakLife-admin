@@ -14,7 +14,7 @@ import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.RedisService;
 import com.sneaklife.ut.iws.IwsContext;
-import com.sneaklife.ut.log.SneakLifeAnLog;
+import com.sneaklife.ut.log.LogicalLogAn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public TableOpera buildOperaBody(Map<String, Object> map, boolean is) throws Exception{
         List<String> userInfoList = redisService.getLoginUserOpera();
         List<Columns> columnsList = getOperaBodyColumns(userInfoList, map);
@@ -100,14 +100,14 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void clean(){
         size = 1;
         data = new LinkedList<>();
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map) {
         RoleConfig roleConfig = roleConfigMapper.getById(String.valueOf(map.get("menuId")));
         data.add(buildOperaItem(roleConfig.getId(), roleConfig.getName(), size, size - 1, 0, true));
@@ -344,7 +344,7 @@ public class OperaServiceImp implements OperaService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public List<Map<String, Object>> getSelectsKyByMenuId(String menuId, String htmlType) {
         return operaInMapper.getSelectsKyByMenuId(menuId, htmlType);
     }

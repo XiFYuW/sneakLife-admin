@@ -31,7 +31,7 @@ public class LogicalLogServiceTest {
         pageInfo.setSortOrder("");
         Map<String,Object> map = new HashMap<>();
         map.put("sessionId", "7cf3d743-2972-4316-b508-ec435051d8de");
-        Map<String,Object> data = logicalLogService.getLogicalLog(map, pageInfo);
+        Map<String,Object> data = logicalLogService.getData(map, pageInfo);
     }
 
 }

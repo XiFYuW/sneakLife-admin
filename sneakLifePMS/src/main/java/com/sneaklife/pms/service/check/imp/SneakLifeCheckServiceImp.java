@@ -12,7 +12,7 @@ import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.keyless.KeyLessContext;
-import com.sneaklife.ut.log.SneakLifeAnLog;
+import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void checkIn(Map<String,Object> map, String checkInId) throws SneakLifeException {
         List<Map<String,Object>> ruleList = operaInMapper.findByCheckInId(checkInId);
         for (Map<String,Object> rule : ruleList) {
@@ -65,7 +65,7 @@ public class SneakLifeCheckServiceImp implements SneakLifeCheckService {
     }
 
     @Override
-    @SneakLifeAnLog
+    @LogicalLogAn
     public void checkLogin(Map<String, Object> map) throws Exception {
         String un = String.valueOf(map.get("un"));
         String pw = String.valueOf(map.get("pw"));

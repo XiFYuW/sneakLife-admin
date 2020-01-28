@@ -50,5 +50,4 @@ public interface OperaService {
      */
     int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size);
 
-//    getByUserInfo();
 }
