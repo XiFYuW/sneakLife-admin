@@ -67,6 +67,7 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
             SystemMenu systemMenu = list.get(i);
             SystemMenu parentMenu = nodes.findChildNode(systemMenu, list, true);
             size = nodes.removeChildNode(parentMenu, list, size);
+            i--;
             data.add(parentMenu);
         }
         return data;
