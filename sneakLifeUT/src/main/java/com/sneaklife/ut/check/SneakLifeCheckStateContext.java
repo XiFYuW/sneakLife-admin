@@ -22,6 +22,10 @@ public class SneakLifeCheckStateContext {
         sneakLifeState.handle(value, rule);
     }
 
+    public Map<String,Object> internal(String value) throws SneakLifeFailureException {
+        return sneakLifeState.internal(value);
+    }
+
     private static class Singleton {
         private static final SneakLifeCheckStateContext sneakLifeCheckStateContext = new SneakLifeCheckStateContext();
     }

@@ -18,4 +18,5 @@ public interface SneakLifeCheckState {
      */
     void handle(String value, Map<String, Object> rule) throws SneakLifeFailureException;
 
+    Map<String,Object> internal(String value) throws SneakLifeFailureException;
 }

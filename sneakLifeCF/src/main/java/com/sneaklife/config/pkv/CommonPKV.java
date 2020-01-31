@@ -29,4 +29,5 @@ public class CommonPKV {
      private String userKey;
      private Long userKeySessionTimes;
      private String userCacheDir;
+     private String xxlJobPath;
 }

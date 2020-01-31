@@ -2,6 +2,10 @@ package com.sneaklife.ut.iws;
 
 public enum RespCode {
 
+	MSG_DATE_RANGE_ERR(5901, "日期起始范围错误"),
+
+	MSG_DATE_RANGE_COUNT_ERR(5900, "日期起始数量错误"),
+
 	MSG_LOGIN_OVERDUE(3345, "用户身份过期"),
 
 	MSG_LOGIN_SUCCEED(3346, "登录成功"),

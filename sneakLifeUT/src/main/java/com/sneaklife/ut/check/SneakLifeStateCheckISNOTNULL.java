@@ -21,4 +21,9 @@ public class SneakLifeStateCheckISNOTNULL implements SneakLifeCheckState {
                     textName + RespCode.MSG_IS_NOT_NULL.toMsg()));
         }
     }
+
+    @Override
+    public Map<String,Object> internal(String value) throws SneakLifeFailureException {
+        return null;
+    }
 }

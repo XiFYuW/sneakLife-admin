@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.core.query.Query;
  */
 public interface SneakLifeCriteria {
 
-    Query where(Query query);
+    Query where() throws Exception;
 }

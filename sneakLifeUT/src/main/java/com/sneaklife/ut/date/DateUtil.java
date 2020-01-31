@@ -18,8 +18,13 @@ public class DateUtil {
 	public static Long getMilli() {
 		return LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
 	}
+
 	public static LocalDate strToLocalDate(String str, String format) {
 		return LocalDate.from(DateTimeFormatter.ofPattern(format).parse(str));
+	}
+
+	public static LocalDateTime strToLocalDateTime(String str, String format) {
+		return LocalDateTime.from(DateTimeFormatter.ofPattern(format).parse(str));
 	}
 
 	public static String localDateToStr(LocalDate date, String format) {
@@ -50,9 +55,6 @@ public class DateUtil {
 		return getPeriod(startDate, endDate).getYears();
 	}
 
-	/**
-	 * 获得当天是周几
-	 */
 	public static String getWeekDay(){
 		String[] weekDays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 		Calendar cal = Calendar.getInstance();

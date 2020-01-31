@@ -8,7 +8,9 @@ public enum CheckState {
 
     IS_NULL("IS_NULL", new SneakLifeStateCheckISNULL()),
 
-    IS_NOT_NULL("IS_NOT_NULL", new SneakLifeStateCheckISNOTNULL());
+    IS_NOT_NULL("IS_NOT_NULL", new SneakLifeStateCheckISNOTNULL()),
+
+    DATE_RANGE("DATE_RANGE", new SneakLifeStateCheckDATERANGE());
 
     private final String cs;
 

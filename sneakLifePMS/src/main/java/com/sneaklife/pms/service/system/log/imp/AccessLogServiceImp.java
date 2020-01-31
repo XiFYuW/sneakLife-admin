@@ -6,6 +6,7 @@ import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.log.AccessLogService;
 import com.sneaklife.ut.log.AccessLog;
 import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.ut.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -38,9 +39,16 @@ public class AccessLogServiceImp extends CommonService implements AccessLogServi
 
     @Override
     public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        return getMongoDBDataPage(new Query(), mongoTemplate, pageInfo, AccessLog.class, query -> {
+        return getMongoDBDataPage(mongoTemplate, pageInfo, AccessLog.class, () -> {
+            Query query = new Query();
             Criteria criteria = new Criteria();
             criteria.and("isDel").is(0);
+            String accessInterface  = String.valueOf(map.get("accessInterface"));
+            String createDate = String.valueOf(map.get("createDate"));
+            if(!StringUtil.isEmpty(accessInterface)){
+                criteria.and("accessInterface").regex(accessInterface);
+            }
+            criteria = checkDataRange(createDate, criteria);
             query.addCriteria(criteria);
             return query;
         });

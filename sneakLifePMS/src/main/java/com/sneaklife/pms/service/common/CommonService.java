@@ -3,6 +3,8 @@ package com.sneaklife.pms.service.common;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sneaklife.pms.dao.CommonDao;
+import com.sneaklife.ut.check.CheckState;
+import com.sneaklife.ut.check.SneakLifeCheckStateContext;
 import com.sneaklife.ut.exception.SneakLifeException;
 import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
@@ -10,10 +12,12 @@ import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.page.SneakLifeCriteria;
+import com.sneaklife.ut.string.StringUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
@@ -107,14 +111,22 @@ public abstract class CommonService {
         return map;
     }
 
-    protected <T> Map<String, Object> getMongoDBDataPage(Query query, MongoTemplate mongoTemplate, PageInfo pageInfo, Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws SneakLifeException {
-        query = sneakLifeCriteria.where(query);
+    protected <T> Map<String, Object> getMongoDBDataPage(MongoTemplate mongoTemplate, PageInfo pageInfo, Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws Exception {
+        Query query = sneakLifeCriteria.where();
         Pageable pageable = getPageable(pageInfo);
         List<T> list = mongoTemplate.find(query.with(Objects.requireNonNull(pageable)), entityClass);
-        Query finalQuery = query;
         org.springframework.data.domain.Page page = PageableExecutionUtils.getPage(list, pageable,
-                () -> mongoTemplate.count(finalQuery, entityClass));
+                () -> mongoTemplate.count(query, entityClass));
         return pageToMap(page);
+    }
+
+    protected Criteria checkDataRange(String date, Criteria criteria) throws SneakLifeFailureException {
+        if(!StringUtil.isEmpty(date)){
+            SneakLifeCheckStateContext sneakLifeCheckStateContext = SneakLifeCheckStateContext.singleton(CheckState.DATE_RANGE);
+            Map<String,Object> d = sneakLifeCheckStateContext.internal(date);
+            criteria.andOperator(Criteria.where("createDate").gte(d.get("startTime")), Criteria.where("createDate").lte(d.get("endTime")));
+        }
+        return criteria;
     }
 }
 

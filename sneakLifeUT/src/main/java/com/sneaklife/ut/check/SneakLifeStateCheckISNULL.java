@@ -14,4 +14,9 @@ public class SneakLifeStateCheckISNULL implements SneakLifeCheckState {
     public void handle(String value, Map<String, Object> rule) throws SneakLifeFailureException {
 
     }
+
+    @Override
+    public Map<String, Object> internal(String value) throws SneakLifeFailureException {
+        return null;
+    }
 }

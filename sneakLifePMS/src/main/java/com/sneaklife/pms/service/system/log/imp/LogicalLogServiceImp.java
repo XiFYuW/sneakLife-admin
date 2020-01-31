@@ -39,13 +39,16 @@ public class LogicalLogServiceImp extends CommonService implements LogicalLogSer
 
     @Override
     public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        return getMongoDBDataPage(new Query(), mongoTemplate, pageInfo, LogicalLog.class, query -> {
+        return getMongoDBDataPage(mongoTemplate, pageInfo, LogicalLog.class, () -> {
+            Query query = new Query();
             Criteria criteria = new Criteria();
             String sessionId = String.valueOf(map.get("sessionId"));
+            String createDate = String.valueOf(map.get("createDate"));
             criteria.and("isDel").is(0);
             if(!StringUtil.isEmpty(sessionId)){
                 criteria.and("sessionId").regex(sessionId);
             }
+            criteria = checkDataRange(createDate, criteria);
             query.addCriteria(criteria);
             return query;
         });

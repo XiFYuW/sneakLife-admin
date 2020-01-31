@@ -54,3 +54,4 @@ common:
   user_key: userKey
   user_key_session_times: 1800
   user_cache_dir: user
+  xxl_job_path: http://127.0.0.1:8880/xxl-job-admin/
