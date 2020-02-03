@@ -2,13 +2,13 @@ package com.sneaklife.pms.service.system.log.imp;
 
 import com.sneaklife.pms.entity.modal.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
+import com.sneaklife.pms.service.common.MongoDbService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.log.LogicalLogService;
 import com.sneaklife.ut.log.LogicalLog;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -24,12 +24,12 @@ public class LogicalLogServiceImp extends CommonService implements LogicalLogSer
 
     private final OperaService operaService;
 
-    private final MongoTemplate mongoTemplate;
+    private final MongoDbService mongoDbService;
 
     @Autowired
-    public LogicalLogServiceImp(OperaService operaService ,MongoTemplate mongoTemplate) {
+    public LogicalLogServiceImp(OperaService operaService ,MongoDbService mongoDbService) {
         this.operaService = operaService;
-        this.mongoTemplate = mongoTemplate;
+        this.mongoDbService = mongoDbService;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class LogicalLogServiceImp extends CommonService implements LogicalLogSer
 
     @Override
     public Map<String, Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception {
-        return getMongoDBDataPage(mongoTemplate, pageInfo, LogicalLog.class, () -> {
+        return mongoDbService.getPageData(pageInfo, LogicalLog.class, () -> {
             Query query = new Query();
             Criteria criteria = new Criteria();
             String sessionId = String.valueOf(map.get("sessionId"));

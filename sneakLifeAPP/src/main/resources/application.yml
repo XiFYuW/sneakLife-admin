@@ -55,3 +55,17 @@ common:
   user_key_session_times: 1800
   user_cache_dir: user
   xxl_job_path: http://127.0.0.1:8880/xxl-job-admin/
+
+
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:8880/xxl-job-admin
+    executor:
+      appname: sneakLife-xxl-job
+      ip:
+      port: 8790
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
+    accessToken:
+
