@@ -1,9 +1,7 @@
 package com.sneaklife.pms.service.system.menu;
 
 import com.sneaklife.pms.entity.SystemMenu;
-import com.sneaklife.pms.entity.modal.TableOpera;
-import com.sneaklife.pms.service.common.CommonInterfaceService;
-import com.sneaklife.ut.page.PageInfo;
+import com.sneaklife.pms.service.common.CommonMapperService;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +9,7 @@ import java.util.Map;
 /**
  * @author https://github.com/XiFYuW
  */
-public interface SystemMenuService extends CommonInterfaceService {
+public interface SystemMenuService extends CommonMapperService {
 
     /**
      * Get mappers.mappers menu

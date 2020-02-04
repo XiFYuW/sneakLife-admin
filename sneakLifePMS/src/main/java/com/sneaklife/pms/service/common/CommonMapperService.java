@@ -9,7 +9,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  * @date 2020/1/26 12:50
  */
-public interface CommonInterfaceService {
+public interface CommonMapperService {
 
     /**
      * Insert

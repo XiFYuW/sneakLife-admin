@@ -1,10 +1,10 @@
 package com.sneaklife.pms.service.system.log;
 
-import com.sneaklife.pms.service.common.CommonInterfaceService;
+import com.sneaklife.pms.service.common.CommonMapperService;
 
 /**
  * @author https://github.com/XiFYuW
  */
-public interface LogicalLogService extends CommonInterfaceService {
+public interface LogicalLogService extends CommonMapperService {
 
 }

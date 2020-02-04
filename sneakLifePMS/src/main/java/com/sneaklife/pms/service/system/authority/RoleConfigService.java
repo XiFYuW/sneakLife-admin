@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.authority;
 
-import com.sneaklife.pms.service.common.CommonInterfaceService;
+import com.sneaklife.pms.service.common.CommonMapperService;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * @author https://github.com/XiFYuW
  * @date 2019/8/4 10:00
  */
-public interface RoleConfigService extends CommonInterfaceService {
+public interface RoleConfigService extends CommonMapperService {
 
     /**
      * Secondary page construction
