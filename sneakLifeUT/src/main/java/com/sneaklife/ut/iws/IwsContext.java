@@ -33,23 +33,23 @@ public class IwsContext {
 
     private static final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
 
-    private static RespResult1 getRespResult(int code, String msg, Object data){
+    private static RespResult getRespResult(int code, String msg, Object data){
         boolean isMsg = "".equals(msg);
         boolean isData = null==data;
         if(isMsg && isData){
-            return new RespResult1(code, RespCode.MSG_SUCCEED.toMsg(), new ArrayList<>(0));
+            return new RespResult(code, RespCode.MSG_SUCCEED.toMsg(), new ArrayList<>(0));
         }
         if(!isMsg && isData){
-            return new RespResult1(code, msg, new ArrayList<>(0));
+            return new RespResult(code, msg, new ArrayList<>(0));
         }
         if(isMsg && !isData){
-            return new RespResult1(code, RespCode.MSG_SUCCEED.toMsg(), data);
+            return new RespResult(code, RespCode.MSG_SUCCEED.toMsg(), data);
         }
-        return new RespResult1(code, msg, data);
+        return new RespResult(code, msg, data);
     }
 
     public static ResponseEntity<String> respResultBody(int code, Object data) {
-        RespResult1 respResult = getRespResult(code, "", data);
+        RespResult respResult = getRespResult(code, "", data);
         SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
         sneakLifeServlet.setCrossDomain();
         log.info("返回数据为：【{}】",respResult);
@@ -57,7 +57,7 @@ public class IwsContext {
     }
 
     public static ResponseEntity<String> respResultBody(int code, String msg) {
-        RespResult1 respResult = getRespResult(code, msg, null);
+        RespResult respResult = getRespResult(code, msg, null);
         SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
         sneakLifeServlet.setCrossDomain();
         log.info("返回数据为：【{}】",respResult);
@@ -65,7 +65,7 @@ public class IwsContext {
     }
 
     public static ResponseEntity<String> respResultBody(int code, String msg, Object data) {
-        RespResult1 respResult = getRespResult(code, msg, data);
+        RespResult respResult = getRespResult(code, msg, data);
         SneakLifeServlet sneakLifeServlet = sneakLifeServletLocal.get();
         sneakLifeServlet.setCrossDomain();
         log.info("返回数据为：【{}】",respResult);
@@ -76,7 +76,7 @@ public class IwsContext {
         return respResultBody(RespCode.MSG_SUCCEED.toValue(), data);
     }
 
-    private static ResponseEntity<String> buildIwsBody(RespResult1 respResult, SneakLifeServlet sneakLifeServlet){
+    private static ResponseEntity<String> buildIwsBody(RespResult respResult, SneakLifeServlet sneakLifeServlet){
         return new ResponseEntity<>(JSON.toJSONString(respResult), sneakLifeServlet.getMvm(), HttpStatus.OK);
     }
 

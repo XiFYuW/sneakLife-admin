@@ -1,32 +1,27 @@
 package com.sneaklife.ut.iws;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class RespResult {
 
 	/**
 	 * 响应值
 	 */
-	private int respCode;
+	private final int respCode;
 	/**
 	 * 响应消息
 	 */
-	private String respMsg;
+	private final String respMsg;
 	/**
 	 * 响应数据
 	 */
-	private Object respData;
+	private final Object respData;
 
 	public RespResult(int respCode, String respMsg, Object respData) {
 		this.respCode = respCode;
 		this.respMsg = respMsg;
 		this.respData = respData;
-	}
-
-	public RespResult() {
 	}
 
 	@Override
