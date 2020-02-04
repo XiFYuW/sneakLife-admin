@@ -41,11 +41,13 @@ public class MongoDbServiceImp extends CommonService implements MongoDbService {
     }
 
     @Override
-    public <T> void remove(Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws Exception {
+    public <T> long remove(Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws Exception {
         Query query = sneakLifeCriteria.where();
         DeleteResult deleteResult = mongoTemplate.remove(query, entityClass);
-        if (deleteResult.getDeletedCount() <= 0) {
+        long count = deleteResult.getDeletedCount();
+        if (count <= 0) {
             throw new IllegalArgumentException("删除失败");
         }
+        return count;
     }
 }

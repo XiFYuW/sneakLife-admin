@@ -15,8 +15,6 @@ import java.util.Map;
  */
 public class SneakLifeStateCheckDATERANGE implements SneakLifeCheckState{
 
-    private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
-
     @Override
     public void handle(String value, Map<String, Object> rule) throws SneakLifeFailureException {
 
@@ -28,8 +26,8 @@ public class SneakLifeStateCheckDATERANGE implements SneakLifeCheckState{
         if (values.length > 2) {
             throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_DATE_RANGE_COUNT_ERR.toValue(), RespCode.MSG_DATE_RANGE_COUNT_ERR.toMsg()));
         }
-        LocalDateTime start = DateUtil.strToLocalDateTime(values[0], PATTERN);
-        LocalDateTime end = DateUtil.strToLocalDateTime(values[1], PATTERN);
+        LocalDateTime start = DateUtil.strToLocalDateTime(values[0], DateUtil.FORMAT_A);
+        LocalDateTime end = DateUtil.strToLocalDateTime(values[1], DateUtil.FORMAT_A);
         System.out.println(start.compareTo(end));
         if (start.isAfter(end)) {
             throw new SneakLifeFailureException(IwsContext.respResultBody(RespCode.MSG_DATE_RANGE_ERR.toValue(), RespCode.MSG_DATE_RANGE_ERR.toMsg()));

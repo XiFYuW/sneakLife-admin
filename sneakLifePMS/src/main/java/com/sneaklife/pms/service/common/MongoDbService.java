@@ -13,5 +13,5 @@ public interface MongoDbService {
 
     <T> Map<String, Object> getPageData(PageInfo pageInfo, Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws Exception;
 
-    <T> void remove(Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws Exception;
+    <T> long remove(Class<T> entityClass, SneakLifeCriteria sneakLifeCriteria) throws Exception;
 }

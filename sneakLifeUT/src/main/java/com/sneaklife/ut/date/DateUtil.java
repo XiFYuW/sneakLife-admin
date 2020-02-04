@@ -11,6 +11,8 @@ import java.util.Date;
 
 public class DateUtil {
 
+	public static String FORMAT_A = "yyyy-MM-dd HH:mm:ss";
+
 	public static Long getSecond() {
 		return LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
 	}
@@ -65,5 +67,9 @@ public class DateUtil {
 			w = 0;
 		}
 		return weekDays[w];
+	}
+
+	public static LocalDateTime plus(long hours){
+		return LocalDateTime.now().plusHours(hours);
 	}
 }

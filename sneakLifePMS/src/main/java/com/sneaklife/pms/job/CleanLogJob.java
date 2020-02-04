@@ -1,6 +1,5 @@
 package com.sneaklife.pms.job;
 
-import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.MongoDbService;
 import com.sneaklife.ut.date.DateUtil;
 import com.sneaklife.ut.log.AccessLog;
@@ -21,11 +20,11 @@ import java.time.LocalDateTime;
  * @date 2020/2/2 16:01
  */
 @Component
-public class CleanLogJob extends CommonService {
+public class CleanLogJob {
 
     private final MongoDbService mongoDbService;
 
-    private static final int DEFAULT_DAY = 30;
+    private static final long DEFAULT_DAY = 30;
 
     @Autowired
     public CleanLogJob(MongoDbService mongoDbService) {
@@ -34,41 +33,32 @@ public class CleanLogJob extends CommonService {
 
     @XxlJob("cleanLogJobHandler")
     public ReturnT<String> cleanLogJobHandler(String param) throws Exception {
-        int day = DEFAULT_DAY;
+        long day = DEFAULT_DAY;
         if (!StringUtil.isEmpty(param)) {
-            day = Integer.valueOf(param);
+            day = Long.valueOf(param);
         }
-        String date = buildDate(day);
-        XxlJobLogger.log("清除目标天数：{}", day);
-        XxlJobLogger.log("清除日期范围：{}", date);
+        LocalDateTime localDateTime = DateUtil.plus(-(day * 24));
+        XxlJobLogger.log("清除{}天以前", day);
+        XxlJobLogger.log("清除截止日期：{}", DateUtil.localDateTimeToStr(localDateTime, DateUtil.FORMAT_A));
 
         XxlJobLogger.log("开始清除LogicalLog");
-        mongoDbService.remove(LogicalLog.class, () -> {
-            Query query = new Query();
-            Criteria criteria = checkDataRange(date, new Criteria());
-            query.addCriteria(criteria);
-            return query;
-        });
+        long logicalLogCount = mongoDbService.remove(LogicalLog.class, () -> getQuery(localDateTime));
+        XxlJobLogger.log("清除LogicalLog：{}条", logicalLogCount);
         XxlJobLogger.log("清除LogicalLog结束");
 
         XxlJobLogger.log("开始清除AccessLog");
-        mongoDbService.remove(AccessLog.class, () -> {
-            Query query = new Query();
-            Criteria criteria = checkDataRange(date, new Criteria());
-            query.addCriteria(criteria);
-            return query;
-        });
+        long accessLogCount = mongoDbService.remove(AccessLog.class, () -> getQuery(localDateTime));
+        XxlJobLogger.log("清除AccessLog：{}条", accessLogCount);
         XxlJobLogger.log("清除AccessLog结束");
 
         return ReturnT.SUCCESS;
     }
 
-    private String buildDate(int day){
-        String format = "yyyy-MM-dd HH:mm:ss";
-        LocalDateTime localDateTime = LocalDateTime.now();
-        String start = DateUtil.localDateTimeToStr(localDateTime, format);
-        LocalDateTime localDateTime1 = localDateTime.plusHours(-(day * 24));
-        String end = DateUtil.localDateTimeToStr(localDateTime1, format);
-        return end + "," + start;
+    private Query getQuery(LocalDateTime localDateTime){
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.and("createDate").lt(localDateTime);
+        query.addCriteria(criteria);
+        return query;
     }
 }
