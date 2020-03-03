@@ -14,8 +14,8 @@ import java.util.Map;
 public interface UserMapper extends CommonDao {
 
     /**
-     * Detect whether the user exists
-     * @param map parameter
+     * 检查是否存在
+     * @param map 条件参数
      * @return Map<String, Object>
      */
     Map<String, Object> checkExist(Map<String, Object> map);

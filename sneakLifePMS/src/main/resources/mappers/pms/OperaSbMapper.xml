@@ -38,7 +38,6 @@
       os.code as code,
       os.url as url,
       os.type as type,
-      os.is_show as isShow,
       dd2.name as typeName,
       dd1.name as iconName,
       dd.name as codeName
@@ -48,31 +47,11 @@
     inner join data_dictionary dd2 on os.type = dd2.value
     <where>
       os.is_del = 0
-      <if test="isShow != null">
-        AND os.is_show = #{isShow}
-      </if>
       <if test="menuId != null and menuId != ''">
         AND os.menu_id = #{menuId}
       </if>
     </where>
   </select>
-
-  <select id="checkOperaSbByShow" parameterType="map" resultType="int">
-    select count(id) from opera_sb where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
-  </select>
-  <update id="updateOperaSbShow" parameterType="map">
-    update opera_sb
-    <set>
-      is_show = #{status}
-    </set>
-    <where>
-      id = #{treeViewId}
-    </where>
-  </update>
-  <select id="checkOperaSbById" parameterType="map" resultType="int">
-    select count(id) from opera_sb where id = #{treeViewId} AND is_del = 0
-  </select>
-
 
   <insert id="insert" parameterType="map">
     insert into opera_sb
@@ -85,8 +64,7 @@
       update_date,
       is_del,
       url,
-      menu_id,
-      is_show
+      menu_id
     )
     value
     (
@@ -98,8 +76,7 @@
       NOW(),
       0,
       #{url,jdbcType=VARCHAR},
-      #{menuIdTemp,jdbcType=CHAR},
-      0
+      #{menuIdTemp,jdbcType=CHAR}
     )
   </insert>
 

@@ -10,10 +10,12 @@ import java.util.Map;
  * @date 2019/8/21 10:25
  */
 public interface FunctionInputService extends CommonMapperService {
+
     /**
-     * Building content bodies
-     * @param map parameter
-     * @return  List<Map<String, Object>>
+     * 构建左面页面列表树
+     * @param map 条件参数
+     * @return List<Map<String,Object>>
+     * @throws Exception 条件异常信息
      */
-    List<Map<String, Object>> functionInput(Map<String, Object> map);
+    List<Map<String, Object>> functionInput(Map<String, Object> map) throws Exception;
 }

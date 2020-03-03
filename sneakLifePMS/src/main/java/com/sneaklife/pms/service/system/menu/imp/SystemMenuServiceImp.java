@@ -2,8 +2,7 @@ package com.sneaklife.pms.service.system.menu.imp;
 
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.SystemMenuMapper;
-import com.sneaklife.pms.entity.SystemMenu;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.RedisService;
@@ -11,6 +10,8 @@ import com.sneaklife.pms.service.common.SelectTreeViewService;
 import com.sneaklife.pms.service.system.menu.SystemMenuService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.interfaces.Nodes;
+import com.sneaklife.ut.iws.IwsContext;
+import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class SystemMenuServiceImp extends CommonService implements SystemMenuService,
-        Nodes<SystemMenu, SystemMenu, List<SystemMenu>> {
+        Nodes<Map<String,Object>, Map<String,Object>, List<Map<String,Object>>> {
 
     private final SystemMenuMapper systemMenuMapper;
 
@@ -42,8 +40,8 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
 
     private final RedisService redisService;
 
-    @Resource
-    private Nodes<SystemMenu, SystemMenu, List<SystemMenu>> nodes;
+    @Resource(name = "systemMenuServiceImp")
+    private Nodes<Map<String,Object>, Map<String,Object>, List<Map<String,Object>>> nodes;
 
     @Autowired
     public SystemMenuServiceImp(SystemMenuMapper systemMenuMapper, OperaService operaService, SelectTreeViewService selectTreeViewService, RedisService redisService) {
@@ -57,20 +55,14 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Transactional(readOnly = true)
     @Cacheable
     @LogicalLogAn
-    public List<SystemMenu> getMenu() throws Exception{
-        List<SystemMenu> data = new ArrayList<>();
+    public List<Map<String,Object>> getMenu() throws Exception{
         List<String> userInfoList = redisService.getLoginUserOpera();
-        List<SystemMenu> list = systemMenuMapper.getByIsDel(0);
-        list = list.stream().filter(menu -> userInfoList.contains(menu.getId())).collect(Collectors.toList());
-        int size = list.size();
-        for(int i = 0; i < size; i++){
-            SystemMenu systemMenu = list.get(i);
-            SystemMenu parentMenu = nodes.findChildNode(systemMenu, list, true);
-            size = nodes.removeChildNode(parentMenu, list, size);
-            i--;
-            data.add(parentMenu);
-        }
-        return data;
+        List<Map<String,Object>> list = systemMenuMapper.getByIsDel(0);
+        List<Map<String,Object>> qxList = list.stream().filter(menu -> userInfoList.contains(String.valueOf(menu.get("id")))).collect(Collectors.toList());
+        return qxList.stream().map(x ->  {
+            x.put("son", new ArrayList<>());
+            return nodes.findChildNode(x, qxList, true);
+        }).filter(distinctByKey(x -> x.get("id"))).collect(Collectors.toList());
     }
 
     @Override
@@ -90,36 +82,15 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     }
 
     @Override
-    public int removeChildNode(SystemMenu parentMenu, List<SystemMenu> list, int size){
-        List<SystemMenu> childMenu = parentMenu.getSon();
-        if(childMenu.size() == 0){
-            return operaService.removeNode(parentMenu, list, size);
-        }
-        for(SystemMenu child : childMenu){
-            Iterator<SystemMenu> it = list.iterator();
-            while(it.hasNext()){
-                SystemMenu menu = it.next();
-                boolean isRemove = child.getId().equals(menu.getId()) || parentMenu.getId().equals(menu.getId());
-                if(isRemove){
-                    it.remove();
-                    size--;
-                }
-            }
-            size = removeChildNode(child, list, size);
-        }
-        return size;
-    }
-
-    @Override
-    public SystemMenu findChildNode(SystemMenu node, List<SystemMenu> list, boolean parent) {
-        List<SystemMenu> childMenu = new ArrayList<>();
-        for(SystemMenu menu : list){
-            if(node.getId().equals(menu.getPid())){
-                SystemMenu child = findChildNode(menu, list, false);
+    public Map<String,Object> findChildNode(Map<String,Object> node, List<Map<String,Object>> list, boolean parent) {
+        List<Map<String,Object>> childMenu = new ArrayList<>();
+        for(Map<String,Object> menu : list){
+            if(node.get("id").equals(menu.get("pid"))){
+                Map<String,Object> child = findChildNode(menu, list, false);
                 childMenu.add(child);
-                node.setSon(childMenu);
+                node.put("son", childMenu);
             }
-            if(parent && node.getPid().equals(menu.getId())){
+            if(parent && node.get("pid").equals(menu.get("id"))){
                 return findChildNode(menu, list, false);
             }
         }
@@ -155,5 +126,12 @@ public class SystemMenuServiceImp extends CommonService implements SystemMenuSer
     @Cacheable
     public Map<String, Object> selectTreeView(Map<String, Object> map) {
         return selectTreeViewService.selectTreeView(map);
+    }
+
+    @Override
+    public void logOut() throws Exception {
+       redisService.logOut();
+       throw new SneakLifeSuccessfulException(IwsContext.respResultBody(RespCode.MSG_LOG_OUT_SUCCEED.toValue(),
+               RespCode.MSG_LOG_OUT_SUCCEED.toMsg()));
     }
 }

@@ -22,39 +22,20 @@
       </if>
     </where>
   </select>
-  <select id="findColumns" resultType="com.sneaklife.pms.entity.Columns" parameterType="map">
+  <select id="findColumns" resultType="map" parameterType="map">
     select
       id as id,
       field as field,
       title as title,
       align as align,
-      menu_id as menuId,
-      is_show as isShow
+      menu_id as menuId
     from columns
     <where>
       is_del = 0
-      <if test="isShow != null">
-        AND is_show = #{isShow}
-      </if>
       <if test="menuId != null and menuId != ''">
         AND menu_id = #{menuId}
       </if>
     </where>
-  </select>
-  <update id="updateColumnsShow" parameterType="map">
-    update columns
-    <set>
-      is_show = #{status}
-    </set>
-    <where>
-      id = #{treeViewId}
-    </where>
-  </update>
-  <select id="checkColumnsByShow" parameterType="map" resultType="int">
-    select count(id) from columns where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
-  </select>
-  <select id="checkColumnsById" parameterType="map" resultType="int">
-    select count(id) from columns where id = #{treeViewId} AND is_del = 0
   </select>
 
 
@@ -68,8 +49,7 @@
       create_date,
       update_date,
       align,
-      menu_id,
-      is_show
+      menu_id
     )
     value
     (
@@ -80,8 +60,7 @@
       NOW(),
       NOW(),
       #{align,jdbcType=VARCHAR},
-      #{menuIdTemp,jdbcType=CHAR},
-      1
+      #{menuIdTemp,jdbcType=CHAR}
     )
   </insert>
 

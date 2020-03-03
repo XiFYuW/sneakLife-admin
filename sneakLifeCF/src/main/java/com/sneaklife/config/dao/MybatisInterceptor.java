@@ -65,15 +65,11 @@ public class MybatisInterceptor implements Interceptor {
 
     private String getSql(Configuration configuration, BoundSql boundSql, String sqlId) {
         String sql = showSql(configuration, boundSql);
-        StringBuilder str = new StringBuilder(100);
-        str.append(sqlId);
-        str.append("  >>>  ");
-        str.append(sql);
-        return str.toString();
+        return sqlId + "  >>>  " + sql;
     }
 
     private String getParameterValue(Object obj) {
-        String value = null;
+        String value;
         if (obj instanceof String) {
             value = "'" + obj.toString() + "'";
         } else if (obj instanceof Date) {

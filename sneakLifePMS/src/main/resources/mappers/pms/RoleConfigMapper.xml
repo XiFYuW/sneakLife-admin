@@ -68,26 +68,12 @@
     </where>
   </update>
 
-  <select id="getByIsDel" parameterType="int" resultType="com.sneaklife.pms.entity.RoleConfig">
-    select * from role_config where is_del = #{isDel}
-  </select>
-
-  <select id="getByIsDelMap" parameterType="int" resultType="map">
+  <select id="getByIsDel" parameterType="int" resultType="map">
     select
-      id as id,
       name as name,
-      type as type
-    from role_config where is_del = #{isDel}
-  </select>
-
-  <select id="getById" parameterType="string" resultType="com.sneaklife.pms.entity.RoleConfig">
-    select
       id as id,
-      name as name,
-      type as type
+      role_menu_url as roleMenuUrl
     from role_config
-    <where>
-      id = #{id} AND is_del = 0
-    </where>
+    where is_del = #{isDel}
   </select>
 </mapper>

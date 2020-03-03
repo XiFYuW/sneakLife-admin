@@ -1,4 +1,4 @@
-package com.sneaklife.pms.entity.modal;
+package com.sneaklife.pms.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

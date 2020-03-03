@@ -1,7 +1,7 @@
 package com.sneaklife.pms;
 
 import com.sneaklife.SneakLifeAdminApplication;
-import com.sneaklife.pms.service.common.LeftSelectViewService;
+import com.sneaklife.pms.service.common.SelectTreeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import java.util.Map;
 @ContextConfiguration
 public class FunctionConfigServiceTest {
     @Autowired
-    private LeftSelectViewService leftSelectViewService;
+    private SelectTreeService leftSelectViewService;
 
     @Test
-    public void functionConfig(){
+    public void functionConfig() throws Exception {
         Map<String,Object> map = new HashMap<>();
         map.put("menuId","b8209ee58b3411e99d7380fa5b3a283a");
-        leftSelectViewService.leftSelectsView(map);
+        leftSelectViewService.selectTree(map);
     }
 
 }

@@ -12,11 +12,11 @@ import java.util.Map;
 public interface FunctionBoService extends CommonMapperService {
 
     /**
-     * Building content bodies
-     *
-     * @param map parameter
+     * 构建左面页面列表树
+     * @param map 条件参数
      * @return List<Map<String,Object>>
+     * @throws Exception 条件异常信息
      */
-    List<Map<String, Object>> functionBo(Map<String, Object> map);
+    List<Map<String, Object>> functionBo(Map<String, Object> map) throws Exception;
 
 }

@@ -2,21 +2,25 @@ package com.sneaklife.ut.iws;
 
 public enum RespCode {
 
+	MSG_LOG_OUT_SUCCEED(3348, "退出登陆成功"),
+
+	MSG_SAVE_CHECKED_OPERA(4367, "请先保存所选择的功能"),
+
 	MSG_DATE_RANGE_ERR(5901, "日期起始范围错误"),
 
 	MSG_DATE_RANGE_COUNT_ERR(5900, "日期起始数量错误"),
 
 	MSG_LOGIN_OVERDUE(3345, "用户身份过期"),
 
-	MSG_LOGIN_SUCCEED(3346, "登录成功"),
+	MSG_LOGIN_SUCCEED(3346, "登陆成功"),
 
 	MSG_USER_EXIST(3347, "用户不存在"),
 
 	MSG_LOGIN_EN_FAIL(3354, "字符串加密失败"),
 
-	MSG_LOGIN_USERNAME_NULL(1893, "登录用户名不能为空"),
+	MSG_LOGIN_USERNAME_NULL(1893, "登陆用户名不能为空"),
 
-	MSG_LOGIN_PASSWORD_NULL(1894, "登录密码不能为空"),
+	MSG_LOGIN_PASSWORD_NULL(1894, "登陆密码不能为空"),
 
 	MSG_RSA_PRK(3256, "获取私钥失败，请重试"),
 
@@ -52,9 +56,7 @@ public enum RespCode {
 
 	MSG_GQTOKEN(2038, "Token过期，重新获取"),
 
-	MSG_PAGE_ERR(1055, "分页参数有误，请检查"),
-
-	MSG_PARAM_ILLEGAL_NOT_ROOT(1055, "参数非法，不存在根节点");
+	MSG_PAGE_ERR(1055, "分页参数有误，请检查");
 
 	private final int value;
 	private final String msg;

@@ -1,6 +1,5 @@
 package com.sneaklife.pms.service.system.menu;
 
-import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.service.common.CommonMapperService;
 
 import java.util.List;
@@ -12,17 +11,19 @@ import java.util.Map;
 public interface SystemMenuService extends CommonMapperService {
 
     /**
-     * Get mappers.mappers menu
+     * 获取功能菜单
      * @return List
-     * @throws Exception
+     * @throws Exception 异常提示
      */
-    List<SystemMenu> getMenu() throws Exception;
+    List<Map<String,Object>> getMenu() throws Exception;
 
     /**
-     * Gets the system function menu data to assemble the drop-down list tree data
-     * @param map parameter
+     * 获取用于组装下拉列表树数据的系统功能菜单数据
+     * @param map 条件参数
      * @return Map<String, Object>
      */
     Map<String, Object> selectTreeView(Map<String, Object> map);
+
+    void logOut() throws Exception;
 
 }

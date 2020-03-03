@@ -25,7 +25,7 @@ public class FunctionButtonController {
 
     @RequestMapping(value = "/functionButton", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     @AccessLogAn("/functionButton")
-    public ResponseEntity<String> functionButton() {
+    public ResponseEntity<String> functionButton() throws Exception {
         return IwsContext.respResultBodyToSC(functionButtonService.functionButton(IwsContext.getData()));
     }
 

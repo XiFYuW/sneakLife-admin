@@ -1,7 +1,6 @@
 package com.sneaklife.pms.dao.system.authority.opera;
 
 import com.sneaklife.pms.dao.CommonDao;
-import com.sneaklife.pms.entity.OperaBo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,5 +12,10 @@ import java.util.Map;
 @Mapper
 public interface OperaBoMapper extends CommonDao {
 
-    List<OperaBo> findOperaBo(Map<String, Object> map);
+    /**
+     * 查找功能查询
+     * @param map 条件参数
+     * @return List<Map<String,Object>>
+     */
+    List<Map<String,Object>> findOperaBo(Map<String, Object> map);
 }

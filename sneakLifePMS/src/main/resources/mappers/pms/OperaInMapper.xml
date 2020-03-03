@@ -29,39 +29,20 @@
     </where>
   </select>
 
-  <select id="findOperaIn" resultType="com.sneaklife.pms.entity.OperaIn" parameterType="map">
+  <select id="findOperaIn" resultType="map" parameterType="map">
     select
       id as id,
       text_name as textName,
       html_type as htmlType,
       field as field,
-      is_show as isShow,
       menu_id as menuId
     from opera_in
     <where>
       is_del = 0
-      <if test="isShow != null">
-        AND is_show = #{isShow}
-      </if>
       <if test="menuId != null and menuId != ''">
         AND menu_id = #{menuId}
       </if>
     </where>
-  </select>
-  <update id="updateOperaInShow" parameterType="map">
-    update opera_in
-    <set>
-      is_show = #{status}
-    </set>
-    <where>
-      id = #{treeViewId}
-    </where>
-  </update>
-  <select id="checkOperaInByShow" parameterType="map" resultType="int">
-    select count(id) from opera_in where is_del = 0 AND is_show = 0 AND menu_id = #{menuId}
-  </select>
-  <select id="checkOperaInById" parameterType="map" resultType="int">
-    select count(id) from opera_in where id = #{treeViewId} AND is_del = 0
   </select>
 
   <select id="getSelectsKyByMenuId" parameterType="string" resultType="map">
@@ -69,7 +50,7 @@
       id as id,
       field as field
     FROM opera_in
-    where menu_id = #{menuId} and html_type = #{htmlType} and is_del = 0 and is_show = 0;
+    where menu_id = #{menuId} and html_type = #{htmlType} and is_del = 0
   </select>
 
   <select id="findByCheckInId" parameterType="string" resultType="map">
@@ -79,7 +60,7 @@
       text_name as textName,
       field as field
     FROM opera_in
-    where menu_id = #{checkInId} and is_del = 0 and is_show = 0;
+    where menu_id = #{checkInId} and is_del = 0;
   </select>
 
 
@@ -94,8 +75,7 @@
       update_date,
       is_del,
       menu_id,
-      rule,
-      is_show
+      rule
     )
     value
     (
@@ -107,8 +87,7 @@
       NOW(),
       0,
       #{menuIdTemp,jdbcType=CHAR},
-      #{rule,jdbcType=VARCHAR},
-      0
+      #{rule,jdbcType=VARCHAR}
     )
   </insert>
 

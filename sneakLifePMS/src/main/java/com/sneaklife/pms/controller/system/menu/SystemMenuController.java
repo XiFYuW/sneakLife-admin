@@ -57,7 +57,13 @@ public class SystemMenuController {
 
     @RequestMapping(value = "/selectTreeView", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
     @AccessLogAn("/selectTreeView")
-    public ResponseEntity<String> selectTreeView(){
+    public ResponseEntity<String> selectTreeView() throws Exception {
         return IwsContext.respResultBodyToSC(systemMenuService.selectTreeView(IwsContext.getData()));
+    }
+
+    @RequestMapping(value = "/logOut", method = RequestMethod.POST, produces = "application/plain;charset=UTF-8")
+    @AccessLogAn("/logOut")
+    public void logOut() throws Exception {
+        systemMenuService.logOut();
     }
 }

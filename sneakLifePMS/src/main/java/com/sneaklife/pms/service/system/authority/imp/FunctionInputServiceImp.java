@@ -2,15 +2,14 @@ package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.opera.OperaInMapper;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
-import com.sneaklife.pms.service.common.LeftSelectViewService;
+import com.sneaklife.pms.service.common.SelectTreeService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionInputService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -27,15 +26,14 @@ import java.util.Map;
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class FunctionInputServiceImp extends CommonService implements FunctionInputService {
 
-    private final LeftSelectViewService leftSelectViewService;
+    private final SelectTreeService leftSelectTreeServiceImp;
 
     private final OperaService operaService;
 
     private final OperaInMapper operaInMapper;
 
-    @Autowired
-    public FunctionInputServiceImp(LeftSelectViewService leftSelectViewServiceImp, OperaService operaService, OperaInMapper operaInMapper) {
-        this.leftSelectViewService = leftSelectViewServiceImp;
+    public FunctionInputServiceImp(SelectTreeService leftSelectTreeServiceImp, OperaService operaService, OperaInMapper operaInMapper) {
+        this.leftSelectTreeServiceImp = leftSelectTreeServiceImp;
         this.operaService = operaService;
         this.operaInMapper = operaInMapper;
     }
@@ -44,8 +42,8 @@ public class FunctionInputServiceImp extends CommonService implements FunctionIn
     @Transactional(readOnly = true)
     @Cacheable
     @LogicalLogAn
-    public List<Map<String, Object>> functionInput(Map<String, Object> map) {
-        return leftSelectViewService.leftSelectsView(map);
+    public List<Map<String, Object>> functionInput(Map<String, Object> map) throws Exception {
+        return leftSelectTreeServiceImp.selectTree(map);
     }
 
     @Override

@@ -2,15 +2,14 @@ package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.opera.OperaSbMapper;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
-import com.sneaklife.pms.service.common.LeftSelectViewService;
+import com.sneaklife.pms.service.common.SelectTreeService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.FunctionButtonService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -31,21 +30,20 @@ public class FunctionButtonServiceImp extends CommonService implements FunctionB
 
     private final OperaSbMapper operaSbMapper;
 
-    private final LeftSelectViewService leftSelectViewService;
+    private final SelectTreeService leftSelectTreeServiceImp;
 
-    @Autowired
-    public FunctionButtonServiceImp(OperaService operaService, OperaSbMapper operaSbMapper, LeftSelectViewService leftSelectViewServiceImp) {
+    public FunctionButtonServiceImp(OperaService operaService, OperaSbMapper operaSbMapper, SelectTreeService leftSelectTreeServiceImp) {
         this.operaService = operaService;
         this.operaSbMapper = operaSbMapper;
-        this.leftSelectViewService = leftSelectViewServiceImp;
+        this.leftSelectTreeServiceImp = leftSelectTreeServiceImp;
     }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable
     @LogicalLogAn
-    public List<Map<String,Object>> functionButton(Map<String, Object> map) {
-        return leftSelectViewService.leftSelectsView(map);
+    public List<Map<String,Object>> functionButton(Map<String, Object> map) throws Exception {
+        return leftSelectTreeServiceImp.selectTree(map);
     }
 
     @Override

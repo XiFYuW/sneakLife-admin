@@ -9,8 +9,8 @@ import java.util.Map;
 public interface SelectTreeViewService {
 
     /**
-     * Gets the system function menu data to assemble the drop-down list tree data
-     * @param map parameter
+     * 获取用于组装下拉列表树数据的系统功能菜单数据
+     * @param map parameter 条件参数
      * @return Map<String, Object>
      */
     Map<String, Object> selectTreeView(Map<String, Object> map);

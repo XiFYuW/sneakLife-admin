@@ -11,8 +11,7 @@ import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.servlet.SneakLifeServletFactory;
 import com.sneaklife.ut.spring.SpringContextUtil;
 import com.sneaklife.ut.string.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +24,8 @@ import java.util.*;
  * @date 2019/11/18 15:53
  */
 @SuppressWarnings("unchecked")
+@Slf4j
 public class IwsContext {
-
-    private static final Logger log = LoggerFactory.getLogger(IwsContext.class);
 
     private static ThreadLocal<SneakLifeServlet> sneakLifeServletLocal = new ThreadLocal<>();
 

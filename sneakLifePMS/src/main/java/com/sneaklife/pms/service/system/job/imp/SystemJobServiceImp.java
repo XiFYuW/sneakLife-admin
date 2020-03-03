@@ -1,11 +1,10 @@
 package com.sneaklife.pms.service.system.job.imp;
 
 import com.sneaklife.config.pkv.CommonPKV;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.system.job.SystemJobService;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -19,7 +18,6 @@ public class SystemJobServiceImp extends CommonService implements SystemJobServi
 
     private final CommonPKV commonPKV;
 
-    @Autowired
     public SystemJobServiceImp(CommonPKV commonPKV) {
         this.commonPKV = commonPKV;
     }

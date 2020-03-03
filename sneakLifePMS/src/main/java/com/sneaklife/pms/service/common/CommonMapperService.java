@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.common;
 
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.ut.page.PageInfo;
 
 import java.util.Map;
@@ -12,39 +12,40 @@ import java.util.Map;
 public interface CommonMapperService {
 
     /**
-     * Insert
-     * @param map parameter
-     * @throws Exception
+     * 添加一条数据
+     * @param map 数据项
+     * @throws Exception 成功失败提示信息
      */
     void insert(Map<String, Object> map) throws Exception;
 
     /**
-     * Paging to get data
-     * @param map parameter
-     * @param pageInfo Paging object
-     * @return Map
-     * @throws Exception
+     * 获取带分页信息的数据
+     * @param map 条件信息
+     * @param pageInfo 分页信息
+     * @return Map 查询分页信息之后的数据，以“content”为数据，以“totalElements”为总数量
+     * @throws Exception 异常信息提示
      */
     Map<String,Object> getData(Map<String, Object> map, PageInfo pageInfo) throws Exception;
 
     /**
-     * Building content bodies
-     * @param map parameter
+     * 构建页面主体信息，包括：‘页面字段’、‘功能按钮’、‘输入字段’、‘查询字段’
+     * @param map 参数条件
      * @return TableOpera
+     * @throws Exception 异常信息提示
      */
     TableOpera buildData(Map<String, Object> map) throws Exception;
 
     /**
-     * Update
-     * @param map parameter
-     * @throws Exception
+     * 更新一条数据
+     * @param map 数据项
+     * @throws Exception 异常信息提示
      */
     void update(Map<String, Object> map) throws Exception;
 
     /**
-     * Delete
-     * @param map parameter
-     * @throws Exception
+     * 批量删除数据
+     * @param map 以“ids”为key，以逗号隔开的数据项为value
+     * @throws Exception 异常信息提示
      */
     void delete(Map<String, Object> map) throws Exception;
 }

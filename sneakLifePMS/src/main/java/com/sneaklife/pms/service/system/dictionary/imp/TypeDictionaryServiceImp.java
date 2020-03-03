@@ -2,16 +2,13 @@ package com.sneaklife.pms.service.system.dictionary.imp;
 
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.TypeDictionaryService;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,13 +23,10 @@ import java.util.Map;
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class TypeDictionaryServiceImp extends CommonService implements TypeDictionaryService {
 
-    private static final Logger log = LoggerFactory.getLogger(TypeDictionaryServiceImp.class);
-
     private final TypeDictionaryMapper typeDictionaryMapper;
 
     private final OperaService operaService;
 
-    @Autowired
     public TypeDictionaryServiceImp(TypeDictionaryMapper typeDictionaryMapper, OperaService operaService) {
         this.typeDictionaryMapper = typeDictionaryMapper;
         this.operaService = operaService;

@@ -23,7 +23,6 @@
     </where>
   </select>
 
-  <!-- 数据插入 -->
   <insert id="insert" parameterType="map">
     insert into data_dictionary(
       id,
@@ -84,24 +83,6 @@
       </foreach>
     </where>
   </update>
-
-  <select id="getByType" parameterType="java.util.ArrayList" resultType="com.sneaklife.pms.entity.DataDictionary">
-    SELECT
-      dd.id as id,
-      dd.name as name,
-      dd.type_id as typId,
-      dd.value as value,
-      td.temp_key as tempKey
-    FROM data_dictionary AS dd INNER JOIN type_dictionary AS td ON dd.type_id = td.id
-    <where>
-      dd.is_del = 0
-      and dd.type_id in
-      <foreach collection="types" index="index" item="item" open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    </where>
-  </select>
-
 
   <select id="getNameValueByTypeId" parameterType="long" resultType="map">
     SELECT

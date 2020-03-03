@@ -3,7 +3,7 @@ package com.sneaklife.pms.service.system.dictionary.imp;
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.dictionary.DataDictionaryMapper;
 import com.sneaklife.pms.dao.system.dictionary.TypeDictionaryMapper;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
@@ -12,9 +12,6 @@ import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.date.DateUtil;
 import com.sneaklife.ut.string.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -29,15 +26,12 @@ import java.util.*;
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class DataDictionaryServiceImp extends CommonService implements DataDictionaryService {
 
-    private static final Logger log = LoggerFactory.getLogger(DataDictionaryServiceImp.class);
-
     private final DataDictionaryMapper dataDictionaryMapper;
 
     private final TypeDictionaryMapper typeDictionaryMapper;
 
     private final OperaService operaService;
 
-    @Autowired
     public DataDictionaryServiceImp(DataDictionaryMapper dataDictionaryMapper, TypeDictionaryMapper typeDictionaryMapper, OperaService operaService) {
         this.dataDictionaryMapper = dataDictionaryMapper;
         this.typeDictionaryMapper = typeDictionaryMapper;

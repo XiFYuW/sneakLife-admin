@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.log.imp;
 
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.MongoDbService;
 import com.sneaklife.pms.service.common.OperaService;
@@ -8,7 +8,6 @@ import com.sneaklife.pms.service.system.log.AccessLogService;
 import com.sneaklife.ut.log.AccessLog;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.string.StringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ public class AccessLogServiceImp extends CommonService implements AccessLogServi
 
     private final MongoDbService mongoDbService;
 
-    @Autowired
     public AccessLogServiceImp(OperaService operaService , MongoDbService mongoDbService) {
         this.operaService = operaService;
         this.mongoDbService = mongoDbService;

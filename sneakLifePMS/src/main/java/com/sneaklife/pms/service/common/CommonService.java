@@ -27,6 +27,14 @@ import java.util.Map;
  */
 public abstract class CommonService {
 
+    /**
+     * 查询待分页信息的数据
+     * @param commonDao mapper数据持久层接口对象
+     * @param map 查询条件
+     * @param pageInfo 分页信息
+     * @return 查询分页信息之后的数据，以“content”为数据，以“totalElements”为总数量
+     * @throws Exception 异常信息提示
+     */
     protected Map<String, Object> findAllPage(CommonDao commonDao, Map<String, Object> map, PageInfo pageInfo) throws Exception{
         if (IwsContext.isNotNull(pageInfo.getPage()) && IwsContext.isNotNull(pageInfo.getRows())) {
             PageHelper.startPage(pageInfo.getPage(), pageInfo.getRows(), getOrderBy(pageInfo));
@@ -37,6 +45,12 @@ public abstract class CommonService {
         return pageToMap(page);
     }
 
+    /**
+     * 插入一条数据
+     * @param commonDao mapper数据持久层接口对象
+     * @param map 数据项
+     * @throws Exception 异常信息提示
+     */
     protected void insert(CommonDao commonDao, Map<String, Object> map) throws Exception {
         int t = commonDao.insert(map);
         if (t != 1) {
@@ -46,6 +60,12 @@ public abstract class CommonService {
         }
     }
 
+    /**
+     * 更新一条数据
+     * @param commonDao mapper数据持久层接口对象
+     * @param map 数据项
+     * @throws Exception 异常信息提示
+     */
     protected void update(CommonDao commonDao, Map<String, Object> map) throws Exception {
         int t = commonDao.update(map);
         if (t != 1) {
@@ -55,6 +75,12 @@ public abstract class CommonService {
         }
     }
 
+    /**
+     * 批量删除数据
+     * @param commonDao mapper数据持久层接口对象
+     * @param map 以“ids”为key，以逗号隔开的数据项为value
+     * @throws Exception 异常信息提示
+     */
     protected void delete(CommonDao commonDao, Map<String, Object> map) throws Exception {
         String[] ids = String.valueOf(map.get("ids")).split(",");
         map.put("ids", ids);
@@ -66,6 +92,11 @@ public abstract class CommonService {
         }
     }
 
+    /**
+     * 分页对象转map
+     * @param page 分页对象
+     * @return 查询分页信息之后的数据，以“content”为数据，以“totalElements”为总数量
+     */
     private Map<String, Object> pageToMap(Page<Map<String, Object>> page) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("content", page);
@@ -73,6 +104,12 @@ public abstract class CommonService {
         return map;
     }
 
+    /**
+     * 获取排序字段
+     * @param pageInfo 分页信息
+     * @return 排序字段字符串
+     * @throws SneakLifeException 异常信息提示
+     */
     private String getOrderBy(PageInfo pageInfo) throws SneakLifeException{
         if (!IwsContext.isNotNull(pageInfo)) {
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
@@ -86,6 +123,12 @@ public abstract class CommonService {
         return sb.toString();
     }
 
+    /**
+     * 获取分页对象（JPA）
+     * @param pageInfo 分页信息
+     * @return 分页对象
+     * @throws SneakLifeException 异常信息提示
+     */
     protected Pageable getPageable(PageInfo pageInfo) throws SneakLifeException {
         if (!IwsContext.isNotNull(pageInfo)) {
             throw new SneakLifeException(IwsContext.respResultBody(RespCode.MSG_PAGE_ERR.toValue(), RespCode.MSG_PAGE_ERR.toMsg()));
@@ -98,6 +141,11 @@ public abstract class CommonService {
                 PageRequest.of(pageInfo.getPage() - 1, pageInfo.getRows(), direction, pageInfo.getSort().split(",")) : null;
     }
 
+    /**
+     * 分页对象转map（JPA）
+     * @param page 分页对象
+     * @return 查询分页信息之后的数据，以“content”为数据，以“totalElements”为总数量
+     */
     protected Map<String, Object> pageToMap(org.springframework.data.domain.Page page) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("content", page.getContent());
@@ -105,6 +153,13 @@ public abstract class CommonService {
         return map;
     }
 
+    /**
+     * 检测日期起始范围是否正常
+     * @param date 日期起始范围字符串
+     * @param criteria JPA条件对象
+     * @return JPA条件对象
+     * @throws SneakLifeFailureException 异常信息提示
+     */
     protected Criteria checkDataRange(String date, Criteria criteria) throws SneakLifeFailureException {
         if(!StringUtil.isEmpty(date)){
             SneakLifeCheckStateContext sneakLifeCheckStateContext = SneakLifeCheckStateContext.singleton(CheckState.DATE_RANGE);

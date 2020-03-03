@@ -12,14 +12,14 @@ import java.util.Map;
 public interface RoleConfigService extends CommonMapperService {
 
     /**
-     * Secondary page construction
+     * 构建角色列表树
      * @return List<Map<String, Object>>
      */
     List<Map<String, Object>> buildRoleTreeView();
 
     /**
-     * Gets the role drop-down list data
-     * @param map parameter
+     * 获取下拉列表数据
+     * @param map 条件参数
      * @return Map<String,Object>
      */
     Map<String,Object> selectsList(Map<String, Object> map);

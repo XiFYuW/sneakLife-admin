@@ -1,8 +1,6 @@
 package com.sneaklife.pms.service.common;
 
-import com.sneaklife.pms.entity.RoleFunction;
-import com.sneaklife.pms.entity.SystemMenu;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 
 import java.util.List;
 import java.util.Map;
@@ -13,41 +11,42 @@ import java.util.Map;
 public interface OperaService {
 
     /**
-     * Building content bodies
-     * @param map parameter
-     * @param is Whether to cut with length 2 for the list
-     * @return Functional authority subject
+     * 构建页面
+     * @param map 条件参数
+     * @param is 是否指定长度进行切割
+     * @return TableOpera对象
+     * @throws Exception 异常信息提示
      */
     TableOpera buildOperaBody(Map<String, Object> map, boolean is) throws Exception;
 
     /**
-     *  Clear global variables，Size, data for OperaServiceIml
+     * 构建具体功能选项数据
+     * @map 参数条件
+     * @return 树形数据
+     * @throws Exception 异常提示信息
      */
-    void clean();
+    List<Map<String, Object>> buildSpecificRoleFunction(Map<String, Object> map) throws Exception;
 
     /**
-     * Build the role function tree data
-     * @param roleFunction Build role function information
-     * @map Request parameters
-     * @return tree data，Id as the current node and pid as the parent node
+     * 更新具体功能
+     * @param map 条件参数
+     * @throws Exception 异常提示信息
      */
-    List<Map<String, Object>> buildRoleFunction(RoleFunction roleFunction, Map<String, Object> map);
+    void updateSpecificRoleFunction(Map<String, Object> map) throws Exception;
 
     /**
-     * The following drop-down list displays the data specified as HTML type
-     * @param menuId Function menu id
-     * @param htmlType HTML type
+     * 更新功能菜单
+     * @param map 条件参数
+     * @throws Exception 异常提示信息
+     */
+    void updateRoleFunction(Map<String, Object> map) throws Exception;
+
+    /**
+     * 获取htmlType类型数据
+     * @param menuId 功能菜单id
+     * @param htmlType HTML类型
      * @return List<Map<String, Object>>
      */
     List<Map<String, Object>> getSelectsKyByMenuId(String menuId, String htmlType);
-
-    /**
-     * Remove duplicate nodes from all nodes （There are no child nodes）
-     * @param parentMenu 节点
-     * @param list All the nodes
-     * @param size The size of all nodes, can change the list length, do not need to pass 0
-     * @return int
-     */
-    int removeNode(SystemMenu parentMenu, List<SystemMenu> list, int size);
 
 }

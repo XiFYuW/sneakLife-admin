@@ -13,6 +13,11 @@ import java.util.Map;
 @Mapper
 public interface UserRoleMapper extends CommonDao {
 
+    /**
+     * 批量更新用户角色信息
+     * @param list 更新数据
+     * @return Integer
+     */
     Integer updateBatch(List<Map<String, Object>> list);
 
 }

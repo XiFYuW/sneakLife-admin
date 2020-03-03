@@ -1,11 +1,11 @@
 package com.sneaklife.pms.dao.system;
 
 import com.sneaklife.pms.dao.CommonDao;
-import com.sneaklife.pms.entity.SystemMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
@@ -14,11 +14,17 @@ import java.util.List;
 @Mapper
 public interface SystemMenuMapper extends CommonDao {
 
-    List<SystemMenu> getByIsDel(@Param("isDel") int isDel);
+    /**
+     * 获取没有逻辑删除的数据
+     * @param isDel 是否删除（0：未删除；1：已删除）
+     * @return List<Map<String,Object>>
+     */
+    List<Map<String,Object>> getByIsDel(@Param("isDel") int isDel);
 
-    List<SystemMenu> getByBatchId(@Param("array") String[] id);
-
-    List<SystemMenu> getByNotBatchId(@Param("array") String[] id);
-
+    /**
+     * 获取第二次页面构造地址
+     * @param id 菜单id
+     * @return String
+     */
     String getItemUrlById(@Param("id") String id);
 }

@@ -1,6 +1,6 @@
 package com.sneaklife.pms.service.system.sql.imp;
 
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.system.sql.SystemSqlService;
 import com.sneaklife.ut.iws.IwsContext;

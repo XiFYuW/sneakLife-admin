@@ -4,7 +4,7 @@ import com.mongodb.client.result.DeleteResult;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.MongoDbService;
 import com.sneaklife.ut.page.PageInfo;
-import com.sneaklife.ut.page.SneakLifeCriteria;
+import com.sneaklife.ut.interfaces.SneakLifeCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;

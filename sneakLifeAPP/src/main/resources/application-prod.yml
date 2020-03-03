@@ -1,9 +1,3 @@
-logging:
-  file: sneakLifeLog.log
-  level:
-    root: error
-    com.sneaklife: info
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

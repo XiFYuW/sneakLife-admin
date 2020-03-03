@@ -1,4 +1,4 @@
-package com.sneaklife.ut.page;
+package com.sneaklife.ut.interfaces;
 
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -8,5 +8,10 @@ import org.springframework.data.mongodb.core.query.Query;
  */
 public interface SneakLifeCriteria {
 
+    /**
+     * 执行JPA查询条件
+     * @return Query对象
+     * @throws Exception 异常信息提示
+     */
     Query where() throws Exception;
 }

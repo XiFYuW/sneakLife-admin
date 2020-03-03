@@ -2,7 +2,7 @@ package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.userRole.UserRoleMapper;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.UserRoleService;
@@ -11,7 +11,6 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,6 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
 
     private final OperaService operaService;
 
-    @Autowired
     public UserRoleServiceImp(UserRoleMapper userRoleMapper, OperaService operaService) {
         this.userRoleMapper = userRoleMapper;
         this.operaService = operaService;
@@ -66,6 +64,7 @@ public class UserRoleServiceImp extends CommonService implements UserRoleService
     @Transactional(rollbackFor = Exception.class,noRollbackFor = SneakLifeSuccessfulException.class)
     @SneakLifeAuthorityManagementCacheEvict
     @LogicalLogAn
+    @SuppressWarnings("unchecked")
     public void update(Map<String, Object> map) throws Exception {
         List<Map<String,Object>> upList = (List<Map<String, Object>>) map.get("up");
         int t = userRoleMapper.updateBatch(upList);

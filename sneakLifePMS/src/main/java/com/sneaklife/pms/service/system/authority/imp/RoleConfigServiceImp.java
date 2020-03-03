@@ -2,8 +2,7 @@ package com.sneaklife.pms.service.system.authority.imp;
 
 import com.sneaklife.config.cache.SneakLifeAuthorityManagementCacheEvict;
 import com.sneaklife.pms.dao.system.authority.roleConfig.RoleConfigMapper;
-import com.sneaklife.pms.entity.RoleConfig;
-import com.sneaklife.pms.entity.modal.TableOpera;
+import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.authority.RoleConfigService;
@@ -11,9 +10,6 @@ import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.interfaces.ParameterTransformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -32,18 +28,15 @@ import java.util.Map;
 @Service
 @CacheConfig(cacheNames = "SneakLifeAuthorityManagement")
 public class RoleConfigServiceImp extends CommonService implements RoleConfigService,
-        ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> {
-
-    private static Logger log = LoggerFactory.getLogger(RoleConfigServiceImp.class);
+        ParameterTransformation<Map<String,Object>, Map<String,Object>, List<Map<String, Object>>> {
 
     private final RoleConfigMapper roleConfigMapper;
 
     private final OperaService operaService;
 
-    @Resource
-    private ParameterTransformation<RoleConfig, Map<String,Object>, List<Map<String, Object>>> ptf;
+    @Resource(name = "roleConfigServiceImp")
+    private ParameterTransformation<Map<String,Object>, Map<String,Object>, List<Map<String, Object>>> ptf;
 
-    @Autowired
     public RoleConfigServiceImp(RoleConfigMapper roleConfigMapper, OperaService operaService) {
         this.roleConfigMapper = roleConfigMapper;
         this.operaService = operaService;
@@ -95,7 +88,7 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @LogicalLogAn
     public List<Map<String, Object>> buildRoleTreeView(){
         List<Map<String,Object>> data = new ArrayList<>();
-        List<RoleConfig> list = roleConfigMapper.getByIsDel(0);
+        List<Map<String,Object>> list = roleConfigMapper.getByIsDel(0);
         list.forEach(roleConfig -> data.add(ptf.paramTrans(new HashMap<>(), roleConfig)));
         return ptf.fixedParamTrans(data, new HashMap<>());
     }
@@ -105,12 +98,12 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     @Cacheable
     @LogicalLogAn
     public Map<String,Object> selectsList(Map<String,Object> map) {
-        List<RoleConfig> roleConfigList = roleConfigMapper.getByIsDel(0);
+        List<Map<String,Object>> roleConfigList = roleConfigMapper.getByIsDel(0);
         List<Map<String,Object>> data = new ArrayList<>();
         roleConfigList.forEach(roleConfig -> {
             Map<String,Object> m = new HashMap<>();
-            m.put("name", roleConfig.getName());
-            m.put("value", roleConfig.getId());
+            m.put("name", roleConfig.get("name"));
+            m.put("value", roleConfig.get("id"));
             data.add(m);
         });
         map.put("title","select role");
@@ -119,10 +112,10 @@ public class RoleConfigServiceImp extends CommonService implements RoleConfigSer
     }
 
     @Override
-    public Map<String, Object> paramTrans(Map<String, Object> map, RoleConfig roleConfig) {
-        map.put("text", roleConfig.getName());
-        map.put("url", "roleFunctionTreeView");
-        map.put("id", roleConfig.getId());
+    public Map<String, Object> paramTrans(Map<String, Object> map, Map<String,Object> roleConfig) {
+        map.put("text", roleConfig.get("name"));
+        map.put("url", roleConfig.get("roleMenuUrl"));
+        map.put("id", roleConfig.get("id"));
         map.put("nodes", null);
         return map;
     }

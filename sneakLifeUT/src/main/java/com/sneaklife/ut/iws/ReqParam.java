@@ -30,16 +30,14 @@ public class ReqParam {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("{");
-		sb.append("\"me\":\"")
-				.append(me).append('\"');
-		sb.append(",\"data\":\"")
-				.append(data).append('\"');
-		sb.append(",\"pag\":\"")
-				.append(pag).append('\"');
-		sb.append(",\"checkInId\":\"")
-				.append(checkInId).append('\"');
-		sb.append('}');
-		return sb.toString();
+		return "{" + "\"me\":\"" +
+				me + '\"' +
+				",\"data\":\"" +
+				data + '\"' +
+				",\"pag\":\"" +
+				pag + '\"' +
+				",\"checkInId\":\"" +
+				checkInId + '\"' +
+				'}';
 	}
 }

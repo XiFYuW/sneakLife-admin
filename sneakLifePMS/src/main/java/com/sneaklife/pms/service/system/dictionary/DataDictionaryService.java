@@ -10,8 +10,8 @@ import java.util.Map;
 public interface DataDictionaryService extends CommonMapperService {
 
     /**
-     * Gets the data dictionary details to assemble the drop-down list data
-     * @param map parameter
+     * 根据类型获取下拉数据字典数据
+     * @param map 条件参数
      * @return Map<String, Object>
      */
     Map<String, Object> getByType(Map<String, Object> map);

@@ -1,12 +1,10 @@
 package com.sneaklife.pms.service.common.imp;
 
-import com.sneaklife.pms.entity.SystemMenu;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.common.SelectTreeViewService;
 import com.sneaklife.ut.log.LogicalLogAn;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +13,13 @@ import java.util.Map;
  * @date 2019/12/1 12:28
  */
 @Service
-public class SelectTreeViewServiceImp extends LeftSelectViewServiceImp implements SelectTreeViewService {
+public class SelectTreeViewServiceImp extends LeftSelectTreeServiceImp implements SelectTreeViewService {
 
-    @Resource
-    private OperaService operaService;
+    private final OperaService operaService;
+
+    public SelectTreeViewServiceImp(OperaService operaService) {
+        this.operaService = operaService;
+    }
 
     @Override
     @LogicalLogAn
@@ -26,7 +27,7 @@ public class SelectTreeViewServiceImp extends LeftSelectViewServiceImp implement
         String express = String.valueOf(map.get("express"));
         String menuId = String.valueOf(map.get("menuId"));
         List<Map<String, Object>> selectKey = operaService.getSelectsKyByMenuId(menuId, "selectsTree");
-        List<Map<String,Object>> object = super.leftSelectsView(map);
+        List<Map<String,Object>> object = super.selectTree(map);
         map.clear();
         String[] types = express.split(",");
         for (String type : types) {
@@ -42,10 +43,10 @@ public class SelectTreeViewServiceImp extends LeftSelectViewServiceImp implement
     }
 
     @Override
-    public Map<String, Object> paramTrans(Map<String, Object> map, SystemMenu systemMenu) {
-        map.put("text", systemMenu.getTab());
-        map.put("value", systemMenu.getId());
-        map.put("id", systemMenu.getId());
+    public Map<String, Object> paramTrans(Map<String, Object> map, Map<String, Object> systemMenu) {
+        map.put("text", systemMenu.get("tab"));
+        map.put("value", systemMenu.get("id"));
+        map.put("id", systemMenu.get("id"));
         map.put("nodes", null);
         return map;
     }

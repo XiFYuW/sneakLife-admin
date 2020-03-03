@@ -1,7 +1,6 @@
 package com.sneaklife.pms.dao.system.authority.roleConfig;
 
 import com.sneaklife.pms.dao.CommonDao;
-import com.sneaklife.pms.entity.RoleConfig;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,9 +14,10 @@ import java.util.Map;
 @Mapper
 public interface RoleConfigMapper extends CommonDao {
 
-    List<RoleConfig> getByIsDel(@Param("isDel") int isDel);
-
-    List<Map<String,Object>> getByIsDelMap(@Param("isDel") int isDel);
-
-    RoleConfig getById(@Param("id") String id);
+    /**
+     * 获取没有逻辑删除的数据
+     * @param isDel 是否删除（0：未删除；1：已删除）
+     * @return List<Map<String,Object>>
+     */
+    List<Map<String,Object>> getByIsDel(@Param("isDel") int isDel);
 }

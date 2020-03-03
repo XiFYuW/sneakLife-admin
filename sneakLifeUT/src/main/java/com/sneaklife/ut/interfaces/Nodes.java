@@ -1,5 +1,10 @@
 package com.sneaklife.ut.interfaces;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 /**
  * @author https://github.com/XiFYuW
  * @date 2019/8/9 15:05
@@ -7,20 +12,22 @@ package com.sneaklife.ut.interfaces;
 public interface Nodes<S, M, L>{
 
     /**
-     * Find node
-     * @param node The parent node
-     * @param list All the nodes
-     * @param parent =true: You can find the parent node  =false: You cannot find a parent node
-     * @return Parent node tape node
+     * 查找节点的子节点
+     * @param node 父节点
+     * @param list 节点列表
+     * @param parent =true: 当前节点是父节点  =false: 当前节点不是父节点
+     * @return 父节点以及子节点
      */
-     M findChildNode(S node, L list, boolean parent);
+    M findChildNode(S node, L list, boolean parent);
 
     /**
-     * Remove duplicate nodes from all nodes
-     * @param parentNode Delete the item
-     * @param list All the nodes
-     * @param size The size of all nodes, can change the list length, do not need to pass 0
-     * @return Residual size of all nodes
+     * 去重
+     * @param keyExtractor 去重关键字段
+     * @param <T> 对象类型
+     * @return 去重之后的数据
      */
-     int removeChildNode(M parentNode, L list, int size);
+    default <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Set<Object> set = ConcurrentHashMap.newKeySet();
+        return t -> set.add(keyExtractor.apply(t));
+    }
 }

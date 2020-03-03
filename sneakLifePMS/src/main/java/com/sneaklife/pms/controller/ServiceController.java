@@ -9,8 +9,7 @@ import com.sneaklife.ut.iws.ReqParam;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.string.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +28,12 @@ import java.util.Objects;
 
 @Controller
 @SuppressWarnings("unchecked")
+@Slf4j
 public class ServiceController {
 
     private final HashOperations hashOperations;
 
     private final SneakLifeCheckService sneakLifeCheckService;
-
-    private Logger log = LoggerFactory.getLogger(ServiceController.class);
 
     @Autowired
     public ServiceController(HashOperations hashOperations, SneakLifeCheckService sneakLifeCheckService) {

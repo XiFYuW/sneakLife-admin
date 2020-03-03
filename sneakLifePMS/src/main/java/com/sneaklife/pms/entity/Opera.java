@@ -1,7 +1,5 @@
-package com.sneaklife.pms.entity.modal;
+package com.sneaklife.pms.entity;
 
-import com.sneaklife.pms.entity.OperaBo;
-import com.sneaklife.pms.entity.OperaIn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +17,7 @@ public class Opera extends CommonEntity {
 
     private List<Map<String,Object>> sb = new ArrayList<>(0);
 
-    private List<List<OperaIn>> in = new ArrayList<>(0);
+    private List<List<Map<String,Object>>> in = new ArrayList<>(0);
 
-    private List<List<OperaBo>> bo = new ArrayList<>(0);
+    private List<List<Map<String,Object>>> bo = new ArrayList<>(0);
 }

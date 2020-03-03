@@ -34,12 +34,12 @@
     )
     values
     (
-    <if test="name != null">
-      #{name},
-    </if>
-    now(),
-    now(),
-    0
+      <if test="name != null">
+        #{name},
+      </if>
+      now(),
+      now(),
+      0
     )
   </insert>
 

@@ -7,8 +7,7 @@ import com.sneaklife.ut.exception.SneakLifeFailureException;
 import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.iws.RespCode;
 import com.sneaklife.ut.spring.SpringContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 
 import java.nio.charset.StandardCharsets;
@@ -22,9 +21,8 @@ import java.util.UUID;
  * @author https://github.com/XiFYuW
  * @date 2019/11/18 16:51
  */
+@Slf4j
 public class KeyLessContext {
-
-    private static final Logger log = LoggerFactory.getLogger(KeyLessContext.class);
 
     private static final CommonPKV commonPKV = SpringContextUtil.getBean(CommonPKV.class);
 

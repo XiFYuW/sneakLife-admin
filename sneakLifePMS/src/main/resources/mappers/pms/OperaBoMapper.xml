@@ -20,20 +20,16 @@
     </where>
   </select>
 
-  <select id="findOperaBo" resultType="com.sneaklife.pms.entity.OperaBo" parameterType="map">
+  <select id="findOperaBo" resultType="map" parameterType="map">
     select
       id as id,
       text_name as textName,
       html_type as htmlType,
       field as field,
-      is_show as isShow,
       menu_id as menuId
     from opera_bo
     <where>
       is_del = 0
-      <if test="isShow != null">
-        AND is_show = #{isShow}
-      </if>
       <if test="menuId != null and menuId != ''">
         AND menu_id = #{menuId}
       </if>
@@ -50,8 +46,7 @@
       create_date,
       update_date,
       is_del,
-      menu_id,
-      is_show
+      menu_id
     )
     value
     (
@@ -63,7 +58,6 @@
       NOW(),
       0,
       #{menuIdTemp,jdbcType=CHAR},
-      0
     )
   </insert>
 

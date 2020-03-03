@@ -22,11 +22,9 @@ public enum SneakLifeSystemEnum {
 
     OPERA_SB_VALUE("功能操作"),
 
-    OPERA_BO("opera_sb"),
+    OPERA_BO("opera_bo"),
 
-    OPERA_BO_VALUE("功能查询"),
-
-    OPERA("opera");
+    OPERA_BO_VALUE("功能查询");
 
     private final String name;
 

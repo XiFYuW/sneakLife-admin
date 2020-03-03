@@ -23,9 +23,15 @@
     </where>
   </select>
 
-  <insert id="insert" parameterType="map"></insert>
-  <update id="update" parameterType="map"></update>
-  <delete id="delete" parameterType="map"></delete>
+  <insert id="insert" parameterType="map">
+
+  </insert>
+  <update id="update" parameterType="map">
+
+  </update>
+  <delete id="delete" parameterType="map">
+
+  </delete>
 
   <update id="updateBatch" parameterType="list">
     update user_role
