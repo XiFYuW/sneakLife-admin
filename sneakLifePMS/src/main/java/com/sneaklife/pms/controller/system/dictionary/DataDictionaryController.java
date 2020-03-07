@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DataDictionaryController {
@@ -53,5 +54,12 @@ public class DataDictionaryController {
     @AccessLogAn("/getByType")
     public ResponseEntity<String> getByType(){
         return IwsContext.respResultBodyToSC(dataDictionaryService.getByType(IwsContext.getData()));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/exportDataDictionary", method = RequestMethod.GET, produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8")
+    @AccessLogAn("/exportDataDictionary")
+    public void exportDataDictionary() throws Exception{
+        dataDictionaryService.exportDataDictionary();
     }
 }
