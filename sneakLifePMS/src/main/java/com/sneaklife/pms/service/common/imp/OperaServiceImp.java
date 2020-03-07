@@ -323,9 +323,10 @@ public class OperaServiceImp implements OperaService {
         List<String> operaList = redisService.getSpOpera(map);
         List<String> checkedList = filterCheckedList(map);
         String roleId = String.valueOf(map.get("roleId"));
+        String erMenuId = String.valueOf(map.get("erMenuId"));
         List<String> noOperaList = checkedList.stream().filter(x -> !operaList.contains(x)).collect(Collectors.toList());
         if (!noOperaList.isEmpty()) {
-            roleFunctionMapper.insertSpBatch(noOperaList, roleId);
+            roleFunctionMapper.insertSpBatch(noOperaList, roleId, erMenuId);
         }
         List<String> noCheckedList = operaList.stream().filter(x -> !checkedList.contains(x)).collect(Collectors.toList());
         if (!noCheckedList.isEmpty()) {

@@ -62,7 +62,7 @@ public class RedisServiceImp implements RedisService {
         Map<String, Object> map = (Map<String, Object>) hashOperations.get(key, commonPKV.getUserKey());
         String roleId = String.valueOf(Objects.requireNonNull(map).get("roleId"));
         List<String> operaList = getData(roleId);
-        List<String> operaSpList = getSpData(roleId);
+        List<String> operaSpList = getSpData(map);
         return Stream.of(operaList, operaSpList).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
@@ -81,7 +81,7 @@ public class RedisServiceImp implements RedisService {
         if (StringUtil.isEmpty(roleId)){
             throw new IllegalArgumentException("缺少roleId参数");
         }
-        return getSpData(roleId);
+        return getSpData(map);
     }
 
     @Override
@@ -110,8 +110,8 @@ public class RedisServiceImp implements RedisService {
                 .map(map1 -> (String) map1.get("menuId")).collect(Collectors.toList());
     }
 
-    private List<String> getSpData(String roleId) {
-        List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getSpByRoleId(roleId);
+    private List<String> getSpData(Map<String, Object> map) {
+        List<Map<String,Object>> roleFunctionList = roleFunctionMapper.getSpByRoleId(map);
         return roleFunctionList.stream().filter(map1 -> !StringUtil.isEmpty(String.valueOf(map1.get("menuId"))))
                 .map(map1 -> (String) map1.get("menuId")).collect(Collectors.toList());
     }
