@@ -13,15 +13,20 @@
   </delete>
 
   <sql id="getGroupByRoleIdSql">
-    ID as id,menu_id as menuId,ROLE_ID as roleId
+    ID as id,menu_id as menuId,role_id as roleId
   </sql>
   <select id="getByRoleId" resultType="map">
     SELECT <include refid="getGroupByRoleIdSql"/> from role_function
     where role_id = #{roleId} and is_del = 0
   </select>
-  <select id="getSpByRoleId" resultType="map">
-    SELECT <include refid="getGroupByRoleIdSql"/> from sp_role_function
-    where role_id = #{roleId} and is_del = 0
+  <select id="getSpByRoleId" resultType="map" parameterType="map">
+    SELECT <include refid="getGroupByRoleIdSql"/> ,er_menu_id as erMenuId from sp_role_function
+    <where>
+      role_id = #{roleId} and is_del = 0
+      <if test="erMenuId != null and erMenuId != ''">
+        and er_menu_id = #{erMenuId}
+      </if>
+    </where>
   </select>
 
   <delete id="deleteBatch" parameterType="list">
@@ -66,11 +71,12 @@
       role_id,
       is_del,
       create_date,
-      update_date
+      update_date,
+      er_menu_id
     )
     values
     <foreach collection="list" item="item" index="index" separator=",">
-      (#{item},#{roleId},0,NOW(),NOW())
+      (#{item},#{roleId},0,NOW(),NOW(),#{erMenuId})
     </foreach>
   </insert>
 </mapper>
