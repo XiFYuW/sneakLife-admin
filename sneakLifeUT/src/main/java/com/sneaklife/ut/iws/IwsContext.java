@@ -162,7 +162,16 @@ public class IwsContext {
         return Objects.requireNonNull(map).get("respData");
     }
 
+    private static String checkRequestMethod(HttpServletRequest request, String data){
+        if("GET".equals(request.getMethod())) {
+            Map map = JSON.parseObject(data, Map.class);
+            data = String.valueOf(map.get("data"));
+        }
+        return data;
+    }
+
     public static String getRequestData(HttpServletRequest request, HttpServletResponse response, HashOperations hashOperations, String data) throws Exception {
+        data = checkRequestMethod(request, data);
         SneakLifeServlet sneakLifeServlet = getSneakLifeServletObject(request,response);
         String sessionId = sneakLifeServlet.getCacheSessionId();
         log.info("RSA加密data: 【{}】", data);
