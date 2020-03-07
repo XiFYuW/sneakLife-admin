@@ -15,4 +15,6 @@ public interface DataDictionaryService extends CommonMapperService {
      * @return Map<String, Object>
      */
     Map<String, Object> getByType(Map<String, Object> map);
+
+    void exportDataDictionary() throws Exception;
 }

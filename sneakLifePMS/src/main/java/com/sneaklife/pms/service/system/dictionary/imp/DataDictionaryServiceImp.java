@@ -7,17 +7,22 @@ import com.sneaklife.pms.entity.TableOpera;
 import com.sneaklife.pms.service.common.CommonService;
 import com.sneaklife.pms.service.common.OperaService;
 import com.sneaklife.pms.service.system.dictionary.DataDictionaryService;
+import com.sneaklife.ut.excel.ExcelTool;
 import com.sneaklife.ut.exception.SneakLifeSuccessfulException;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.log.LogicalLogAn;
 import com.sneaklife.ut.page.PageInfo;
 import com.sneaklife.ut.date.DateUtil;
+import com.sneaklife.ut.servlet.SneakLifeServlet;
 import com.sneaklife.ut.string.StringUtil;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.OutputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author https://github.com/XiFYuW
@@ -94,6 +99,23 @@ public class DataDictionaryServiceImp extends CommonService implements DataDicti
         map.put("title", "select data");
         map.put("data", item);
         return map;
+    }
+
+    @Override
+    public void exportDataDictionary() throws Exception{
+        List<Map<String,Object>> data = new ArrayList<>(dataDictionaryMapper.findAllPage(new HashMap<>()));
+        SneakLifeServlet sneakLifeServlet = IwsContext.getSneakLifeServletObject();
+        sneakLifeServlet.setExcelHeaders("数据字典详情表.xlsx");
+        OutputStream outputStream = sneakLifeServlet.getOutputStream();
+        ExcelTool tool = new ExcelTool(outputStream);
+        tool.createSheet("xxx", 1502, data.size());
+        tool.setColumnView(new int[] {0, 1, 2, 3, 4}, new int[] {30, 30, 30, 30, 30});
+        tool.fillTitle(data,"数据字典详情表",2);
+        tool.fillHeader(data,3);
+        tool.fillcontent(data,4);
+        tool.close();
+        outputStream.flush();
+        outputStream.close();
     }
 
     private Map<String, Object> buildSelectKey(String express, String menuId) {
