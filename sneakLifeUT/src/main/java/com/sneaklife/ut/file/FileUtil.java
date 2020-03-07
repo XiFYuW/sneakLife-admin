@@ -1,6 +1,7 @@
 package com.sneaklife.ut.file;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.sneaklife.ut.keyless.Base64Util;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -130,12 +131,7 @@ public class FileUtil {
         try {
             String fileName = name + nowStr + "." + suffix;
             String path = filePath + fileName;
-            // getCanonicalFile 可解析正确各种路径
-            File dest = new File(path).getCanonicalFile();
-            // 检测是否存在目录
-            if (!dest.getParentFile().exists()) {
-                dest.getParentFile().mkdirs();
-            }
+            File dest = createFile(path);
             // 文件写入
             file.transferTo(dest);
             return dest;
@@ -241,5 +237,21 @@ public class FileUtil {
 
     public static String getMd5(File file) {
         return getMd5(getByte(file));
+    }
+
+    public static File createFile(String path) throws IOException {
+        File file = new File(path);
+        if (!file.getCanonicalFile().getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        return file;
+    }
+
+    public static void outFile(String path, Object object) throws IOException {
+        File file = FileUtil.createFile(path);
+        PrintStream ps = new PrintStream(new FileOutputStream(file));
+        ps.println(JSONObject.toJSONString(object));
+        ps.flush();
+        ps.close();
     }
 }
