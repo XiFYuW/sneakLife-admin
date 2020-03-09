@@ -2,6 +2,8 @@ package com.sneaklife.ut.file;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.sneaklife.ut.date.DateUtil;
+import com.sneaklife.ut.iws.IwsContext;
 import com.sneaklife.ut.keyless.Base64Util;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,8 +11,6 @@ import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 /**
  * @author https://github.com/XiFYuW
  * @date 2020/1/28 11:47
@@ -68,7 +68,7 @@ public class FileUtil {
     }
 
     /**
-     * Java文件操作 获取不带扩展名的文件名
+     * 获取不带扩展名的文件名
      */
     public static String getFileNameNoEx(String filename) {
         if ((filename != null) && (filename.length() > 0)) {
@@ -120,25 +120,34 @@ public class FileUtil {
     }
 
     /**
-     * 将文件名解析成文件的上传路径
+     * 判断文件路径是否以分隔符结尾
+     * @param path 文件路径
+     * @return String
      */
-    public static File upload(MultipartFile file, String filePath) {
-        Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssS");
+    public static String isPathEndsWith(String path){
+        if (!path.endsWith(File.separator)) {
+            return path + File.separator;
+        }
+        return path;
+    }
+
+    private static String createNameByDateTime(){
+        return "-" + DateUtil.localDateTimeToStr(DateUtil.getNow(), "yyyyMMddHHmmssS");
+    }
+
+    /**
+     * 保存文件至服务
+     * @param file file参数
+     */
+    public static void upload(MultipartFile file) throws IOException {
+        String filePath =  IwsContext.getSneakLifeServletObject().getServletContextRealPath("upload");
         String name = getFileNameNoEx(file.getOriginalFilename());
         String suffix = getExtensionName(file.getOriginalFilename());
-        String nowStr = "-" + format.format(date);
-        try {
-            String fileName = name + nowStr + "." + suffix;
-            String path = filePath + fileName;
-            File dest = createFile(path);
-            // 文件写入
-            file.transferTo(dest);
-            return dest;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        String nowStr = createNameByDateTime();
+        String fileName = name + nowStr + "." + suffix;
+        String path = isPathEndsWith(filePath) + fileName;
+        File dest = createFile(path);
+        file.transferTo(dest);
     }
 
     public static String fileToBase64(File file) throws Exception {
@@ -239,6 +248,12 @@ public class FileUtil {
         return getMd5(getByte(file));
     }
 
+    /**
+     * 创建文件
+     * @param path 文件路径
+     * @return File
+     * @throws IOException 异常信息
+     */
     public static File createFile(String path) throws IOException {
         File file = new File(path);
         if (!file.getCanonicalFile().getParentFile().exists()) {
