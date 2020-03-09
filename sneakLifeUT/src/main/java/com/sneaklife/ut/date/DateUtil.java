@@ -13,6 +13,10 @@ public class DateUtil {
 
 	public static String FORMAT_A = "yyyy-MM-dd HH:mm:ss";
 
+	public static LocalDateTime getNow(){
+		return LocalDateTime.now();
+	}
+
 	public static Long getSecond() {
 		return LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
 	}
