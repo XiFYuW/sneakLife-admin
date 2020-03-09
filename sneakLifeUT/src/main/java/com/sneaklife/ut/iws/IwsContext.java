@@ -13,6 +13,7 @@ import com.sneaklife.ut.spring.SpringContextUtil;
 import com.sneaklife.ut.string.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import javax.servlet.http.HttpServletRequest;
@@ -163,7 +164,7 @@ public class IwsContext {
     }
 
     private static String checkRequestMethod(HttpServletRequest request, String data){
-        if("GET".equals(request.getMethod())) {
+        if(HttpMethod.GET.toString().equals(request.getMethod())) {
             Map map = JSON.parseObject(data, Map.class);
             data = String.valueOf(map.get("data"));
         }
