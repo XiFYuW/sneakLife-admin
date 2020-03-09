@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 
 /**
@@ -32,8 +33,6 @@ import java.net.UnknownHostException;
 public final class SneakLifeServlet {
 
     private static final Logger log = LoggerFactory.getLogger(SneakLifeServlet.class);
-
-    private static final String CHARSET_NAME = "iso-8859-1";
 
     private static final String REGION = "内网IP|内网IP";
 
@@ -68,9 +67,12 @@ public final class SneakLifeServlet {
     }
 
     public void setExcelHeaders(String excelName) throws UnsupportedEncodingException {
-        setCrossDomain();
-        String v = "attachment; filename=" + new String(excelName.getBytes(), CHARSET_NAME);
+        String v = "attachment; filename=" + URLEncoder.encode(excelName, "UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, v);
+        httpServletResponse.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "content-disposition");
+        httpServletResponse.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, httpServletRequest.getHeader(HttpHeaders.ORIGIN));
+        httpServletResponse.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     }
 
     public void setResponseNoCache() {
@@ -83,18 +85,16 @@ public final class SneakLifeServlet {
         return httpServletResponse.getOutputStream();
     }
 
-    public void closeOutputStream() throws IOException {
-        OutputStream outputStream = getOutputStream();
-        outputStream.flush();
-        outputStream.close();
-    }
-
     public String getServerPath() {
         return httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + getContextPath() + "/";
     }
 
     public String getContextPath() {
         return httpServletRequest.getContextPath();
+    }
+
+    public String getServletContextRealPath(String realPath){
+        return httpServletRequest.getServletContext().getRealPath(realPath);
     }
 
     public <T extends Object> T getSessionValue(String key , Class<T> c) {
