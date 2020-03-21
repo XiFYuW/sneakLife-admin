@@ -16,5 +16,5 @@ public interface FileUploadService {
     * @return Map<String,Object>
     * @throws Exception 异常信息
     */
-   Map<String,Object> fileUpload(MultipartFile[] file) throws Exception;
+   Map<String,Object> fileUpload(MultipartFile[] file, Map<String,Object> map) throws Exception;
 }

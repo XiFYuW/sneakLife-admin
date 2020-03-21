@@ -16,7 +16,7 @@ import java.util.Map;
 public class FileUploadServiceImp implements FileUploadService {
 
     @Override
-    public Map<String,Object> fileUpload(MultipartFile[] file) throws Exception {
+    public Map<String,Object> fileUpload(MultipartFile[] file, Map<String,Object> map) throws Exception {
         for (MultipartFile multipartFile : file) {
             if(!(multipartFile.getSize() == 0L && "".equals(multipartFile.getOriginalFilename()))) {
                 FileUtil.upload(multipartFile);
