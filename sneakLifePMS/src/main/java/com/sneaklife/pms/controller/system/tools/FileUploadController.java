@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @author https://github.com/XiFYuW
@@ -28,7 +29,7 @@ public class FileUploadController {
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> importToExcel(@RequestParam(value = "file_data", required = false) MultipartFile[] file,
                                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        IwsContext.getSneakLifeServletObject(request,response);
-        return IwsContext.respResultBodyToSC(fileUploadService.fileUpload(file));
+        IwsContext.getSneakLifeServletObject(request, response);
+        return IwsContext.respResultBodyToSC(fileUploadService.fileUpload(file, IwsContext.getData()));
     }
 }
