@@ -23,10 +23,10 @@ public interface RoleFunctionMapper extends CommonDao {
 
     /**
      * 获取具体功能选项
-     * @param roleId 角色id
+     * @param map 参数（roleId,erMenuId）
      * @return List<Map<String,Object>>
      */
-    List<Map<String,Object>> getSpByRoleId(@Param("roleId") String roleId);
+    List<Map<String,Object>> getSpByRoleId(Map<String,Object> map);
 
     /**
      * 批量删除功能菜单选项
@@ -56,7 +56,8 @@ public interface RoleFunctionMapper extends CommonDao {
      * 批量添加具体功能数据
      * @param list 添加的数据项
      * @param roleId 角色id
+     * @param erMenuId 菜单功能id（角色授权）
      * @return Integer
      */
-    Integer insertSpBatch(@Param("list") List<String> list, @Param("roleId") String roleId);
+    Integer insertSpBatch(@Param("list") List<String> list, @Param("roleId") String roleId, @Param("erMenuId") String erMenuId);
 }
